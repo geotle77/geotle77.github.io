@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/pics/transformer%20.png">
 <meta property="article:published_time" content="2024-05-04T17:25:44.000Z">
-<meta property="article:modified_time" content="2024-05-05T07:22:38.899Z">
+<meta property="article:modified_time" content="2024-05-05T07:23:41.366Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="NLP">
 <meta property="article:tag" content="大模型">
@@ -652,7 +652,7 @@ Mask)。</p>
 <p>Decoder block 最后的部分是利用 Softmax
 预测下一个单词，在之前的网络层我们可以得到一个最终的输出 Z，Softmax
 根据输出矩阵的每一行预测下一个单词：
-<img src="/img/pics/transformer/output.png" srcset="/img/loading.gif" lazyload width="500" height="500"></p>
+<img src="/img/pics/transformer/output.png" srcset="/img/loading.gif" lazyload width="500" height="200"></p>
 <p>具体来说，这个输出层接收 Decoder
 的最后一个输出，然后通过一个全连接层（也就是一个线性变换）将其转换为一个向量，这个向量的长度等于词汇表的大小。然后，这个向量通过
 Softmax 函数转换为一个概率分布。Softmax 函数可以确保所有的输出值都在 0
