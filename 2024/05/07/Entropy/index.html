@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/entropy/image.png">
 <meta property="article:published_time" content="2024-05-07T14:20:41.000Z">
-<meta property="article:modified_time" content="2024-05-07T14:36:55.675Z">
+<meta property="article:modified_time" content="2024-05-07T14:39:33.238Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="NLP">
 <meta property="article:tag" content="基础知识">
@@ -327,16 +327,19 @@ H(X|Y) &amp;= \sum_{x \in X}p(x)H(Y|X=x)\\
 class="math display">\[H(X)+H(Y|X)\]</span></p>
 <h4 id="相对熵-relative-entropy">相对熵 (relative entropy)</h4>
 <p>或称 Kullback-Leibler divergence, K-L 距离，或K-L散度<br />
-它衡量的是相同事件空间里的两个概率分布的差异情况。并不是一种距离度量方式，其物理意义是：在相同事件空间里，概率分布P(x)对应的每个事件，若用概率分布
-Q(x)编码时，平均每个基本事件（符号）编码长度增加了多少比特。我们用D（P||Q）表示KL距离，计算公式如下：
+它衡量的是相同事件空间里的两个概率分布的差异情况。并不是一种距离度量方式，其物理意义是：<strong>在相同事件空间里，概率分布P(x)对应的每个事件，若用概率分布
+Q(x)编码时，平均每个基本事件（符号）编码长度增加了多少比特。</strong>我们用D（P||Q）表示KL距离，计算公式如下：
 <span class="math display">\[D(P||Q) = \sum_{x \in
 X}P(x)log\frac{P(x)}{Q(x)}\]</span></p>
 <p>进一步约定 <span class="math display">\[ 0 log (0/Q) = 0, P log P(/0)
 = \infty\]</span></p>
-<p>根据公式，我们可以得到以下结论： -
-当P(x)=Q(x)时，D(P||Q)=0,即其相对熵为零。 -
-当P(x)和Q(x)相似度越高时，KL距离越小 - D(P||Q)非负（非负性） -
-不满足对称性，即D(P||Q)≠D(Q||P)</p>
+<p>根据公式，我们可以得到以下结论：</p>
+<ul>
+<li>当P(x)=Q(x)时，D(P||Q)=0,即其相对熵为零。</li>
+<li>当P(x)和Q(x)相似度越高时，KL距离越小</li>
+<li>D(P||Q)非负（非负性）</li>
+<li>不满足对称性，即D(P||Q)≠D(Q||P)</li>
+</ul>
 <p>KL距离主要是衡量两个概率分布的差异。可以理解为利用概率分布Q
 拟合概率分布P 时的能量损耗，也就是说拟合以后丢失了多少的信息。<br />
 在生成式模型中，这个指标会很常用到。</p>
