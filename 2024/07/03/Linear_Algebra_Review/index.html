@@ -1,0 +1,2362 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="Learning Notes, Technology Sharing, Life Record,Literature &amp; Poetry">
+  
+    <meta name="description" content="笔记 本文是临近夏令营，简单地复习了一下线性代数方面相关的内容，果然重学了一遍才知道当初什么都没学懂！之后还会更新一些进阶的内容，希望我还能想起这回事来。如果发现问题，欢迎指正（改天有空配置一个评论区）。 线性代数及其应用 线性方程组 线性方程式形如\(a_1x_1+a_2x_2+\cdots+a_nx_n&#x3D;b\)的式子，其中\(a_i\)为系数，\(x_i\)为未知数，\(b\)为常数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="统计学习基础">
+<meta property="og:url" content="http://example.com/2024/07/03/Linear_Algebra_Review/index.html">
+<meta property="og:site_name" content="geotle77&#39;s blog">
+<meta property="og:description" content="笔记 本文是临近夏令营，简单地复习了一下线性代数方面相关的内容，果然重学了一遍才知道当初什么都没学懂！之后还会更新一些进阶的内容，希望我还能想起这回事来。如果发现问题，欢迎指正（改天有空配置一个评论区）。 线性代数及其应用 线性方程组 线性方程式形如\(a_1x_1+a_2x_2+\cdots+a_nx_n&#x3D;b\)的式子，其中\(a_i\)为系数，\(x_i\)为未知数，\(b\)为常数。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-03T14:19:41.000Z">
+<meta property="article:modified_time" content="2024-07-03T14:31:04.780Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="基础知识">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>统计学习基础 - geotle77&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/dog_swim_background.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="统计学习基础"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-03 22:19" pubdate>
+          2024年7月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          99 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">统计学习基础</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="笔记">笔记</h1>
+<p>本文是临近夏令营，简单地复习了一下线性代数方面相关的内容，果然重学了一遍才知道当初什么都没学懂！之后还会更新一些进阶的内容，希望我还能想起这回事来。如果发现问题，欢迎指正（改天有空配置一个评论区）。</p>
+<h2 id="线性代数及其应用">线性代数及其应用</h2>
+<h3 id="线性方程组">线性方程组</h3>
+<p>线性方程式形如<span
+class="math inline">\(a_1x_1+a_2x_2+\cdots+a_nx_n=b\)</span>的式子，其中<span
+class="math inline">\(a_i\)</span>为系数，<span
+class="math inline">\(x_i\)</span>为未知数，<span
+class="math inline">\(b\)</span>为常数。</p>
+<p>一个线性方程组则为：</p>
+<p><span class="math display">\[
+\begin{cases}
+a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=b_1\\
+a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=b_2\\  
+\vdots \\
+a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=b_m
+\end{cases}
+\]</span></p>
+<p>其中<span class="math inline">\(m\)</span>为方程个数，<span
+class="math inline">\(n\)</span>为未知数个数。</p>
+<p>线性方程组的解只有三种情况：</p>
+<ul>
+<li>无解</li>
+<li>唯一解</li>
+<li>无穷多解</li>
+</ul>
+<p>注意到：<strong>一个线性方程组是相容的，指的若它有一个解或者无穷多解；而一个方程组是不相容的，指的若它无解。</strong></p>
+<h3 id="矩阵乘法">矩阵乘法</h3>
+<p>线性方程组可以用矩阵形式表示：</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n}\\
+a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n}\\  
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2\\  
+\vdots \\
+x_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+b_1\\
+b_2\\  
+\vdots \\
+b_m
+\end{bmatrix}
+\]</span></p>
+<p>其中，这个线性方程组的增广矩阵形式为：</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} &amp; b_1\\
+a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} &amp; b_2\\  
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots\\
+a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} &amp; b_m
+\end{bmatrix}
+\]</span></p>
+<p><strong>矩阵的维数指的是矩阵的行数和列数。</strong></p>
+<h4 id="求解线性方程组">求解线性方程组</h4>
+<p>基本方法：</p>
+<ul>
+<li>初等行变换
+<ul>
+<li>（倍加变换）把某一行换成它本身与另一行的倍数的和。</li>
+<li>（倍乘变换）把某一行乘以一个非零常数。</li>
+<li>（对换变换）把某两行互换位置。</li>
+</ul></li>
+</ul>
+<p><strong>如果两个矩阵是行等价的，那么其中某一个矩阵可以通过一系列初等行变换变换成另一个矩阵。</strong></p>
+<p><strong>初等行变换是可逆的！</strong></p>
+<pre><code class="hljs">推论：若两个线性方程组的增广矩阵是行等价的，则它们的解集相同。</code></pre>
+<p>注意： 线性方程组的两个基本问题：<strong>存在和唯一性</strong></p>
+<pre><code class="hljs">存在与唯一性定理：
+    线性方程组相容的充要条件是增广矩阵的最右列不是主元列，就是说增广矩阵没有形如
+                [ 0 ...  0  b] b!= 0
+
+的行,若线性方程组相容它的解集有两种情况：
+    (i)当没有自由变量时，有唯一解；
+    (ii)当至少有一个自由变量时，有无穷多解。</code></pre>
+<h4 id="向量方程">向量方程</h4>
+<p>仅含一列的矩阵称为列向量，仅含一行的矩阵称为行向量（简称向量）。</p>
+<p>向量的加法：</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+a_1\\   
+a_2\\  
+\vdots \\
+a_n
+\end{bmatrix}
++
+\begin{bmatrix}
+b_1\\   
+b_2\\  
+\vdots \\
+b_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_1+b_1\\   
+a_2+b_2\\  
+\vdots \\
+a_n+b_n
+\end{bmatrix}
+\]</span></p>
+<p>向量的数乘（标量乘法）：</p>
+<p><span class="math display">\[
+c\begin{bmatrix}
+a_1\\   
+a_2\\  
+\vdots \\
+a_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+ca_1\\   
+ca_2\\  
+\vdots \\
+ca_n
+\end{bmatrix}
+\]</span></p>
+<p>向量的内积：</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+a_1\\   
+a_2\\  
+\vdots \\
+a_n
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+b_1\\   
+b_2\\  
+\vdots \\
+b_n
+\end{bmatrix}
+=
+\sum_{i=1}^n a_ib_i
+\]</span></p>
+<h5 id="线性组合">线性组合：</h5>
+<p>给定<span class="math inline">\(\mathbb{R}^n\)</span>中的向量 <span
+class="math inline">\(\mathbf{v_1}, \mathbf{v_2}, \cdots,
+\mathbf{v_n}\)</span>，以及相应的系数 <span class="math inline">\(c_1,
+c_2, \cdots, c_n\)</span>，则：</p>
+<p><span class="math display">\[
+\mathbf{y}=c_1\mathbf{v_1}+c_2\mathbf{v_2}+\cdots+c_n\mathbf{v_n}
+\]</span></p>
+<p>称为向量 <span class="math inline">\(\mathbf{v_1}, \mathbf{v_2},
+\cdots, \mathbf{v_n}\)</span> 以系数 <span class="math inline">\(c_1,
+c_2, \cdots, c_n\)</span> 为权的的线性组合，其中 <span
+class="math inline">\(\mathbf{y}\)</span> 是 <span
+class="math inline">\(\mathbb{R}^n\)</span> 中的一个向量。</p>
+<h5 id="向量方程-1">向量方程：</h5>
+<p>向量方程：</p>
+<p><span class="math display">\[
+\mathbf{a}_1x_1+\mathbf{a}_2x_2+\cdots+\mathbf{a}_n\mathbf{x}_n=\mathbf{b}
+\]</span></p>
+<p>和增广矩阵</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+\mathbf{a_1} &amp; \mathbf{a_2} &amp; \cdots &amp; \mathbf{a_n} &amp;
+\mathbf{b}
+\end{bmatrix}
+\]</span></p>
+<p>的线性方程组具有相同的解集，其中<span
+class="math inline">\(\mathbf{b}\)</span>可以看作是<span
+class="math inline">\(\mathbf{a_1}, \mathbf{a_2}, \cdots,
+\mathbf{a_n}\)</span>的线性组合，当且仅当线性方程组有解。</p>
+<p>给定<span class="math inline">\(\mathbb{R}^n\)</span>中的向量 <span
+class="math inline">\(\mathbf{v_1}, \mathbf{v_2}, \cdots,
+\mathbf{v_n}\)</span>，则<span class="math inline">\(\mathbf{v_1},
+\mathbf{v_2}, \cdots, \mathbf{v_n}\)</span>的所有线性组合构成了<span
+class="math inline">\(\mathbb{R}^n\)</span>中的一个向量空间，记作<span
+class="math inline">\(\mathcal{V}\)</span>，也可表示为<span
+class="math inline">\(Span\{\mathbf{v_1}, \mathbf{v_2}, \cdots,
+\mathbf{v_n}\}\)</span>。 即形如：</p>
+<p><span class="math display">\[
+\mathbf{a}_1c_1+\mathbf{a}_2c_2+\cdots+\mathbf{a}_n\mathbf{c}_n
+\]</span></p>
+<p>的向量的集合，其中<span class="math inline">\(c_1, c_2, \cdots,
+c_n\)</span>为标量。</p>
+<h4 id="线性方程axb">线性方程Ax=b</h4>
+<p>若<span
+class="math inline">\(\mathbf{A}\)</span>是m行n列的矩阵，它的各列为<span
+class="math inline">\(\mathbf{a_1}, \mathbf{a_2}, \cdots,
+\mathbf{a_n}\)</span>，<span
+class="math inline">\(\mathbf{x}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中的列向量，则<span
+class="math inline">\(\mathbf{A}\)</span>与<span
+class="math inline">\(\mathbf{x}\)</span>的乘积就是<span
+class="math inline">\(\mathbf{A}\)</span>的各列以<span
+class="math inline">\(\mathbf{x}\)</span>中对应元素为权的线性组合。</p>
+<p><span class="math display">\[
+\mathbf{A}\mathbf{x}=\begin{bmatrix}
+\mathbf{a}_1 &amp; \mathbf{a}_2 &amp; \cdots &amp; \mathbf{a}_n
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2\\  
+\vdots \\
+x_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+\mathbf{a}_1x_1+\mathbf{a}_2x_2+\cdots+\mathbf{a}_n\mathbf{x}_n
+\end{bmatrix}
+\]</span></p>
+<p>注意：<strong>当且仅当 <span
+class="math inline">\(\mathbf{Ax}\)</span> 中<span
+class="math inline">\(\mathbf{A}\)</span>的列数等于<span
+class="math inline">\(\mathbf{x}\)</span>的维数时，才有定义</strong></p>
+<pre><code class="hljs">方程Ax=b有解当且仅当b是A的各列行向量的线性组合。</code></pre>
+<p>性质： 若<span
+class="math inline">\(\mathbf{A}\)</span>是m行n列的矩阵，<span
+class="math inline">\(\mathbf{u}\)</span>和<span
+class="math inline">\(\mathbf{v}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中的向量，<span
+class="math inline">\(c\)</span>是标量，则：</p>
+<ul>
+<li><span
+class="math inline">\(\mathbf{A}(\mathbf{u}+\mathbf{v})=\mathbf{A}\mathbf{u}+\mathbf{A}\mathbf{v}\)</span></li>
+<li><span
+class="math inline">\(\mathbf{A}(c\mathbf{u})=c\mathbf{A}\mathbf{u}\)</span></li>
+</ul>
+<h4 id="齐次线性方程组">齐次线性方程组</h4>
+<p>齐次线性方程组：</p>
+<p>线性方程组称为齐次的，当前仅当它可以写为：<span
+class="math inline">\(\mathbf{A}\mathbf{x}=\mathbf{0}\)</span>的形式，其中<span
+class="math inline">\(\mathbf{A}\)</span>是m行n列的矩阵，<span
+class="math inline">\(\mathbf{x}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中的列向量，<span
+class="math inline">\(\mathbf{0}\)</span>是<span
+class="math inline">\(\mathbb{R}^m\)</span>中的零向量。这样的方程组至少有一个解，即<span
+class="math inline">\(\mathbf{x}=\mathbf{0}\)</span>。<strong>更重要的是我们需要知道它是否有非平凡解</strong></p>
+<pre><code class="hljs">齐次线性方程组有非平凡解当且仅当方程至少含有一个自由变量。</code></pre>
+<h5
+id="参数表示的非齐次线性方程组的解">参数表示的非齐次线性方程组的解</h5>
+<p>设方程<span
+class="math inline">\(\mathbf{Ax}=\mathbf{b}\)</span>对某个<span
+class="math inline">\(\mathbf{b}\)</span>是相容的，<span
+class="math inline">\(\mathbf{p}\)</span>是一个特解，则<span
+class="math inline">\(\mathbf{Ax}=\mathbf{b}\)</span>的解集可以表示为：
+<span
+class="math inline">\(\mathbf{w}=\mathbf{p}+\mathbf{v_h}\)</span>，其中<span
+class="math inline">\(\mathbf{v_h}\)</span>是齐次方程<span
+class="math inline">\(\mathbf{Ax}=\mathbf{0}\)</span>的任意一个解。</p>
+<p>说明若<span
+class="math inline">\(\mathbf{Ax}=\mathbf{b}\)</span>有解，则解集可由<span
+class="math inline">\(\mathbf{Ax}=\mathbf{0}\)</span>的解平移向量<span
+class="math inline">\(\mathbf{p}\)</span>得到。</p>
+<h3 id="线性无关">线性无关</h3>
+<p><span class="math inline">\(\mathbb{R}^n\)</span>中一组向量<span
+class="math inline">\(\{\mathbf{v_1}, \mathbf{v_2}, \cdots,
+\mathbf{v_n}\}\)</span>线性无关，若向量方程</p>
+<p><span class="math display">\[
+x_1\mathbf{v_1}+x_2\mathbf{v_2}+\cdots+x_n\mathbf{v_n}=\mathbf{0}
+\]</span></p>
+<p>仅有平凡解。若为线性相关的，则存在不全为0的权<span
+class="math inline">\(\{c_1, c_2, \cdots, c_n\}\)</span>使得</p>
+<p><span class="math display">\[
+c_1\mathbf{v_1}+c_2\mathbf{v_2}+\cdots+c_n\mathbf{v_n}=\mathbf{0}
+\]</span></p>
+<h4 id="线性相关的特征">线性相关的特征</h4>
+<p>两个或更多向量的集合<span class="math inline">\(S=\{\mathbf{v_1},
+\mathbf{v_2}, \cdots, \mathbf{v_n}\}\)</span>线性相关，当且仅当<span
+class="math inline">\(S\)</span>中至少有一个向量是其他向量的线性组合，事实上，若S线性相关，且<span
+class="math inline">\(\mathbf{v_1}\neq\mathbf{0}\)</span>，则某个<span
+class="math inline">\(\mathbf{v_j}(j&gt;1)\)</span>是它前面几个向量<span
+class="math inline">\(\{\mathbf{v_1}, \mathbf{v_2}, \cdots,
+\mathbf{v_{j-1}}\}\)</span>的线性组合。</p>
+<pre><code class="hljs">定理：若一个向量组的向量个数超过每个向量元素的个数，则该向量组线性相关。
+
+定理：若向量组S里包含零向量，则S线性相关。</code></pre>
+<h3 id="线性变换">线性变换</h3>
+<p>变换<span class="math inline">\(\mathbf{T}\)</span>是线性的，若：</p>
+<ul>
+<li>对<span
+class="math inline">\(\mathbf{T}\)</span>的定义域中的一切<span
+class="math inline">\(\mathbf{u}\)</span>和<span
+class="math inline">\(\mathbf{v}\)</span>，都有<span
+class="math inline">\(\mathbf{T}(\mathbf{u}+\mathbf{v})=\mathbf{T}(\mathbf{u})+\mathbf{T}(\mathbf{v})\)</span></li>
+<li>对一切的标量<span class="math inline">\(c\)</span>和向量<span
+class="math inline">\(\mathbf{u}\)</span>，都有<span
+class="math inline">\(\mathbf{T}(c\mathbf{u})=c\mathbf{T}(\mathbf{u})\)</span></li>
+</ul>
+<h4 id="线性变换的矩阵">线性变换的矩阵</h4>
+<p>设<span class="math inline">\(\mathbf{T}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>到<span
+class="math inline">\(\mathbb{R}^m\)</span>的线性变换，<span
+class="math inline">\(\mathbf{T}\)</span>的矩阵形式为<span
+class="math inline">\(\mathbf{A}\)</span>，则：</p>
+<p><span class="math display">\[
+\mathbf{T}(\mathbf{x})=\mathbf{Ax}
+\]</span></p>
+<p>对一切<span class="math inline">\(\mathbb{R}^n\)</span>中的向量<span
+class="math inline">\(\mathbf{x}\)</span>，都有<span
+class="math inline">\(\mathbf{T}(\mathbf{x})\)</span>是<span
+class="math inline">\(\mathbb{R}^m\)</span>中的向量。事实上，<span
+class="math inline">\(\mathbf{A}\)</span>是<span
+class="math inline">\(m\times n\)</span>矩阵，它的第<span
+class="math inline">\(i\)</span>行是<span
+class="math inline">\(\mathbf{T}(\mathbf{e}_i)\)</span>，其中<span
+class="math inline">\(\mathbf{e}_i\)</span>是单位矩阵<span
+class="math inline">\(\mathbf{I}_n\)</span>中的第<span
+class="math inline">\(i\)</span>列。 即：</p>
+<p><span class="math display">\[
+\mathbf{A} = \left[ \mathbf{T}(\mathbf{e}_1), \mathbf{T}(\mathbf{e}_2),
+\ldots, \ \mathbf{T}(\mathbf{e}_n) \right]
+\]</span></p>
+<h3 id="矩阵代数">矩阵代数</h3>
+<p>设<span class="math inline">\(A\)</span>和<span
+class="math inline">\(B\)</span>为<span class="math inline">\(m\times
+n\)</span>矩阵，则有如下的结果：</p>
+<p>1、<span class="math inline">\((A^T)^T=A\)</span>，即<span
+class="math inline">\(A^T\)</span>的转置等于<span
+class="math inline">\(A\)</span> 2、<span
+class="math inline">\((AB)^T=B^TA^T\)</span>，即<span
+class="math inline">\(AB\)</span>的转置等于<span
+class="math inline">\(B^TA^T\)</span> 3、<span
+class="math inline">\((A+B)^T=A^T+B^T\)</span>，即<span
+class="math inline">\((A+B)\)</span>的转置等于<span
+class="math inline">\(A^T+B^T\)</span></p>
+<h4 id="可逆矩阵">可逆矩阵</h4>
+<p>设<span class="math inline">\(A\)</span>为<span
+class="math inline">\(m\times n\)</span>矩阵，如果存在非零元素的<span
+class="math inline">\(n\times n\)</span>矩阵<span
+class="math inline">\(B\)</span>，使得<span
+class="math inline">\(AB=BA=I_n\)</span>，则称<span
+class="math inline">\(A\)</span>为可逆矩阵。不可逆矩阵也称为奇异矩阵。</p>
+<p>对于二阶矩阵<span class="math inline">\(\begin{bmatrix}a &amp; b\\c
+&amp; d \end{bmatrix}\)</span>的逆矩阵，有：</p>
+<p><span class="math display">\[
+A^{-1}=\frac{1}{ad-bc}\begin{bmatrix}
+d &amp; -b\\
+-c &amp; a
+\end{bmatrix}
+\]</span></p>
+<p>其中，若<span class="math inline">\(ad-bc\neq 0\)</span>，则<span
+class="math inline">\(A\)</span>为可逆矩阵；若<span
+class="math inline">\(ad-bc=0\)</span>，则<span
+class="math inline">\(A\)</span>为奇异矩阵。</p>
+<p>如果一个维度为<span class="math inline">\(n\times
+n\)</span>的矩阵<span class="math inline">\(A\)</span>可逆，则对<span
+class="math inline">\(\mathbb{R}^n\)</span>中任一向量<span
+class="math inline">\(\mathbf{b}\)</span>，方程<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>的解<span
+class="math inline">\(\mathbf{x}\)</span>也可唯一确定,解为：</p>
+<p><span class="math display">\[
+\mathbf{x}=\begin{bmatrix}
+A^{-1}
+\end{bmatrix}\mathbf{b}
+\]</span></p>
+<h5 id="可逆矩阵定理">可逆矩阵定理：</h5>
+<p>1、对于任意数<span class="math inline">\(r\)</span>,有<span
+class="math inline">\((rA)^T=rA^T\)</span> 2、<span
+class="math inline">\((A^T)^{-1}=(A^{-1})^T\)</span> 3、<span
+class="math inline">\((AB)^{-1}=B^{-1}A^{-1}\)</span>，即<span
+class="math inline">\((AB)^{-1}\)</span>等于<span
+class="math inline">\(B^{-1}A^{-1}\)</span>。</p>
+<h4 id="初等变换与矩阵求逆">初等变换与矩阵求逆</h4>
+<p>初等变换是指将单位矩阵进行一次初等行变换。行变换是可逆的，因此得到的初等矩阵也是可逆的，并且有初等矩阵<span
+class="math inline">\(E\)</span>的逆是一个同类型的初等矩阵，它将矩阵<span
+class="math inline">\(E\)</span>变换到单位阵。</p>
+<pre><code class="hljs">定理：nxn的矩阵A可逆，当且仅当A行等价于单位阵I，此时，把A变为单位阵的一系列初等行变换同时把单位阵I变为矩阵A的逆矩阵。</code></pre>
+<h5 id="求逆矩阵的算法">求逆矩阵的算法</h5>
+<p>将矩阵<span class="math inline">\(A\)</span>和单位阵<span
+class="math inline">\(I\)</span>排在一起写为增广矩阵的形式<span
+class="math inline">\(\begin{bmatrix}A &amp; I
+\end{bmatrix}\)</span>,对增广矩阵进行行变换时，<span
+class="math inline">\(A\)</span>与<span
+class="math inline">\(I\)</span>同时进行同一变换，那么如果有一系列的初等行变换将<span
+class="math inline">\(A\)</span>变换到单位阵，那么<span
+class="math inline">\(I\)</span>将变换得到矩阵<span
+class="math inline">\(A^{-1}\)</span>,否则<span
+class="math inline">\(A\)</span>没有逆矩阵。</p>
+<p>注意：更有实际意义的一个观点是，将增广矩阵<span
+class="math inline">\(\begin{bmatrix}A &amp; I
+\end{bmatrix}\)</span>变换为<span class="math inline">\(\begin{bmatrix}I
+&amp; A^{-1} \end{bmatrix}\)</span>实际上是在解n个方程组：</p>
+<p><span class="math display">\[
+A\mathbf{x}=e_1,A\mathbf{x}=e_2,...,A\mathbf{x}=e_n
+\]</span></p>
+<p>其中<span class="math inline">\(e_i\)</span>是<span
+class="math inline">\(n\)</span>维单位向量。
+<strong>实际应用中并不需要求解所有方程组，只需要求解需要的<span
+class="math inline">\(A\mathbf{x}=e_i\)</span>的解即可。</strong></p>
+<h4 id="矩阵的因式分解">矩阵的因式分解</h4>
+<h5 id="lu分解">LU分解</h5>
+<p>设矩阵<span class="math inline">\(A\)</span>为<span
+class="math inline">\(m\times n\)</span>矩阵，<span
+class="math inline">\(A=LU\)</span>，其中<span
+class="math inline">\(L\)</span>为<span class="math inline">\(m\times
+m\)</span>单位下三角矩阵，<span class="math inline">\(U\)</span>为<span
+class="math inline">\(m\times n\)</span>为与<span
+class="math inline">\(A\)</span>等价的阶梯型矩阵。LU分解是用来求解线性方程组的一种方法。当矩阵<span
+class="math inline">\(A=LU\)</span>时，方程组<span
+class="math inline">\(Ax=b\)</span>可写为<span
+class="math inline">\(L(Ux)=L(y)\)</span>，即转换为求解两个方程组：</p>
+<p><span class="math display">\[
+Ly=b
+\]</span></p>
+<p><span class="math display">\[
+Ux=y
+\]</span></p>
+<p>这两个方程都很容易求解，因为它们都是三角矩阵。</p>
+<p>LU分解的步骤： 设<span
+class="math inline">\(A\)</span>可以仅用行倍加变换化简为阶梯型矩阵<span
+class="math inline">\(U\)</span>。即存在一系列单位下三角初等矩阵<span
+class="math inline">\(E_1,E_2,...,E_p\)</span>，使得<span
+class="math inline">\(E_p \cdots E_1 A=U\)</span>。于是，<span
+class="math inline">\(A=(E_p \cdots E_1)^{-1}U=LU\)</span>. 其中<span
+class="math inline">\(L=(E_p \cdots E_1)^{-1}\)</span></p>
+<p><strong>有意思的是，我们需要注意到，将A转换成U的一系列行变换，同时也将L转换成I。这是因为，<span
+class="math inline">\(E_p \cdots E_1 A=U\)</span>，因此，<span
+class="math inline">\(E_p \cdots E_1 L = I\)</span>。那么显然，因为<span
+class="math inline">\(U\)</span>的下三角部分均为<span
+class="math inline">\(0\)</span>,<span
+class="math inline">\(I\)</span>的下三角部分也均为<span
+class="math inline">\(0\)</span>,因此<span
+class="math inline">\(L\)</span>的下三角部分其实为A的下三角部分除以其对应主元列元素的结果。</strong></p>
+<h4 id="子空间">子空间</h4>
+<p>定义：<span
+class="math inline">\(\mathbb{R}^n\)</span>中的子空间是指,<span
+class="math inline">\(\mathbb{R}^n\)</span>中的集合<span
+class="math inline">\(H\)</span>，满足：</p>
+<ol type="1">
+<li><span class="math inline">\(H\)</span>中任意两个向量<span
+class="math inline">\(\mathbf{x},\mathbf{y}\in H\)</span>，<span
+class="math inline">\(\mathbf{x}+\mathbf{y}\in H\)</span></li>
+<li><span class="math inline">\(\mathbf{x}\in H\)</span>，<span
+class="math inline">\(\lambda\mathbf{x}\in H\)</span> (<span
+class="math inline">\(\lambda\in\mathbb{R}\)</span>)</li>
+<li>零向量<span class="math inline">\(\mathbf{0}\in H\)</span></li>
+</ol>
+<p>子空间的性质： 1.矩阵<span
+class="math inline">\(A\)</span>的列空间<span
+class="math inline">\(Col(A)\)</span>是指<span
+class="math inline">\(A\)</span>的列向量各线性组合构成的集合。且是矩阵<span
+class="math inline">\(A\)</span>的主元列向量构成的集合。 2.矩阵<span
+class="math inline">\(A\)</span>的零空间<span
+class="math inline">\(Nul(A)\)</span>是指<span
+class="math inline">\(A\)</span>的零空间，即<span
+class="math inline">\(A\mathbf{x}=0\)</span>的解<span
+class="math inline">\(\mathbf{x}\)</span>构成的集合。且是矩阵<span
+class="math inline">\(A\)</span>的自由变量构成的集合。</p>
+<h5 id="子空间的基">子空间的基</h5>
+<p>设<span class="math inline">\(H\)</span>为<span
+class="math inline">\(\mathbb{R}^n\)</span>中的子空间，<span
+class="math inline">\(H\)</span>的基是指<span
+class="math inline">\(H\)</span>中向量的集合<span
+class="math inline">\(B\)</span>，使得<span
+class="math inline">\(H=Span\{
+\mathbf{b}_1,\mathbf{b}_2,\cdots,\mathbf{b}_k \}\)</span>，其中<span
+class="math inline">\(\mathbf{b}_1,\mathbf{b}_2,\cdots,\mathbf{b}_k\)</span>是<span
+class="math inline">\(H\)</span>中的线性无关向量。</p>
+<h4 id="维数与秩">维数与秩</h4>
+<h5 id="坐标系">坐标系</h5>
+<p>假设<span
+class="math inline">\(B=\{\mathbf{b}_1,\mathbf{b}_2,\cdots,\mathbf{b}_k\}\)</span>是<span
+class="math inline">\(H\)</span>的一个基，对<span
+class="math inline">\(\mathbf{H}\)</span>中的每一个向量<span
+class="math inline">\(\mathbf{x}\)</span>，可以用基<span
+class="math inline">\(B\)</span>中的向量<span
+class="math inline">\(\{\mathbf{b}_1,\mathbf{b}_2,\cdots,\mathbf{b}_k\}\)</span>的坐标表示：</p>
+<p><span class="math display">\[
+\mathbf{x}=\sum_{i=1}^k \alpha_i\mathbf{b}_i
+\]</span></p>
+<p>其中<span
+class="math inline">\(\alpha_1,\alpha_2,\cdots,\alpha_k\)</span>是<span
+class="math inline">\(\mathbf{x}\)</span>在基<span
+class="math inline">\(B\)</span>中的坐标。</p>
+<h5 id="维数">维数</h5>
+<p>非零子空间<span class="math inline">\(H\)</span>的维数是指，用<span
+class="math inline">\(dim(H)\)</span>表示,是指<span
+class="math inline">\(H\)</span>中任意一个基的向量的个数。</p>
+<h5 id="秩">秩</h5>
+<p>矩阵<span class="math inline">\(A\)</span>的秩，记作<span
+class="math inline">\(rank(A)\)</span>，是指<span
+class="math inline">\(A\)</span>列空间的维数。</p>
+<p>如果一矩阵<span class="math inline">\(A\)</span>有n列，则<span
+class="math inline">\(n = rank(A) + dim(Nul(A))\)</span>。</p>
+<p>秩与可逆矩阵定理： 如果一个矩阵<span
+class="math inline">\(A\)</span>可逆，则有：</p>
+<ol type="1">
+<li><span class="math inline">\(rank(A)=n\)</span></li>
+<li><span class="math inline">\(A\)</span>的列向量构成一个<span
+class="math inline">\(\mathbb{R}^n\)</span>的基.</li>
+<li><span class="math inline">\(Col(A)=\mathbb{R}^n\)</span></li>
+<li><span class="math inline">\(Nul(A)=\{0\}\)</span></li>
+<li><span class="math inline">\(dim(Col(A))=n\)</span></li>
+<li><span class="math inline">\(dim(Nul(A))=0\)</span></li>
+</ol>
+<h3 id="行列式">行列式</h3>
+<p>定义：当<span class="math inline">\(n\ge 2\)</span>时，<span
+class="math inline">\(n\times n\)</span>矩阵<span
+class="math inline">\(A\)</span>的行列式<span
+class="math inline">\(det(A)\)</span>是形如<span
+class="math inline">\(+-a_{1j}detA_{1j}\)</span>的n个项的和，其中加减号在交替出现，其中元素<span
+class="math inline">\(a_{1j}\)</span>是<span
+class="math inline">\(A\)</span>的第1行第j列元素。</p>
+<p><span class="math display">\[
+detA = a_{11}detA_{11} - a_{12}detA_{12} + a_{13}detA_{13} - \cdots +
+(-1)^{n+1}a_{1n}detA_{1n}\\
+= \sum_{j=1}^n (-1)^{j+1}a_{1j}detA_{1j}
+\]</span></p>
+<p>余因子展开式：<span class="math inline">\(A\)</span>的<span
+class="math inline">\((i,j)\)</span>余因子<span
+class="math inline">\(C_{ij}\)</span>由下式给出：</p>
+<p><span class="math display">\[
+C_{ij} = (-1)^{i+j}detA_{ij}
+\]</span></p>
+<p>于是有，</p>
+<p><span class="math display">\[
+detA = \sum_{j=1}^n a_{1j}C_{1j}
+\]</span></p>
+<h4 id="行列式的性质">行列式的性质</h4>
+<p>行变换定理：若A是n阶方阵，</p>
+<ol type="1">
+<li>若A的第i行与第j行交换，则detA的符号改变；</li>
+<li>若A的某一行的倍数加到另一行得到矩阵B，则<span
+class="math inline">\(detA = detB\)</span>。</li>
+<li>若A的某行乘以倍数k得到矩阵B，则<span class="math inline">\(detB =
+k\cdot detA\)</span>。</li>
+</ol>
+<p>定理：若A 为三角阵，则detA等于A的主对角线上元素的乘积。</p>
+<p><strong>计算行列式可以将其化为三角矩阵来进行求解。</strong></p>
+<p>转置： 方阵A的转置的行列式等于A的行列式。即<span
+class="math inline">\(det(A^T) = detA\)</span>。</p>
+<p>乘法： 若方阵A与B均为<span class="math inline">\(n \times
+n\)</span>矩阵，则<span class="math inline">\(detAB = detA\cdot
+detB\)</span>。</p>
+<h4 id="克拉默法则">克拉默法则</h4>
+<p>定义对任意<span class="math inline">\(n\times n\)</span>矩阵<span
+class="math inline">\(A\)</span>和<span
+class="math inline">\(\mathbb{R}^n\)</span>中的向量<span
+class="math inline">\(\mathbf{b}\)</span>，<span
+class="math inline">\(A_i(\mathbf{b})\)</span>*表示A中第i列由向量<span
+class="math inline">\(\mathbf{b}\)</span>替换得到的矩阵。</p>
+<p><span class="math display">\[
+A_i(\mathbf{b}) = [\mathbf{a_1} \cdots \mathbf{b} \cdots \mathbf{a_n}]
+\]</span></p>
+<p>克拉默法则： 设<span
+class="math inline">\(A\)</span>是一个可逆的<span
+class="math inline">\(n \times n\)</span>矩阵，<span
+class="math inline">\(\mathbf{b}\)</span>是一个<span
+class="math inline">\(n\)</span>维向量，方程<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>的唯一解<span
+class="math inline">\(\mathbf{x}\)</span>存在，可由下式给出：</p>
+<p><span class="math display">\[
+x_i = \frac{detA_i(\mathbf{b})}{detA},i=1,2,\cdots,n
+\]</span></p>
+<p>逆矩阵公式：</p>
+<p><span class="math display">\[
+A^{-1} = \frac{1}{detA}\begin{bmatrix}
+C_{11} &amp; C_{21} &amp; \cdots &amp; C_{n1}\\
+C_{12} &amp; C_{22} &amp; \cdots &amp; C_{n2}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+C_{1n} &amp; C_{2n} &amp; \cdots &amp; C_{nn}
+\end{bmatrix}
+\]</span></p>
+<p>其中<span class="math inline">\(C_{ij}\)</span>是<span
+class="math inline">\(A\)</span>的<span
+class="math inline">\((i,j)\)</span>余因子，所构成的矩阵称为伴随矩阵，记作<span
+class="math inline">\(adjA\)</span>。</p>
+<h3 id="向量空间与子空间">向量空间与子空间</h3>
+<p>向量空间的定义：
+一个向量空间是由一些被称为向量的对象构成的非空集合<span
+class="math inline">\(\mathbf{V}\)</span>,以及两个运算：</p>
+<ol type="1">
+<li>加法：<span
+class="math inline">\(\mathbf{v},\mathbf{w}\in\mathbf{V}\)</span>，<span
+class="math inline">\(\mathbf{v}+\mathbf{w}\in\mathbf{V}\)</span></li>
+<li>标量乘法：<span
+class="math inline">\(\alpha\in\mathbb{R},\mathbf{v}\in\mathbf{V}\)</span>，<span
+class="math inline">\(\alpha\mathbf{v}\in\mathbf{V}\)</span>并且有以下公理：</li>
+<li><span
+class="math inline">\(\mathbf{u}+\mathbf{v}=\mathbf{v}+\mathbf{u}\)</span></li>
+<li><span
+class="math inline">\((\mathbf{u}+\mathbf{v})+\mathbf{w}=\mathbf{u}+(\mathbf{v}+\mathbf{w})\)</span></li>
+<li><span class="math inline">\(\mathbf{V}\)</span>中存在一个零向量<span
+class="math inline">\(\mathbf{0}\)</span>，使得<span
+class="math inline">\(\forall\mathbf{v}\in\mathbf{V},\mathbf{v}+\mathbf{0}=\mathbf{v}\)</span>。</li>
+<li>对每一个<span
+class="math inline">\(\mathbf{v}\in\mathbf{V}\)</span>，存在一个负向量<span
+class="math inline">\(\mathbf{-v}\)</span>，使得<span
+class="math inline">\(\mathbf{v}+\mathbf{-v}=\mathbf{0}\)</span>。</li>
+<li><span
+class="math inline">\(c(\mathbf{v}+\mathbf{w})=c\mathbf{v}+c\mathbf{w}\)</span></li>
+<li><span class="math inline">\((a+b)\mathbf{v}=a\mathbf{v}+b\mathbf{
+v}\)</span></li>
+<li><span
+class="math inline">\(c(d\mathbf{v})=(cd)\mathbf{v}\)</span></li>
+<li><span class="math inline">\(1\mathbf{v}=\mathbf{v}\)</span></li>
+</ol>
+<h4 id="子空间-1">子空间</h4>
+<p>定义：设<span
+class="math inline">\(\mathbf{V}\)</span>是一个向量空间，<span
+class="math inline">\(\mathbf{H}\subset\mathbf{V}\)</span>，如果<span
+class="math inline">\(\mathbf{H}\)</span>是一个子空间如果满足以下三个性质：
+a. <span class="math inline">\(\mathbf{H}\)</span>中存在一个零向量<span
+class="math inline">\(\mathbf{0}\)</span> b. <span
+class="math inline">\(\mathbf{H}\)</span>对向量加法封闭，即<span
+class="math inline">\(\forall\mathbf{v}\in\mathbf{H},\forall\mathbf{w}\in\mathbf{H},\mathbf{v}+\mathbf{w}\in\mathbf{H}\)</span>
+c. <span
+class="math inline">\(\mathbf{H}\)</span>对标量乘法封闭，即<span
+class="math inline">\(\forall\alpha\in\mathbb{R},\forall\mathbf{v}\in\mathbf{H},\alpha\mathbf{v}\in\mathbf{H}\)</span></p>
+<p><strong>定理</strong>：若<span
+class="math inline">\(v_1,v_2,\cdots,v_n\)</span>是<span
+class="math inline">\(\mathbf{V}\)</span>中的向量，则<span
+class="math inline">\(Span\{v_1,v_2,\cdots,v_n\}\)</span>是<span
+class="math inline">\(\mathbf{V}\)</span>的一个子空间。</p>
+<h4 id="矩阵的零空间">矩阵的零空间</h4>
+<p>定义：设<span class="math inline">\(A\)</span>是一个<span
+class="math inline">\(m\times n\)</span>矩阵，<span
+class="math inline">\(\mathbf{v}\in\mathbb{R}^n\)</span>，则<span
+class="math inline">\(A\mathbf{v}=0\)</span>的解集称为矩阵<span
+class="math inline">\(A\)</span>的零空间。表示为：</p>
+<p><span class="math display">\[
+Nul(A) = \{ \mathbf{v}\in\mathbb{R}^n : A\mathbf{v}=0 \}
+\]</span></p>
+<p><strong>定理</strong>：<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(m\times n\)</span>矩阵，则<span
+class="math inline">\(Nul(A)\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>的一个子空间。等价地说，m个方程，n个未知数的齐次线性方程组<span
+class="math inline">\(Ax=0\)</span>的解集是<span
+class="math inline">\(\mathbb{R}^n\)</span>的一个子空间。</p>
+<h4 id="列空间">列空间</h4>
+<p>定义：设<span class="math inline">\(A\)</span>是一个<span
+class="math inline">\(m\times n\)</span>矩阵，则<span
+class="math inline">\(A\)</span>的列的所有线性组合组成的集合是<span
+class="math inline">\(A\)</span>的列空间，记作<span
+class="math inline">\(Col(A)=Span\{
+\mathbf{a}_1,\mathbf{a}_2,\cdots,\mathbf{a}_n\}\)</span>。</p>
+<p><strong>定理</strong>：<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(m\times n\)</span>矩阵，则<span
+class="math inline">\(Col(A)\)</span>是<span
+class="math inline">\(\mathbb{R}^m\)</span>的一个子空间。 注意到，<span
+class="math inline">\(Col(A)\)</span>可以写为</p>
+<p><span class="math display">\[
+Col(A) = \{\mathbf{b}:\mathbf{b}=A\mathbf{x},\mathbf{x}\in
+\mathbb{R}^n\},\mathbf{x}为某向量。
+\]</span></p>
+<h4 id="线性变换的核与值域">线性变换的核与值域</h4>
+<p>定义：设<span class="math inline">\(T:V\to
+W\)</span>是一个线性变换，它将<span
+class="math inline">\(\mathbf{V}\)</span>中的每个向量<span
+class="math inline">\(\mathbf{v}\)</span>映射到<span
+class="math inline">\(\mathbf{W}\)</span>中的一个向量唯一向量<span
+class="math inline">\(\mathbf{w} = T(v)\)</span>,并且满足：</p>
+<ol type="1">
+<li><span
+class="math inline">\(T(\mathbf{u}+\mathbf{v})=T(\mathbf{u})+T(\mathbf{v})\)</span></li>
+<li><span class="math inline">\(T(\alpha\mathbf{v})=\alpha
+T(\mathbf{v})\)</span>, 对所有<span
+class="math inline">\(\alpha\in\mathbb{R}\)</span>和<span
+class="math inline">\(\forall\mathbf{v}\in\mathbf{V}\)</span>均成立。</li>
+</ol>
+<p><strong>线性变换T的核(kernel)</strong>： 设<span
+class="math inline">\(T:V\to
+W\)</span>是一个线性变换，则线性变换T的核是<span
+class="math inline">\(\mathbf{V}\)</span>中所有满足<span
+class="math inline">\(T(\mathbf{v})=\mathbf{0}\)</span>的向量的集合。记作<span
+class="math inline">\(ker(T)\)</span>。T的值域是<span
+class="math inline">\(\mathbf{W}\)</span>中所有具有形式<span
+class="math inline">\(T(v)(\forall v\in V)\)</span>的向量的集合。</p>
+<p>如果一个线性变换T是由一个矩阵变换得到的，即<span
+class="math inline">\(T(x)=Ax\)</span>，则T的值域与核恰好是A的列空间核与零空间。</p>
+<h4 id="基">基</h4>
+<p>定义：设<span
+class="math inline">\(\mathbf{V}\)</span>是一个向量空间，令<span
+class="math inline">\(\mathbf{H}\)</span>是向量空间<span
+class="math inline">\(\mathbf{V}\)</span>的一个子空间，<span
+class="math inline">\(\mathbf{V}\)</span>中向量的指标集<span
+class="math inline">\(\mathbf{B}=\{\mathbf{b}_1,\mathbf{b}_2,\cdots,\mathbf{b}_m\}\)</span>称为<span
+class="math inline">\(\mathbf{H}\)</span>的一个基，如果有：</p>
+<ol type="1">
+<li><span
+class="math inline">\(\mathbf{B}\)</span>是一个线性无关集。</li>
+<li>由<span class="math inline">\(\mathbf{B}\)</span>生成的子空间与<span
+class="math inline">\(\mathbf{H}\)</span>相同。</li>
+</ol>
+<p><strong>定理</strong>：矩阵A的主元列构成了A的列空间的基。</p>
+<p><strong>生成集定理：</strong> 令<span
+class="math inline">\(S=\{v_1,v_2,\cdots,v_n\}\)</span>是<span
+class="math inline">\(\mathbf{V}\)</span>中的向量集，且有<span
+class="math inline">\(H=Span\{v_1,v_2,\cdots,v_n\}\)</span> a. 若<span
+class="math inline">\(S\)</span>中的某一个向量<span
+class="math inline">\(\mathbf{v_k}\)</span>，是S其余向量的线性组合，则S去掉<span
+class="math inline">\(\mathbf{v_k}\)</span>后形成的集合仍然能够生成<span
+class="math inline">\(\mathbf{H}\)</span>。 b. 若<span
+class="math inline">\(H\neq
+\{\mathbf{0}\}\)</span>,则S的某一子集是H的一个基。</p>
+<h5 id="坐标系-1">坐标系</h5>
+<p>对于向量空间<span class="math inline">\(V\)</span>中的一组基<span
+class="math inline">\(B=\{b_1,b_2,\cdots,b_n\}\)</span>，则对<span
+class="math inline">\(V\)</span>中的每个向量<span
+class="math inline">\(x\)</span>，可以用基<span
+class="math inline">\(B\)</span>中的元素表示为：</p>
+<p><span class="math display">\[
+\mathbf{x} = \sum_{i=1}^n a_i\mathbf{b_i}
+\]</span></p>
+<p>于是，定义<span
+class="math inline">\(\mathbf{x}\)</span>相对于基<span
+class="math inline">\(B\)</span>的坐标是使得<span
+class="math inline">\(\mathbf{x}=\sum_{i=1}^n
+a_i\mathbf{b_i}\)</span>的权<span
+class="math inline">\(a_1,a_2,\cdots,a_n\)</span>。记作</p>
+<p><span class="math display">\[
+[\mathbf{x}]_B = \begin{bmatrix}
+  a_1\\
+  a_2\\
+  \vdots\\
+  a_n
+\end{bmatrix}
+\]</span></p>
+<p>令</p>
+<p><span class="math display">\[
+P_B = [\mathbf{b_1},\mathbf{b_2},\cdots,\mathbf{b_n}]
+\]</span></p>
+<p>则<span
+class="math inline">\(\mathbf{x}=a_1\mathbf{b_1}+a_2\mathbf{b_2}+\cdots+a_n\mathbf{b_n}\)</span>等价于<span
+class="math inline">\(\mathbf{x}=P_B[\mathbf{x}]_B\)</span>.称<span
+class="math inline">\(P_B\)</span>为从<span
+class="math inline">\(B\)</span>到<span
+class="math inline">\(\mathbb{R}^n\)</span>的<strong>坐标变换矩阵</strong>。</p>
+<h4 id="向量空间的维数">向量空间的维数</h4>
+<p>若向量空间<span
+class="math inline">\(\mathbf{V}\)</span>中存在一组基<span
+class="math inline">\(\{\mathbf{b}_1,\mathbf{b}_2,\cdots,\mathbf{b}_n\}\)</span>，则<span
+class="math inline">\(\mathbf{V}\)</span>中任意包含多于n个向量的集合一定线性相关。</p>
+<p><strong>定理</strong>：若向量空间<span
+class="math inline">\(\mathbf{V}\)</span>是由一个有限集生成的，则称<span
+class="math inline">\(\mathbf{V}\)</span>为有限维的，其维数写为<span
+class="math inline">\(dim(\mathbf{V})\)</span>。是指<span
+class="math inline">\(\mathbf{V}\)</span>的基中含有向量的个数。零向量空间
+<span class="math inline">\(\{\mathbf{0}\}\)</span>
+的维数定义为0。反之，如果<span
+class="math inline">\(\mathbf{V}\)</span>不是由一有限集生成，那么其称为无穷维的。</p>
+<p><strong>定理</strong>：令<span
+class="math inline">\(\mathbf{H}\)</span>为<span
+class="math inline">\(\mathbf{V}\)</span>的一个子空间，则<span
+class="math inline">\(\mathbf{H}\)</span>中任意一个线性无关集均可以扩充为<span
+class="math inline">\(\mathbf{H}\)</span>的一个基，<span
+class="math inline">\(\mathbf{H}\)</span>也是有限维的，且有：</p>
+<p><span class="math display">\[
+dim(\mathbf{H}) \leq dim(\mathbf{V})
+\]</span></p>
+<pre><code class="hljs">NulA的维数是方程Ax=0中自由变量的个数，ColA的维数是A中主元列的个数。</code></pre>
+<h4 id="秩-1">秩</h4>
+<p><strong>定理</strong>：若两个矩阵<span
+class="math inline">\(A\)</span>和<span
+class="math inline">\(B\)</span>行等价，则它们的行空间相同。若B为阶梯型矩阵，则B的非零行构成A的行空间的一个基的同时也构成了B的行空间的一个基。</p>
+<p><strong>A的秩即为A的列空间的维数。</strong></p>
+<p><strong>秩定理</strong>：设<span
+class="math inline">\(A\)</span>为<span class="math inline">\(m\times
+n\)</span>矩阵，A的行空间与列空间的维数相等，这个维数称为A的秩，还等于A的主元位置的个数且满足：</p>
+<p><span class="math display">\[
+rank(A) + dim(NulA) = n
+\]</span></p>
+<p><strong>秩与可逆矩阵定理</strong>：设<span
+class="math inline">\(A\)</span>为<span class="math inline">\(n\times
+n\)</span>矩阵，如果A是可逆矩阵,则有：</p>
+<ol type="1">
+<li>A的列构成<span
+class="math inline">\(\mathbb{R}^n\)</span>的一个基。</li>
+<li><span class="math inline">\(ColA=\mathbb{R}^n\)</span></li>
+<li><span class="math inline">\(dimColA=n\)</span></li>
+<li><span class="math inline">\(rank(A)=n\)</span></li>
+<li><span class="math inline">\(NulA=\{\mathbf{0}\}\)</span></li>
+<li><span class="math inline">\(dim(NulA)=0\)</span></li>
+</ol>
+<p>注意到：A的行空间是<span
+class="math inline">\(A^T\)</span>的列空间，又A可逆当且仅当<span
+class="math inline">\(A^T\)</span>可逆。，所以对上述一系列判读可逆矩阵同样适用于<span
+class="math inline">\(A^T\)</span>。</p>
+<h4 id="基变换">基变换</h4>
+<p>设<span
+class="math inline">\(B=\{\mathbf{b_1},\mathbf{b_2},\cdots,\mathbf{b_n}\}\)</span>与<span
+class="math inline">\(C=\{\mathbf{c_1},\mathbf{c_2},\cdots,\mathbf{c_n}\}\)</span>是向量空间<span
+class="math inline">\(\mathbf{V}\)</span>的两个基，则存在一个<span
+class="math inline">\(n \times n\)</span>矩阵<span
+class="math inline">\(P\)</span>，使得：</p>
+<p><span class="math display">\[
+[\mathbf{x}]_C = P[\mathbf{x}]_B
+\]</span></p>
+<p>且，<span class="math inline">\(P\)</span>的列是基<span
+class="math inline">\(B\)</span>中向量的<span
+class="math inline">\(C-坐标向量\)</span>，即：</p>
+<p><span class="math display">\[
+P = \begin{bmatrix}
+[\mathbf{b_1}]_C,
+[\mathbf{b_2}]_C,
+\cdots
+[\mathbf{b_n}]_C
+\end{bmatrix}
+\]</span></p>
+<p>若<span
+class="math inline">\(B=\{\mathbf{b_1},\mathbf{b_2},\cdots,\mathbf{b_n}\}\)</span>，<span
+class="math inline">\(E\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>的标准基<span
+class="math inline">\(\{\mathbf{e}_1,\mathbf{e}_2,\cdots,\mathbf{e}_n\}\)</span>，则<span
+class="math inline">\([\mathbf{b_1}]_E=\mathbf{b_1}\)</span>,<span
+class="math inline">\(B\)</span>中的其他向量也类似，引入坐标变换矩阵<span
+class="math inline">\(P_{E\leftarrow B}\)</span>,则其与<span
+class="math inline">\(P_B\)</span>等价。</p>
+<h4 id="马尔科夫链的矩阵形式">马尔科夫链的矩阵形式</h4>
+<p>定义：
+<strong>概率向量</strong>：一个具有非负分量，且各分量的数值相加等于1的向量称为概率向量。
+<strong>概率矩阵</strong>：随机矩阵是指各列向量都是概率向量的矩阵。
+<strong>马尔科夫链</strong>：一个马尔科夫链是一个概率向量序列<span
+class="math inline">\(\mathbf{x_1},\mathbf{x_2},\cdots,\mathbf{x_n}\)</span>和一个随机转移矩阵<span
+class="math inline">\(P\)</span>，满足：</p>
+<p><span class="math display">\[
+\mathbf{x_i} = P\mathbf{x_{i-1}},i=2,3,\cdots,n0
+\]</span></p>
+<p><span
+class="math inline">\(\mathbf{x_k}\)</span>中的数值分别列出来一个系统在n各可能状态下的概率，或者实验结果是n个可能概率之一的概率。因此，<span
+class="math inline">\(\mathbf{x_k}\)</span>通常被称为状态向量。</p>
+<p><strong>稳态向量</strong>：若P是一个随机矩阵，则相对于P的稳态向量是一个满足:</p>
+<p><span class="math display">\[
+P\mathbf{q}=\mathbf{q}
+\]</span></p>
+<p>的概率向量<span
+class="math inline">\(\mathbf{q}\)</span>。每一个随机矩阵都有一个稳态向量。</p>
+<p><strong>定理</strong>：若P是一个<span class="math inline">\(n\times
+n\)</span>正规的随机矩阵，则P具有唯一的稳态向量<span
+class="math inline">\(\mathbf{q}\)</span>.进一步的，如果<span
+class="math inline">\(\mathbf{x_0}\)</span>是<strong>任一个</strong>起始状态，且有<span
+class="math inline">\(\mathbf{x_{k+1}}=P\mathbf{x_k},k=0,1,\cdots\)</span>,则当<span
+class="math inline">\(k\rightarrow\infty\)</span>时，马尔科夫链<span
+class="math inline">\(\{\mathbf{x_k}\}\)</span>收敛到稳态向量<span
+class="math inline">\(\mathbf{q}\)</span>.</p>
+<h3 id="特征值与特征向量">特征值与特征向量</h3>
+<p>定义：<span class="math inline">\(\mathbf{A}\)</span>为<span
+class="math inline">\(n \times n\)</span>矩阵，<span
+class="math inline">\(\mathbf{x}\)</span>为非零向量，若存在数<span
+class="math inline">\(\lambda\)</span>使得<span
+class="math inline">\(\mathbf{Ax}=\lambda
+\mathbf{x}\)</span>成立，则称<span
+class="math inline">\(\lambda\)</span>为<span
+class="math inline">\(\mathbf{A}\)</span>的特征值，<span
+class="math inline">\(\mathbf{x}\)</span>称为对应于<span
+class="math inline">\(\lambda\)</span>的特征向量。</p>
+<p><strong>定理</strong>：三角矩阵的主对角线元素是特征值。</p>
+<p>注意：<span class="math inline">\(\lambda\)</span>是<span
+class="math inline">\(A\)</span>的特征值当且仅当</p>
+<p><span class="math display">\[
+(A-\lambda I)\mathbf{x}=\mathbf{0}
+\]</span></p>
+<p><strong>定理</strong>：<span
+class="math inline">\(\lambda_1,\cdots,\lambda_r\)</span>是<span
+class="math inline">\(n \times n\)</span>矩阵A相异的特征值，<span
+class="math inline">\(\mathbf{v}_1,\cdots,\mathbf{v}_r\)</span>是与<span
+class="math inline">\(\lambda_1,\cdots,\lambda_r\)</span>对应的特征向量,那么向量集合<span
+class="math inline">\(\{\mathbf{v}_1,\cdots,\mathbf{v}_r\}\)</span>线性无关。</p>
+<h4 id="特征方程">特征方程</h4>
+<p>求解特征方程是指，找出所有的<span
+class="math inline">\(\lambda\)</span>，使得<span
+class="math inline">\(\mathbf{A}\mathbf{x}=\lambda\mathbf{x}\)</span>成立。等价于要求出所有的<span
+class="math inline">\(\lambda\)</span>,使得矩阵<span
+class="math inline">\(\mathbf{A}-\lambda I\)</span>为不可逆矩阵。</p>
+<p>行列式与特征方程：设A为<span class="math inline">\(n\times
+n\)</span>矩阵，则<span
+class="math inline">\(\mathbf{A}\)</span>是可逆的当且仅当
+1.0不是A的特征值。 2.A的行列式不为0。</p>
+<h4 id="行列式的性质-1">行列式的性质</h4>
+<p>设A和B为<span class="math inline">\(n\times n\)</span>矩阵，则： a.
+A可逆的充分必要条件是A的行列式不为0。 b. <span
+class="math inline">\(det(AB)=det(A)det(B)\)</span> c. <span
+class="math inline">\(detA^T=detA\)</span> d.若<span
+class="math inline">\(A\)</span>是三角矩阵，那么<span
+class="math inline">\(detA\)</span>是<span
+class="math inline">\(A\)</span>的主对角线元素的乘积。 e.对<span
+class="math inline">\(A\)</span>作行替换不改变院行列式的值，做一次行交换使其行列式值的符号改变一次。数乘一行后，行列式的值等于用此数乘原来的行列式。</p>
+<p><strong>定理</strong>：数<span
+class="math inline">\(\lambda\)</span>是<span class="math inline">\(n
+\times n\)</span>矩阵A的特征值的充分必要条件是<span
+class="math inline">\(\lambda\)</span>是特征方程<span
+class="math inline">\(det(A-\lambda I)=0\)</span>的根。</p>
+<h4 id="相似性">相似性</h4>
+<p>设A和B为<span class="math inline">\(n\times
+n\)</span>矩阵，如果存在可逆矩阵P，使得<span
+class="math inline">\(P^{-1}AP=B\)</span>，或者等价地<span
+class="math inline">\(A=PBP^{-1}\)</span>，则称A相似于B。记<span
+class="math inline">\(Q=P^{-1}\)</span>，则有<span
+class="math inline">\(Q^{-1}BQ=A\)</span>,即B也相似于A。把A变为<span
+class="math inline">\(P^{-1}AP\)</span>的变换称为相似变换。</p>
+<p><strong>定理</strong>：如果<span class="math inline">\(n\times
+n\)</span>矩阵A与B是相似的，那么它们有相同的特征多项式，从而有相同的特征值。</p>
+<h4 id="对角化">对角化</h4>
+<p>如果<span class="math inline">\(n\times
+n\)</span>矩阵A相似于对角矩阵，即存在可逆矩阵P和对角矩阵D，有<span
+class="math inline">\(A=P^{-1}DP\)</span>，则称A为可对角化矩阵。</p>
+<p><strong>定理</strong>：如果<span class="math inline">\(n\times
+n\)</span>矩阵A可对角化可对角化的充分必要条件是<span
+class="math inline">\(\mathbf{A}\)</span>有n个线性无关的特征向量。事实上，<span
+class="math inline">\(A=P^{-1}DP\)</span>,D为对角矩阵的充分必要条件是P的列向量是A的n个线性无关的特征向量。此时，D中对角线上的元素分别是A的对应于P中特征向量的特征值。</p>
+<p>注意到，A可对角化也就是说有足够的特征向量形成<span
+class="math inline">\(\mathbb{R}^n\)</span>的一个基，我们称这组基为特征向量基。</p>
+<p><strong>定理</strong>：有n个相异特征值的<span
+class="math inline">\(n\times
+n\)</span>矩阵可对角化。（是充分的，但不是充要的）</p>
+<h4 id="微分方程中的应用">微分方程中的应用</h4>
+<p>(待续)</p>
+<h3 id="正交性和最小二乘法">正交性和最小二乘法</h3>
+<p>向量的长度：向量 <span
+class="math inline">\(\mathbf{v}\)</span>的长度（范数）是非负数<span
+class="math inline">\(||\mathbf{v}||\)</span>，定义为：</p>
+<p><span class="math display">\[
+||\mathbf{v}||=\sqrt{\mathbf{v} \cdot \mathbf{v}}=\sqrt{\sum_{i=1}^n
+v_i^2} 且 ||\mathbf{v}||^2 = \mathbf{v} \cdot \mathbf{v}
+\]</span></p>
+<p>对于任意数<span class="math inline">\(c \in
+\mathbb{R}\)</span>，有：</p>
+<p><span class="math display">\[
+c||\mathbf{v}||= \left |c \right|  \left \Vert \mathbf{v} \right \Vert
+\]</span></p>
+<p>长度为1的向量称为单位向量，如果把一个非零向量除以自身长度，即乘以<span
+class="math inline">\(1/||\mathbf{v}||\)</span>，那么得到的向量就是单位向量，这称为向量<span
+class="math inline">\(\mathbf{v}\)</span>的单位化。</p>
+<p><span class="math inline">\(\mathbb{R}^n\)</span>空间中的向量<span
+class="math inline">\(\mathbf{v}\)</span>和<span
+class="math inline">\(\mathbf{w}\)</span>的距离，记作<span
+class="math inline">\(dist(\mathbf{v},\mathbf{w})\)</span>，定义为：</p>
+<p><span class="math display">\[
+dist(\mathbf{v},\mathbf{w})=\left \Vert \mathbf{v}-\mathbf{w} \right
+\Vert = \sqrt{(\mathbf{v}-\mathbf{w}) \cdot (\mathbf{v}-\mathbf{w})}
+\]</span></p>
+<h4 id="正交向量">正交向量</h4>
+<p>如果向量<span class="math inline">\(\mathbf{v} \cdot
+\mathbf{w}=0\)</span>，则称<span
+class="math inline">\(\mathbf{v}\)</span>和<span
+class="math inline">\(\mathbf{w}\)</span>是相互正交的，记作<span
+class="math inline">\(\mathbf{v} \perp \mathbf{w}\)</span>。</p>
+<p><strong>毕达哥斯拉定理</strong>：两个向量<span
+class="math inline">\(\mathbf{v}\)</span>和<span
+class="math inline">\(\mathbf{w}\)</span>相互正交的充要条件是<span
+class="math inline">\({\left \Vert \mathbf{v}+\mathbf{w} \right
+\Vert}^2=\left \Vert \mathbf{v} \right \Vert^2+\left \Vert \mathbf{w}
+\right \Vert^2\)</span>。</p>
+<h4 id="正交补">正交补</h4>
+<p>如果向量<span class="math inline">\(\mathbf{z}\)</span>与<span
+class="math inline">\(\mathbb{R}^n\)</span>的子空间<span
+class="math inline">\(\mathbf{W}\)</span>中的任意向量都正交，则称<span
+class="math inline">\(\mathbf{z}正交于\mathbf{W}\)</span>。那么与子空间<span
+class="math inline">\(\mathbf{W}\)</span>正交的向量<span
+class="math inline">\(\mathbf{z}\)</span>的集合称为<span
+class="math inline">\(\mathbf{W}\)</span>的正交补，记作<span
+class="math inline">\(\mathbf{W}^{\perp}\)</span>。</p>
+<p><strong>定理1</strong>：</p>
+<ol type="1">
+<li>向量<span class="math inline">\(\mathbf{x}\)</span>属于<span
+class="math inline">\(\mathbf{W}^{\perp}\)</span>的充分必要条件是向量<span
+class="math inline">\(\mathbf{x}\)</span>与生成空间<span
+class="math inline">\(\mathbf{W}\)</span>中任一向量<span
+class="math inline">\(\mathbf{w}\)</span>都不正交。</li>
+<li><span class="math inline">\(\mathbf{W}^{\perp}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>的一个子空间。</li>
+</ol>
+<p><strong>定理2</strong>：假设矩阵<span
+class="math inline">\(\mathbf{A}\)</span>是<span
+class="math inline">\(m\times n\)</span>的矩阵，那么<span
+class="math inline">\(\mathbf{A}\)</span>的行向量空间的正交补空间是<span
+class="math inline">\(\mathbf{A}\)</span>的零空间，且<span
+class="math inline">\(\mathbf{A}\)</span>的列向量空间的正交补是<span
+class="math inline">\(\mathbf{A}^{\intercal}\)</span>的零空间:</p>
+<p><span class="math display">\[
+(Row A)^{\perp}= Nul(A) \quad  且\quad(Col A)^{\perp}= Nul(A^T)
+\]</span></p>
+<h4 id="正交集">正交集</h4>
+<p><span class="math inline">\(\mathbb{R}^n\)</span>中的向量集合<span
+class="math inline">\(\{\mathbf{v}_1,\mathbf{v}_2,\cdots,\mathbf{v}_k\}\)</span>称为正交向量集，如果集合中任意两个不同的向量都正交，即当<span
+class="math inline">\(i \neq j\)</span>时,有<span
+class="math inline">\(\mathbf{v}_i \perp \mathbf{v}_j\)</span>。</p>
+<p><strong>定理3</strong>：如果<span
+class="math inline">\(S=\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_k\}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中的非零向量构成的正交向量集，那么<span
+class="math inline">\(S\)</span>是线性无关集，因此构成所生成子空间<span
+class="math inline">\(\mathbf{S}\)</span>的一组基。</p>
+<p><strong>定理4</strong>：假设<span
+class="math inline">\(\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_p\}\)</span>是<span
+class="math inline">\(\mathbb{R}\)</span>中子空间<span
+class="math inline">\(\mathbb{W}\)</span>的正交基，则对<span
+class="math inline">\(\mathbb{W}\)</span>中的每个向量<span
+class="math inline">\(\mathbf{y}\)</span>，线性组合<span
+class="math inline">\(\mathbf{y}=c_1\mathbf{u}_1+c_2\mathbf{u}_2+\cdots+c_p\mathbf{u}_p\)</span>的系数<span
+class="math inline">\(c_1,c_2,\cdots,c_p\)</span>中的权值可以由<span
+class="math inline">\(c_j=\frac{\mathbf{y} \cdot
+\mathbf{u}_j}{\mathbf{u}_j \cdot \mathbf{u}_j} \quad
+(j=1,2,\cdots,p)\)</span>给出。</p>
+<h4 id="正交投影">正交投影</h4>
+<p>考虑<span
+class="math inline">\(\mathbb{R}^n\)</span>中的一个向量<span
+class="math inline">\(\mathbf{y}\)</span>分解为两个向量之和的问题，一个向量是<span
+class="math inline">\(\mathbf{u}\)</span>的数量乘积，另一个向量与<span
+class="math inline">\(\mathbf{u}\)</span>垂直，其中向量<span
+class="math inline">\(\mathbf{u}\)</span>是给定的。写为：</p>
+<p><span class="math display">\[
+\mathbf{y}= \mathbf{\hat{y}}+\mathbf{z}
+\]</span></p>
+<p>其中，<span class="math inline">\(\mathbf{\hat{y}}=\alpha \mathbf{u}
+\quad \alpha是个数\)</span>，<span
+class="math inline">\(\mathbf{z}\)</span>是一个垂直于<span
+class="math inline">\(\mathbf{u}\)</span>的向量。</p>
+<p>可以求得， <span class="math inline">\(\alpha = \frac{\mathbf{y}
+\cdot \mathbf{u}}{\mathbf{u} \cdot \mathbf{u}}\)</span> <span
+class="math inline">\(\mathbf{\hat{y}}=\frac{\mathbf{y}\cdot\mathbf{u}}{\mathbf{u}
+\cdot \mathbf{u}} \cdot \mathbf{u}\)</span>。 称向量<span
+class="math inline">\(\mathbf{\hat{y}}\)</span>是<span
+class="math inline">\(\mathbf{y}\)</span>在<span
+class="math inline">\(\mathbf{u}\)</span>上的正交投影，而向量<span
+class="math inline">\(\mathbf{z}\)</span>是<span
+class="math inline">\(\mathbf{y}\)</span>垂直<span
+class="math inline">\(\mathbf{u}\)</span>的分量。</p>
+<p>例子：对于向量空间<span
+class="math inline">\(\mathbf{W}=\mathbb{R}^2=Span\{\mathbf{u}_1,\mathbf{u}_2\}\)</span>，<span
+class="math inline">\(\mathbf{u}_1,\mathbf{u}_2\)</span>相互正交，那么对于任意<span
+class="math inline">\(\mathbb{R}^2\)</span>中的向量<span
+class="math inline">\(\mathbf{y}\)</span>，都有：</p>
+<p><span class="math display">\[
+\mathbf{y}=\frac{\mathbf{y}\cdot\mathbf{u}_1}{\mathbf{u}_1 \cdot
+\mathbf{u}_1} \cdot
+\mathbf{u}_1+\frac{\mathbf{y}\cdot\mathbf{u}_2}{\mathbf{u}_2 \cdot
+\mathbf{u}_2} \cdot \mathbf{u}_2
+\]</span></p>
+<h4 id="单位正交集">单位正交集</h4>
+<p>集合<span
+class="math inline">\(\{\mathbf{u}_1,\cdots,\mathbf{u}_n\}\)</span>是一个单位正交集，如果它们是由单位向量构成的正交集。如果<span
+class="math inline">\(\mathbf{W}\)</span>是一个由单位正交集组成的子空间，那么<span
+class="math inline">\(\{\mathbf{u}_1,\cdots,\mathbf{u}_n\}\)</span>是<span
+class="math inline">\(\mathbf{W}\)</span>的<strong>单位正交基</strong>，因为这类集合自然线性无关。</p>
+<p><strong>定理5</strong>：一个<span class="math inline">\(m \times
+n\)</span>矩阵<span
+class="math inline">\(\mathbf{U}\)</span>具有单位正交列向量的充分必要条件是<span
+class="math inline">\(\mathbf{U}^{\intercal}\mathbf{U}=\mathbf{I}\)</span>。</p>
+<p><strong>定理6</strong>：假设<span
+class="math inline">\(\mathbf{U}\)</span>是一个具有单位正交列向量的<span
+class="math inline">\(m \times n\)</span>矩阵，且<span
+class="math inline">\(\mathbf{x}\)</span>和<span
+class="math inline">\(\mathbf{y}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中的向量，那么： a. <span
+class="math inline">\(\left \Vert U\mathbf{x} \right \Vert=\left \Vert
+\mathbf{x} \right \Vert\)</span> b. <span class="math inline">\((\left
+\Vert U\mathbf{x} \right \Vert)(\left \Vert U\mathbf{y} \right \Vert)=
+\mathbf{x} \cdot \mathbf{y}\)</span> c. <span
+class="math inline">\((\left \Vert U\mathbf{x} \right \Vert)(\left \Vert
+U\mathbf{y} \right \Vert)=0\)</span>的充要条件是<span
+class="math inline">\(\mathbf{x} \perp \mathbf{y}\)</span>。
+这些性质表明：<strong>线性映射<span
+class="math inline">\(\mathbf{x}\mapsto
+U\mathbf{x}\)</span>保持长度和正交性</strong>。</p>
+<p>定理5和定理6表明一个 <strong>正交矩阵</strong>
+就是一个可逆的方阵<span class="math inline">\(U\)</span>,且满足：<span
+class="math inline">\(U^T=U^{-1}\)</span>。这样的矩阵具有单位正交列，且任何具有单位正交列的方阵是正交矩阵。</p>
+<h4 id="正交分解">正交分解</h4>
+<p><strong>正交分解定理</strong>：若<span
+class="math inline">\(W\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>的子空间，那么<span
+class="math inline">\(\mathbb{R}^n\)</span>中的每一个向量<span
+class="math inline">\(\mathbf{y}\)</span>都可以唯一表示为：</p>
+<p><span class="math display">\[
+\mathbf{y}=\mathbf{\hat{y}}+\mathbf{z}
+\]</span></p>
+<p>其中<span class="math inline">\(\mathbf{\hat{y}}\)</span>属于<span
+class="math inline">\(\mathbf{W}\)</span>，<span
+class="math inline">\(\mathbf{z}\)</span>属于<span
+class="math inline">\(\mathbf{W}^{\perp}\)</span>。如果<span
+class="math inline">\(\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_p\}\)</span>是<span
+class="math inline">\(\mathbf{W}\)</span>的正交基，那么<span
+class="math inline">\(\mathbf{y}\)</span>可以唯一表示为：</p>
+<p><span class="math display">\[
+\mathbf{y}=\sum_{i=1}^p \frac{\mathbf{y}\cdot\mathbf{u}_i}{\mathbf{u}_i
+\cdot \mathbf{u}_i} \mathbf{u}_i
+\]</span></p>
+<p>且<span
+class="math inline">\(\mathbf{z}=\mathbf{y}-\mathbf{\hat{y}}\)</span>。式中，<span
+class="math inline">\(\mathbf{\hat{y}}\)</span>称为 <strong><span
+class="math inline">\(\mathbf{y}\)</span>在<span
+class="math inline">\(W\)</span>上的正交投影</strong>，记作<span
+class="math inline">\(proj_w(\mathbf{y})\)</span>。</p>
+<p><strong>正交投影的性质</strong>：如果<span
+class="math inline">\(\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_p\}\)</span>是<span
+class="math inline">\(\mathbf{W}\)</span>的正交基，且如果<span
+class="math inline">\(\mathbf{y}\)</span>属于<span
+class="math inline">\(\mathbf{W}\)</span>，那么<span
+class="math inline">\(proj_w(\mathbf{y})=\mathbf{y}\)</span>。</p>
+<p><strong>最佳逼近定理</strong>：假设<span
+class="math inline">\(W\)</span>是一个<span
+class="math inline">\(\mathbb{R}^n\)</span>的子空间，<span
+class="math inline">\(\mathbf{y}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中的任意向量，<span
+class="math inline">\(\mathbf{\hat{y}}\)</span>是<span
+class="math inline">\(\mathbf{y}\)</span>在<span
+class="math inline">\(W\)</span>上的正交投影，那么<span
+class="math inline">\(\mathbf{\hat{y}}\)</span>是<span
+class="math inline">\(W\)</span>上最接近<span
+class="math inline">\(\mathbf{y}\)</span>的点，也就是</p>
+<p><span class="math display">\[
+\left \Vert \mathbf{y}-\mathbf{\hat{y}} \right \Vert \leq \left \Vert
+\mathbf{y}-\mathbf{v} \right \Vert
+\]</span></p>
+<p>对于所有属于<span class="math inline">\(W\)</span>又异于<span
+class="math inline">\(\mathbf{\hat{y}}\)</span>的向量<span
+class="math inline">\(\mathbf{v}\)</span>成立。</p>
+<p><strong>定理7</strong>：如果<span
+class="math inline">\(\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_p\}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中子空间<span
+class="math inline">\(\mathbf{W}\)</span>的单位正交基，那么：</p>
+<p><span class="math display">\[
+proj_w(\mathbf{y})=(\mathbf{y}\cdot\mathbf{u}_1)\mathbf{u}_1+\cdots+(\mathbf{y}\cdot\mathbf{u}_p)\mathbf{u}_p
+\]</span></p>
+<p>如果<span class="math inline">\(U=[\mathbf{u}_1\ \cdots\
+\mathbf{u}_p]\)</span>,则：</p>
+<p><span class="math display">\[
+proj_w(\mathbf{y})=UU^T\mathbf{y},对所有\mathbf{y}\in\mathbb{R}^n成立
+\]</span></p>
+<h4 id="格拉姆-施密特方法">格拉姆-施密特方法</h4>
+<p>格拉姆-施密特方法是对<span
+class="math inline">\(\mathbb{R}^n\)</span>中任何非零子空间构造正交集或标准正交集的简单算法。</p>
+<p><strong>步骤</strong>： 对<span
+class="math inline">\(\mathbb{R}^n\)</span>中的子空间的一个基<span
+class="math inline">\(\{\mathbf{x}_1,\mathbf{x}_2,\cdots,\mathbf{x}_p\}\)</span>，定义：</p>
+<p><span class="math display">\[
+\mathbf{v}_1=\mathbf{x}_1\\
+\mathbf{v}_2=\mathbf{x}_2-\frac{\mathbf{x}_2 \cdot
+\mathbf{v}_1}{\mathbf{v}_1\cdot\mathbf{v}_1}\mathbf{v}_1\\
+\cdots\\
+\mathbf{v}_p=\mathbf{x}_p-\frac{\mathbf{x}_p \cdot
+\mathbf{v}_1}{\mathbf{v}_1\cdot\mathbf{v}_1}\mathbf{v}_1-\frac{\mathbf{x}_p
+\cdot
+\mathbf{v}_2}{\mathbf{v}_2\cdot\mathbf{v}_2}\mathbf{v}_2+\cdots-\frac{\mathbf{x}_p
+\cdot
+\mathbf{v}_{p-1}}{\mathbf{v}_{p-1}\cdot\mathbf{v}_{p-1}}\mathbf{v}_{p-1}
+\]</span></p>
+<p>那么<span
+class="math inline">\(\{\mathbf{v}_1,\mathbf{v}_2,\cdots,\mathbf{v}_p\}\)</span>就是<span
+class="math inline">\(\mathbf{W}\)</span>的一个正交基，此外</p>
+<p><span class="math display">\[
+Span\{\mathbf{v}_1,\mathbf{v}_2,\cdots,\mathbf{v}_p\}=Span\{\mathbf{x}_1,\mathbf{x}_2,\cdots,\mathbf{x}_k\},其中1\leq
+k\leq p
+\]</span></p>
+<p>注意到，如果需要得到一个标准正交基，只需要单位化所有的向量<span
+class="math inline">\(\mathbf{v}_k\)</span>即可。</p>
+<p><strong>QR分解</strong>：如果<span class="math inline">\(m \times
+n\)</span>矩阵<span
+class="math inline">\(\mathbf{A}\)</span>的列线性无关，<span
+class="math inline">\(\mathbf{A}\)</span>可以分解为<span
+class="math inline">\(A=QR\)</span>，其中<span
+class="math inline">\(Q\)</span>是一个<span class="math inline">\(m
+\times n\)</span>的矩阵，其列形成了<span
+class="math inline">\(ColA\)</span>的一个标准正交基，<span
+class="math inline">\(R\)</span>是一个<span class="math inline">\(n
+\times n\)</span>的上三角矩阵可逆矩阵且在对角线上的元素为正数。</p>
+<p>应用：<span class="math inline">\(A\)</span>的列向量构成<span
+class="math inline">\(ColA\)</span>的一个基<span
+class="math inline">\(\{\mathbf{x}_1,\mathbf{x}_2,\cdots,\mathbf{x}_n\}\)</span>,构造<span
+class="math inline">\(W=ColA\)</span>的一个标准正交基<span
+class="math inline">\(\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_n\}\)</span>，这个基可以由格拉姆-施密特方法构造。
+取</p>
+<p><span class="math display">\[
+Q= [\mathbf{u}_1\ \cdots\ \mathbf{u}_n]
+\]</span></p>
+<p>对<span class="math inline">\(k=1,2,\cdots,n\)</span>，<span
+class="math inline">\(\mathbf{x_k}\)</span>属于<span
+class="math inline">\(Span\{\mathbf{x}_1,\mathbf{x}_2,\cdots,\mathbf{x}_{k}\}=Span\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_{k}\}\)</span>，所以存在常数<span
+class="math inline">\(r_{1k},r_{2k},\cdots,r_{kk}\)</span>使得：</p>
+<p><span class="math display">\[
+\mathbf{x}_k=r_{1k}\mathbf{u}_1+\cdots+r_{kk}\mathbf{u}_k+0\cdot
+\mathbf{u}_{k+1}+\cdots+0\cdot \mathbf{u}_n
+\]</span></p>
+<p>可以假设<span class="math inline">\(r_{kk}\geq
+0\)</span>(否则，则对<span class="math inline">\(r_{kk}\)</span>和<span
+class="math inline">\(\mathbf{u}_k\)</span>都乘以-1)，那这表明<span
+class="math inline">\(\mathbf{x_k}\)</span>是<span
+class="math inline">\(Q\)</span>的列的线性组合，且其权为</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+    r_{1k}\\
+    \vdots\\
+    r_{kk}\\
+    0\\
+    \vdots\\
+    0
+\end{bmatrix}
+\]</span></p>
+<p>即<span
+class="math inline">\(\mathbf{x}_k=Q\mathbf{r}_k\)</span>，其中<span
+class="math inline">\(k=1,2,\cdots,n\)</span>。取<span
+class="math inline">\(R=[\mathbf{r}_1\ \cdots\
+\mathbf{r}_n]\)</span>,那么</p>
+<p><span class="math display">\[
+A=[\mathbf{x}_1\ \cdots\ \mathbf{x}_n]=[Q\mathbf{r}_1\ \cdots\
+Q\mathbf{r}_n]=QR
+\]</span></p>
+<p>注意到，如果Q的列是单位正交向量，则有<span
+class="math inline">\(Q^TA=Q^T(QR)=IR=R\)</span></p>
+<h4 id="最小二乘法">最小二乘法</h4>
+<p>考虑<span class="math inline">\(A\mathbf{x}\)</span>作为<span
+class="math inline">\(\mathbf{b}\)</span>的一个近似，<span
+class="math inline">\(\mathbf{b}\)</span>和<span
+class="math inline">\(A\mathbf{x}\)</span>之间的距离越小，<span
+class="math inline">\(\left \Vert \mathbf{b}-A\mathbf{x} \right
+\Vert\)</span>近似程度越好。一般的<strong>最小二乘问题</strong>就是找出使得<span
+class="math inline">\(\left \Vert \mathbf{b}-A\mathbf{x} \right
+\Vert\)</span>尽量小的<span
+class="math inline">\(\mathbf{x}\)</span>。</p>
+<p>定义：如果<span class="math inline">\(m \times n\)</span>矩阵<span
+class="math inline">\(A\)</span>和向量<span
+class="math inline">\(\mathbf{b}\)</span>属于<span
+class="math inline">\(\mathbb{R}^m\)</span>,则<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>的最小二乘解是<span
+class="math inline">\(\mathbb{R}\)</span>中的向量<span
+class="math inline">\(\mathbf{\hat{x}}\)</span>，使得：</p>
+<p><span class="math display">\[
+\left \Vert \mathbf{b}-A\mathbf{\hat{x}} \right \Vert \leq \left \Vert
+\mathbf{b}-A\mathbf{x} \right \Vert
+\]</span></p>
+<p>对于所有<span class="math inline">\(\mathbf{x}\in
+\mathbb{R}^n\)</span>成立。</p>
+<p>对于上述问题的<span class="math inline">\(A\)</span>和<span
+class="math inline">\(\mathbf{b}\)</span>，应用最佳逼近定理与子空间<span
+class="math inline">\(ColA\)</span> 取</p>
+<p><span class="math display">\[
+\mathbf{\hat{b}}=proj_{ColA}(\mathbf{b})
+\]</span></p>
+<p>由于<span class="math inline">\(\mathbf{\hat{b}}\)</span>属于<span
+class="math inline">\(A\)</span>的列空间，故方程<span
+class="math inline">\(A\mathbf{x}=\mathbf{\hat{b}}\)</span>是相容的且存在一个属于<span
+class="math inline">\(\mathbb{R}^n\)</span>的<span
+class="math inline">\(\mathbf{\hat{x}}\)</span>使得</p>
+<p><span class="math display">\[
+\begin{equation}
+A\mathbf{\hat{x}}=\mathbf{\hat{b}}
+\end{equation}
+\]</span></p>
+<p>由于<span class="math inline">\(\mathbf{\hat{b}}\)</span>是<span
+class="math inline">\(ColA\)</span>中最接近<span
+class="math inline">\(\mathbf{b}\)</span>的点，因此一个向量<span
+class="math inline">\(\mathbf{\hat{x}}\)</span>是<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>的一个最小二乘解的充分必要条件<span
+class="math inline">\(\mathbf{\hat{x}}\)</span>满足(1)式。这个属于<span
+class="math inline">\(\mathbb{R}^n\)</span>的<span
+class="math inline">\(\mathbf{\hat{x}}\)</span>是由一系列由A的列构造的<span
+class="math inline">\(\mathbf{\hat{b}}\)</span>的权。</p>
+<p>若<span class="math inline">\(\mathbf{\hat{x}}\)</span>满足<span
+class="math inline">\(A\mathbf{\hat{x}}=\mathbf{\hat{b}}\)</span>,则由正交分解定理，投影<span
+class="math inline">\(\mathbf{\hat{b}}\)</span>具有性质<span
+class="math inline">\(\mathbf{b}-\mathbf{\hat{b}}\)</span>与<span
+class="math inline">\(ColA\)</span>正交，即<span
+class="math inline">\(\mathbf{b}-A\mathbf{\hat{x}}\)</span>正交于<span
+class="math inline">\(A\)</span>的每一列。如果<span
+class="math inline">\(\mathbf{a}_j\)</span>是<span
+class="math inline">\(A\)</span>的某一列，那么<span
+class="math inline">\(\mathbf{a}_j \cdot
+(\mathbf{b}-A\mathbf{\hat{x}})=0\)</span>且<span
+class="math inline">\(\mathbf{a}_j^T\cdot
+(\mathbf{b}-A\mathbf{\hat{x}})=0\)</span>.由于每一个<span
+class="math inline">\(\mathbf{a}_j^T\)</span>是<span
+class="math inline">\(A^T\)</span>的行，于是</p>
+<p><span class="math display">\[
+A^T(\mathbf{b}-A\mathbf{\hat{x}})=\mathbf{0}
+\]</span></p>
+<p>于是</p>
+<p><span class="math display">\[
+\begin{equation}
+A^T\mathbf{b}=A^T A\mathbf{\hat{x}}
+\end{equation}
+\]</span></p>
+<p>于是方程(2)表示的线性方程组称为<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>的法方程，其解用<span
+class="math inline">\(\mathbf{\hat{x}}\)</span>表示。</p>
+<p><strong>定理8</strong>：方程<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>的最小二乘解集和法方程<span
+class="math inline">\(A^T\mathbf{b}=A^T
+A\mathbf{\hat{x}}\)</span>的非空解集一致。</p>
+<p><strong>定理9</strong>：设<span
+class="math inline">\(A\)</span>是<span class="math inline">\(m \times
+n\)</span>矩阵，则下面的条件是逻辑等价的</p>
+<ol type="1">
+<li>对于<span class="math inline">\(\mathbb{R}^n\)</span>中的每个<span
+class="math inline">\(\mathbf{b}\)</span>，方程<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>有唯一最小二乘解</li>
+<li><span class="math inline">\(A\)</span>的列是线性无关的</li>
+<li>矩阵<span class="math inline">\(A^T A\)</span>是可逆的
+当上述条件成立时，唯一的最小二乘解<span
+class="math inline">\(\mathbf{\hat{x}}\)</span>可以表示为：</li>
+</ol>
+<p><span class="math display">\[
+\mathbf{\hat{x}}=(A^T A)^{-1}A^T\mathbf{b}
+\]</span></p>
+<p><strong>定理10</strong>：给定一个<span class="math inline">\(m \times
+n\)</span>矩阵<span
+class="math inline">\(A\)</span>，它具有线性无关的列，取<span
+class="math inline">\(A=QR\)</span>是<span
+class="math inline">\(A\)</span>的QR分解，那么对于每一个属于<span
+class="math inline">\(\mathbb{R}^n\)</span>的向量<span
+class="math inline">\(\mathbf{b}\)</span>，方程<span
+class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span>的有唯一的最小二乘解为：</p>
+<p><span class="math display">\[
+\mathbf{\hat{x}}=R^{-1}Q^T\mathbf{b}
+\]</span></p>
+<h4 id="应用">应用</h4>
+<p>(待续)</p>
+<h4 id="内积空间">内积空间</h4>
+<p>定义：向量空间<span
+class="math inline">\(V\)</span>上的内积是一个函数，对每一对属于<span
+class="math inline">\(V\)</span>的向量<span
+class="math inline">\(\mathbf{u}\)</span>和<span
+class="math inline">\(\mathbf{v}\)</span>，存在一个实数<span
+class="math inline">\(&lt;\mathbf{u},\mathbf{v}&gt;\)</span>满足下述公理，其中<span
+class="math inline">\(\mathbf{u},\mathbf{v}和\mathbf{w}\)</span>都是<span
+class="math inline">\(V\)</span>中的向量,<span
+class="math inline">\(c\)</span>是所有数：</p>
+<ol type="1">
+<li><span
+class="math inline">\(&lt;\mathbf{u},\mathbf{v}&gt;=&lt;\mathbf{v},\mathbf{u}&gt;\)</span></li>
+<li><span
+class="math inline">\(&lt;\mathbf{u}+\mathbf{v},\mathbf{w}&gt;=&lt;\mathbf{u},\mathbf{w}&gt;+&lt;\mathbf{v},\mathbf{w}&gt;\)</span></li>
+<li><span
+class="math inline">\(&lt;c\mathbf{u},\mathbf{v}&gt;=c&lt;\mathbf{u},\mathbf{v}&gt;\)</span></li>
+<li><span class="math inline">\(&lt;\mathbf{u},\mathbf{u}&gt;\geq
+0\)</span>且<span
+class="math inline">\(&lt;\mathbf{u},\mathbf{u}&gt;=0\)</span>当且仅当<span
+class="math inline">\(\mathbf{u}=0\)</span></li>
+</ol>
+<p>一个赋予上述内积的向量空间称为内积空间。</p>
+<h5 id="长度距离和正交性">长度、距离和正交性</h5>
+<p>设<span
+class="math inline">\(V\)</span>是一个内积空间，其内积记作<span
+class="math inline">\(&lt;\mathbf{u},\mathbf{v}&gt;\)</span>.像<span
+class="math inline">\(\mathbb{R}^n\)</span>一样，我们定义一个向量<span
+class="math inline">\(\mathbf{v}\)</span>的长度或范数为：</p>
+<p><span class="math display">\[
+\left \Vert \mathbf{v} \right \Vert=\sqrt{&lt;\mathbf{v},\mathbf{v}&gt;}
+\]</span></p>
+<p>一个 <strong>单位向量</strong>是长度为1的向量，<strong>向量<span
+class="math inline">\(\mathbf{u}\)</span>和<span
+class="math inline">\(\mathbf{v}\)</span>的距离是<span
+class="math inline">\(\left \Vert \mathbf{u}-\mathbf{v} \right
+\Vert\)</span></strong>。向量<span
+class="math inline">\(\mathbf{u}\)</span>和向量<span
+class="math inline">\(\mathbf{v}\)</span><strong>正交</strong>，如果<span
+class="math inline">\(&lt;\mathbf{u},\mathbf{v}&gt;=0\)</span>。</p>
+<p>给定内积空间<span class="math inline">\(V\)</span>中的向量<span
+class="math inline">\(\mathbf{v}\)</span>和有限维子空间<span
+class="math inline">\(W\)</span>，我们可以得到：</p>
+<p><span class="math display">\[
+\left \Vert \mathbf{v} \right \Vert^2=\left \Vert proj_W(\mathbf{v})
+\right \Vert^2+\left \Vert \mathbf{v}-proj_W(\mathbf{v}) \right \Vert^2
+\]</span></p>
+<p><strong>柯西-施瓦茨不等式</strong>：对于<span
+class="math inline">\(V\)</span>中的任意向量<span
+class="math inline">\(\mathbf{v}\)</span>和<span
+class="math inline">\(\mathbf{u}\)</span>，有：</p>
+<p><span class="math display">\[
+\left \Vert &lt;\mathbf{v},\mathbf{u}&gt; \right \Vert\leq \left \Vert
+\mathbf{v} \right \Vert\left \Vert \mathbf{u} \right \Vert
+\]</span></p>
+<p><strong>定理11</strong>：对属于<span
+class="math inline">\(V\)</span>的任意向量<span
+class="math inline">\(\mathbf{v}\)</span>和<span
+class="math inline">\(\mathbf{u}\)</span>，有：</p>
+<p><span class="math display">\[
+\left \Vert \mathbf{u}+\mathbf{v} \right \Vert\leq \left \Vert
+\mathbf{u} \right \Vert+\left \Vert \mathbf{v} \right \Vert
+\]</span></p>
+<h3 id="对称矩阵与二次型">对称矩阵与二次型</h3>
+<p><strong>对称矩阵</strong>是一个<span class="math inline">\(n\times
+n\)</span>方阵，满足<span class="math inline">\(A_T=A\)</span>。</p>
+<p><strong>定理1</strong>：如果<span
+class="math inline">\(A\)</span>是对称矩阵，那么不同特征空间的任意两个特征向量是正交的。</p>
+<p>一个矩阵<span
+class="math inline">\(A\)</span>称为可<strong>正交对角化</strong>，如果存在一个正交矩阵<span
+class="math inline">\(P\)</span>(满足<span
+class="math inline">\(P^{-1}=P^T\)</span>)和一个对角矩阵<span
+class="math inline">\(D\)</span>，使得</p>
+<p><span class="math display">\[
+A=PDP^T=PDP^{-1}
+\]</span></p>
+<p><strong>定理2</strong>：一个<span class="math inline">\(n\times
+n\)</span>矩阵<span
+class="math inline">\(A\)</span>可正交对角化当且仅当<span
+class="math inline">\(A\)</span>是对称矩阵。</p>
+<p><strong>谱定理</strong>：矩阵<span
+class="math inline">\(A\)</span>的特征值的集合称为<span
+class="math inline">\(A\)</span>的谱。一个对称的<span
+class="math inline">\(n\times n\)</span>矩阵<span
+class="math inline">\(A\)</span>有如下性质：</p>
+<ol type="1">
+<li><span
+class="math inline">\(A\)</span>有n个实特征值，包含重复的特征值。</li>
+<li>对每一个特征值<span
+class="math inline">\(\lambda\)</span>，对应的特征空间的维数等于<span
+class="math inline">\(\lambda\)</span>作为特征方程的根的重数。</li>
+<li>特征空间相互正交，这种正交性是在特征向量对应于不同特征值的意义下成立的。</li>
+<li><span class="math inline">\(A\)</span>可正交对角化</li>
+</ol>
+<h4 id="谱分解">谱分解</h4>
+<p>假设<span class="math inline">\(A=PDP^{-1}\)</span>，其中<span
+class="math inline">\(P\)</span>的列是<span
+class="math inline">\(A\)</span>的单位正交特征向量<span
+class="math inline">\(\{\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_n\}\)</span>,且对应的特征值为<span
+class="math inline">\(\{\lambda_1,\lambda_2,\cdots,\lambda_n\}\)</span>,属于对角矩阵<span
+class="math inline">\(D\)</span>。由于<span
+class="math inline">\(P^T=P^{-1}\)</span>，所以:</p>
+<p><span class="math display">\[
+A = \lambda_1 \mathbf{u}_1^T \mathbf{u}_1 + \lambda_2 \mathbf{u}_2^T
+\mathbf{u}_2 + \cdots + \lambda_n \mathbf{u}_n^T \mathbf{u}_n
+\]</span></p>
+<p>将<span class="math inline">\(A\)</span>分解为由<span
+class="math inline">\(A\)</span>的谱确定的小块，这个<span
+class="math inline">\(A\)</span>的表示就称为<strong>A的谱分解</strong>。</p>
+<h4 id="二次型">二次型</h4>
+<p><span
+class="math inline">\(\mathbb{R}^n\)</span>上的一个二次型是一个定义在<span
+class="math inline">\(\mathbb{R}^n\)</span>上的函数，它在向量<span
+class="math inline">\(\mathbf{x}\)</span>处的值为可由表达式<span
+class="math inline">\(\mathbb{Q}(\mathbf{x})=\mathbf{x}^TAx\)</span>给出。<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(n\times
+n\)</span>对称矩阵，称为<strong>关于二次型的矩阵</strong>。</p>
+<p><strong>二次型的变量代换</strong>：如果<span
+class="math inline">\(\mathbf{x}\)</span>表示<span
+class="math inline">\(\mathbb{R}^n\)</span>中的一个向量，那么<strong>变量代换</strong>是如下的形式：</p>
+<p><span class="math display">\[
+\mathbf{x}=P\mathbf{y} \quad or \quad \mathbf{x}=P^{-1}\mathbf{y}
+\]</span></p>
+<p>其中<span class="math inline">\(P\)</span>是一个<span
+class="math inline">\(n\times n\)</span>的可逆矩阵。 于是对于二次型<span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>，有：</p>
+<p><span class="math display">\[
+\mathbf{x}^TA\mathbf{x}=(P\mathbf{y})^T A (P\mathbf{y}) = \mathbf{y}^T A
+P^T P \mathbf{y} = \mathbf{y}^T (P^T A P) \mathbf{y}
+\]</span></p>
+<p>新的二次型矩阵变为<span class="math inline">\(P^T A
+P\)</span>。因为<span
+class="math inline">\(A\)</span>是对称矩阵，于是存在正交矩阵<span
+class="math inline">\(P\)</span>使得<span class="math inline">\(P^T A
+P\)</span>是角矩阵<span
+class="math inline">\(D\)</span>,于是新的二次型变为<span
+class="math inline">\(\mathbf{y}^T D \mathbf{y}\)</span>。</p>
+<p><strong>主轴定理</strong>：设<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(n\times
+n\)</span>对称矩阵，那么存在一个正交变量代换<span
+class="math inline">\(\mathbf{x}=P\mathbf{y}\)</span>，它将二次型<span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>变为不含交叉乘积项的二次型<span
+class="math inline">\(\mathbf{y}^T D \mathbf{y}\)</span>。
+定理中的矩阵<span class="math inline">\(P\)</span>的列称为二次型<span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>的<strong>主轴</strong>，向量<span
+class="math inline">\(\mathbf{y}\)</span>是向量<span
+class="math inline">\(\mathbf{x}\)</span>的在这些主轴构造的<span
+class="math inline">\(\mathbb{R}^n\)</span>中的单位正交基下的坐标向量。</p>
+<p><strong>二次型的分类</strong>： 一个二次型<span
+class="math inline">\(Q\)</span>是：</p>
+<ol type="1">
+<li><strong>正定的</strong>,如果对所有<span
+class="math inline">\(\mathbf{x}\neq\mathbf{0}\)</span>，有<span
+class="math inline">\(Q(\mathbf{x})&gt;0\)</span>。</li>
+<li><strong>负定的</strong>,如果对所有<span
+class="math inline">\(\mathbf{x}\neq\mathbf{0}\)</span>，有<span
+class="math inline">\(Q(\mathbf{x})&lt;0\)</span>。</li>
+<li><strong>不定的</strong>，如果<span
+class="math inline">\(Q(\mathbf{x})\)</span>既有正值也有负值。
+此外，<span
+class="math inline">\(Q\)</span>被称为<strong>半正定的</strong>，如果对所有<span
+class="math inline">\(\mathbf{x}\)</span>，有<span
+class="math inline">\(Q(\mathbf{x})\geq
+0\)</span>；被称为<strong>半负定的</strong>，如果对所有<span
+class="math inline">\(\mathbf{x}\)</span>，有<span
+class="math inline">\(Q(\mathbf{x})\leq 0\)</span>。</li>
+</ol>
+<p><strong>定理3</strong>：设<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(n\times n\)</span>对称矩阵，那么一个二次型<span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>是:</p>
+<ol type="1">
+<li><strong>正定的</strong>,当且仅当<span
+class="math inline">\(A\)</span>的所有特征值都是正的。</li>
+<li><strong>负定的</strong>,当且仅当<span
+class="math inline">\(A\)</span>的所有特征值都是负的。</li>
+<li><strong>不定的</strong>,当且仅当<span
+class="math inline">\(A\)</span>有正的和负的特征值。</li>
+</ol>
+<p>对任何对称矩阵<span class="math inline">\(A\)</span>,在<span
+class="math inline">\(\Vert\mathbf{x}\Vert =1\)</span>的条件下，<span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>所有可能值的集合是实轴上的闭区间。分别用<span
+class="math inline">\(m\)</span>和<span
+class="math inline">\(M\)</span>表示区间的左端点和右端点，即：</p>
+<p><span class="math display">\[
+m=min\{\mathbf{x}^TA\mathbf{x}:\Vert\mathbf{x}\Vert=1\} \quad and \quad
+M=max\{\mathbf{x}^TA\mathbf{x}: \Vert\mathbf{x}\Vert=1\}
+\]</span></p>
+<p><strong>定理4</strong>：设<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(n\times n\)</span>对称矩阵，那么有<span
+class="math inline">\(M\)</span>是<span
+class="math inline">\(A\)</span>的最大特征值<span
+class="math inline">\(\lambda_1\)</span>，<span
+class="math inline">\(m\)</span>是<span
+class="math inline">\(A\)</span>的最小特征值。如果<span
+class="math inline">\(\mathbf{x}\)</span>是对应于<span
+class="math inline">\(M\)</span>的单位特征向量<span
+class="math inline">\(\mathbf{u}_1\)</span>，那么<span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>的值等于<span
+class="math inline">\(M\)</span>。如果<span
+class="math inline">\(\mathbf{x}\)</span>是对应于<span
+class="math inline">\(m\)</span>的单位特征向量，那么<span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>的值等于<span
+class="math inline">\(m\)</span>。</p>
+<p><strong>定理5</strong>：设<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(n\times n\)</span>对称矩阵，在条件：</p>
+<p><span class="math display">\[
+\mathbf{x}^T\mathbf{x}=1 \quad \mathbf{x}^T \mathbf{u}_1=0
+\]</span></p>
+<p><span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>的最大值是<strong>第二大</strong>特征值<span
+class="math inline">\(\lambda_2\)</span>，这个最大值可以在<span
+class="math inline">\(\mathbf{x}\)</span>对应于<span
+class="math inline">\(\lambda_2\)</span>的特征向量<span
+class="math inline">\(\mathbf{u}_2\)</span>的条件下得到。</p>
+<p><strong>定理6</strong>：设<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(n\times n\)</span>对称矩阵，其可正交对角化为<span
+class="math inline">\(PDP^{-1}\)</span>，,将对角矩阵<span
+class="math inline">\(D\)</span>的对角元素重新排列，使得<span
+class="math inline">\(\lambda_1 \geq \lambda_2 \geq \cdots \geq
+\lambda_n\)</span>，那么<span
+class="math inline">\(P\)</span>的列是其对应的单位特征向量<span
+class="math inline">\({\mathbf{u}_1,\mathbf{u}_2,\cdots,\mathbf{u}_n}\)</span>。那么对<span
+class="math inline">\(k=2,3,\cdots,n\)</span>，在以下条件的的限制下：</p>
+<p><span class="math display">\[
+\mathbf{x}^T\mathbf{x}=1,\quad \mathbf{x}^T\mathbf{u}_1=0,\quad\cdots
+\quad \mathbf{x}^T\mathbf{u}_k=0
+\]</span></p>
+<p><span
+class="math inline">\(\mathbf{x}^TA\mathbf{x}\)</span>的最大值是<span
+class="math inline">\(\lambda_k\)</span>，这个最大值可以在<span
+class="math inline">\(\mathbf{x}\)</span>等于<span
+class="math inline">\(\lambda_k\)</span>的特征向量<span
+class="math inline">\(\mathbf{u}_k\)</span>的条件下得到。</p>
+<h4 id="奇异值分解">奇异值分解</h4>
+<p>并非所有的矩阵都能分解为<span
+class="math inline">\(A=PDP^{-1}\)</span>,且<span
+class="math inline">\(D\)</span>是对角的，但分解<span
+class="math inline">\(A=QDP^{-1}\)</span>对于任意<span
+class="math inline">\(m\times n\)</span>的矩阵<span
+class="math inline">\(A\)</span>都是可能的，此类分解称为<strong>奇异值分解</strong>。</p>
+<p>令<span class="math inline">\(A\)</span>为<span
+class="math inline">\(m\times n\)</span>矩阵，那么<span
+class="math inline">\(A^TA\)</span>是对称矩阵且可以正交对角化。令<span
+class="math inline">\(\{\mathbf{v}_1,\mathbf{v}_2,\cdots,\mathbf{v}_n\}\)</span>是<span
+class="math inline">\(\mathbb{R}^n\)</span>中的单位正交基且构成<span
+class="math inline">\(A^TA\)</span>的特征向量，<span
+class="math inline">\(\lambda_1
+,\lambda_2,\cdots,\lambda_n\)</span>是<span
+class="math inline">\(A^TA\)</span>的特征值。那么对于<span
+class="math inline">\(1\leq i\leq n\)</span>，有：</p>
+<p><span class="math display">\[
+\Vert A\mathbf{v}_i \Vert^2=(A\mathbf{v}_i)^T
+A\mathbf{v}_i=\mathbf{v}_i^T A^TA\mathbf{v}_i\\
+=\mathbf{v}_i^T (\lambda_i \mathbf{v}_i)\\
+=\lambda_i
+\]</span></p>
+<p>所以<span
+class="math inline">\(A^TA\)</span>的特征值都非负，假设所有的特征值重新排列为满足：</p>
+<p><span class="math display">\[
+\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n
+\]</span></p>
+<p>则<span class="math inline">\(A\)</span>的奇异值就是<span
+class="math inline">\(A^TA\)</span>的特征值的平方根，记作<span
+class="math inline">\(\sigma_1,\sigma_2,\cdots,\sigma_n\)</span>递减排列。<strong><span
+class="math inline">\(A\)</span>的奇异值就是向量<span
+class="math inline">\(A\mathbf{v}_1,\mathbf{v}_2,\cdots,\mathbf{v}_n\)</span>的长度</strong>。</p>
+<p><strong>定理7</strong>：假若<span
+class="math inline">\(\{\mathbf{v}_1,\mathbf{v}_2,\cdots,\mathbf{v}_n\}\)</span>是包含<span
+class="math inline">\(A^TA\)</span>的特征向量的<span
+class="math inline">\(\mathbb{R}^n\)</span>中的单位正交基，重新整理使得对应的特征值满足<span
+class="math inline">\(\lambda_1 \geq \lambda_2 \geq \cdots \geq
+\lambda_n\)</span>.假若<span
+class="math inline">\(A\)</span>有r个非零奇异值，那么<span
+class="math inline">\(\{A\mathbf{v}_1,A\mathbf{v}_2,\cdots,A\mathbf{v}_n\}\)</span>是<span
+class="math inline">\(ColA\)</span>的一个正交基，且<span
+class="math inline">\(rank A = r\)</span>.</p>
+<p>矩阵<span class="math inline">\(A\)</span>的分解涉及到一个<span
+class="math inline">\(m\times n\)</span>的“对角”矩阵<span
+class="math inline">\(\Sigma\)</span>,其形式为：</p>
+<p><span class="math display">\[
+\Sigma = \begin{bmatrix}
+D &amp; 0 \\
+0 &amp; 0
+\end{bmatrix}
+\]</span></p>
+<p>其中<span class="math inline">\(D\)</span>是一个<span
+class="math inline">\(r\times
+r\)</span>的对角矩阵，且r不超过m和n中的较小值。（如果r=m或r=n或都相等，则<span
+class="math inline">\(M\)</span>中不会出现零矩阵。）</p>
+<p><strong>定理8</strong>：设<span
+class="math inline">\(A\)</span>是一个秩为r的<span
+class="math inline">\(m\times n\)</span>矩阵，那么存在一个<span
+class="math inline">\(m\times r\)</span>矩阵<span
+class="math inline">\(\Sigma\)</span>其中<span
+class="math inline">\(D\)</span>的对角元素是<span
+class="math inline">\(A\)</span>的前r个奇异值,<span
+class="math inline">\(\sigma_1\geq \sigma_2\geq \cdots \geq \sigma_r
+&gt; 0\)</span>,并且存在一个<span class="math inline">\(m\times
+m\)</span>的正交矩阵<span class="math inline">\(U\)</span>和一个<span
+class="math inline">\(n\times n\)</span>的正交矩阵<span
+class="math inline">\(V\)</span>，满足：</p>
+<p><span class="math display">\[
+A = U\Sigma V^T
+\]</span></p>
+<p>这样一个分解中的<span class="math inline">\(U\)</span>的列称为<span
+class="math inline">\(A\)</span>的<strong>左奇异向量</strong>，而<span
+class="math inline">\(V\)</span>的列称为<span
+class="math inline">\(A\)</span>的<strong>右奇异向量</strong>。</p>
+<p><strong>可逆矩阵定理</strong>： 设<span
+class="math inline">\(A\)</span>是一个<span
+class="math inline">\(n\times
+n\)</span>矩阵，那么下述命题中每一个都与<span
+class="math inline">\(A\)</span>是可逆矩阵等价：</p>
+<ol type="1">
+<li><span class="math inline">\((Col A)^\perp =
+\{\mathbf{0}\}\)</span></li>
+<li><span class="math inline">\((Nul A)^\perp =
+\mathbb{R}^n\)</span></li>
+<li><span class="math inline">\(Row A = \mathbb{R}^n\)</span></li>
+<li><span class="math inline">\(A\)</span>有n个非零的奇异值</li>
+</ol>
+<h5 id="伪逆">伪逆</h5>
+<p>取<span class="math inline">\(r=rank A\)</span>,那么将<span
+class="math inline">\(U\)</span>和<span
+class="math inline">\(V\)</span>矩阵分块为第一块包含r列的子矩阵，于是有。</p>
+<p><span class="math display">\[
+A=[U_r \quad U_{m-r}]\begin{bmatrix}
+    D &amp; 0 \\
+    0 &amp; 0
+\end{bmatrix}\begin{bmatrix}
+    V_r^T \\
+    V_{n-r}^T
+\end{bmatrix}=U_rD V_r^T
+\]</span></p>
+<p>称为<span
+class="math inline">\(A\)</span>的<strong>简化奇异值分解</strong>，由于<span
+class="math inline">\(D\)</span>的对角线元素非零，因此<span
+class="math inline">\(D\)</span>是可逆矩阵。 矩阵<span
+class="math inline">\(A\)</span>的伪逆为：</p>
+<p><span class="math display">\[
+A^+ = V_rD^{-1}U_r^T
+\]</span></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="print-no-link">#基础知识</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="print-no-link">#线性代数</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>统计学习基础</div>
+      <div>http://example.com/2024/07/03/Linear_Algebra_Review/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>geotle77</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/07/Entropy/" title="统计学习基础">
+                        <span class="hidden-mobile">统计学习基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
