@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/prometheus/image.png">
 <meta property="article:published_time" content="2024-08-26T13:07:40.000Z">
-<meta property="article:modified_time" content="2024-08-26T13:13:28.361Z">
+<meta property="article:modified_time" content="2024-09-05T12:55:34.503Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="Prometheus">
 <meta property="article:tag" content="数据库">
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          3.1k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          14 分钟
+          26 分钟
         
       </span>
     
@@ -344,25 +344,32 @@ HTTP API
 <h1 id="prometheus教程">Prometheus教程</h1>
 <p>我们可以从两个角度来学习Prometheus，一个是搭建和配置Promethus，另一个就是将其当作一个metricstore来使用。这里主要关注对其的使用，主要对这个数据库的查询。</p>
 <h2 id="data-model">Data Model</h2>
-<p>如上所述，prometheus主要是存储时间序列数据，即属于同一指标和同一组标注维度的时间戳数据。除了这些时间序列外，prometheus可能还会因为查询生成临时的时间序列（例如某几个时间序列的聚合）</p>
-<h2 id="metric">Metric</h2>
-<p>这里继续详细介绍一下prometheus中的metric.每个时间序列都是被唯一的metric
+<p>如上所述，prometheus主要是存储时间序列数据，即属于同一指标和同一组标注维度的时间戳数据。除了这些时间序列外，prometheus可能还会因为查询生成临时的时间序列（例如某几个时间序列的聚合）
+## Metric
+这里继续详细介绍一下prometheus中的metric.每个时间序列都是被唯一的metric
 name(指标名称)和一些可选的键值对（称之为labels）所标识。</p>
-<p><strong>Metric names</strong>: -
-指定要测量的系统的一般特征（例如，http_requests_total - 收到的 HTTP
-请求总数）。 - 度量名称可包含 ASCII 字母、数字、下划线和冒号。它必须匹配
-<code>regex [a-zA-Z_:][a-zA-Z0-9_:]*</code>。</p>
+<p><strong>Metric names</strong>:</p>
+<ul>
+<li>指定要测量的系统的一般特征（例如，http_requests_total - 收到的 HTTP
+请求总数）。</li>
+<li>度量名称可包含 ASCII 字母、数字、下划线和冒号。它必须匹配
+<code>regex [a-zA-Z_:][a-zA-Z0-9_:]*</code>。</li>
+</ul>
 <p>注意：冒号是为用户定义的记录规则保留的。</p>
-<p><strong>Metric labels</strong>： - 使 Prometheus
+<p><strong>Metric labels</strong>：</p>
+<ul>
+<li>使 Prometheus
 的维度数据模型能够识别同一度量名称的任何给定标签组合。它可识别该度量的特定维度实例（例如：使用
 POST 方法向 /api/tracks 处理程序发送的所有 HTTP
-请求）。查询语言允许根据这些维度进行过滤和聚合。 -
-更改任何标签的值，包括添加或删除标签，都将创建一个新的时间序列。 -
-标签可包含 ASCII
+请求）。查询语言允许根据这些维度进行过滤和聚合。</li>
+<li>更改任何标签的值，包括添加或删除标签，都将创建一个新的时间序列。</li>
+<li>标签可包含 ASCII
 字母、数字和下划线。它们必须与<code>regex [a-zA-Z_][a-zA-Z0-9_]*</code>
-匹配。 - 以 __（两个“_”）开头的标签名称保留供内部使用。 -
-标签值可包含任何 Unicode 字符。 -
-标签值为空的标签等同于不存在的标签。</p>
+匹配。</li>
+<li>以 __（两个“_”）开头的标签名称保留供内部使用。</li>
+<li>标签值可包含任何 Unicode 字符。</li>
+<li>标签值为空的标签等同于不存在的标签。</li>
+</ul>
 <p>在prometheus中，<strong>Samples</strong>就是指从真实时间序列中采样到的样本数据，每个样本都包括一个64位浮点数据和一个毫秒级精度的时间戳。</p>
 <p>例子： <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">metric</span> <span class="hljs-attr">name</span>&gt;</span>&#123;<span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">name</span>&gt;</span>=<span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">value</span>&gt;</span>, ...&#125;<br></code></pre></td></tr></table></figure> 就是指定来一个唯一的时间序列，例如, metric name
 为api_http_requests_total 并且 labels 为method="POST" and
@@ -371,6 +378,81 @@ instances
 在prometheus的术语中，一个可以抓取指标数据的端点称之为一个instance，通常对应于一个单独独进程。而一系列相同目的instance的集合（为提高可扩展性或可靠性而复制的进程）就称为一个job.</p>
 <p>例子： <figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs smali">job: api-server<br>   <span class="hljs-built_in"> instance </span>1: 1.2.3.4:5670<br>   <span class="hljs-built_in"> instance </span>2: 1.2.3.4:5671<br>   <span class="hljs-built_in"> instance </span>3: 5.6.7.8:5670<br>   <span class="hljs-built_in"> instance </span>4: 5.6.7.8:5671<br></code></pre></td></tr></table></figure>
 prometheus可以自动地定义时间序列的labels来指示所抓取的对象。</p>
+<h1 id="promql语法">PromQL语法</h1>
+<p>PromQL是prometheus提供的一种功能查询语言，能够帮助用户实时选择和聚合时间序列数据。PromQL查询到的结果可以被一个外部系统通过HTTP
+API进行调用。</p>
+<h2 id="基本原理">基本原理</h2>
+<p>PromQL中，一个表达式/子表达式计算得到的四种结果类型：</p>
+<ul>
+<li>Instant vetccor: 是
+一组时间序列，每个时间序列包含一个样本，所有时间序列共享相同的时间戳</li>
+<li>Range vector:
+一组时间序列，其中包含每个时间序列随时间变化的一系列数据点</li>
+<li>Scalar: 一个简单的浮点值</li>
+<li>String: 一个简单的字符串值；一般不使用</li>
+</ul>
+<p>根据使用的情况，只有一些类型作为用户指定的表达式结果的时候才是合法的。（唯一能够绘制图表的类型就是Instant
+vector）。 ## Literals ### String literals
+字符串由单引号，双引号或者反引号指定。PromQL 遵循与 Go
+相同的转义规则。对于单引号或双引号中的字符串文字，反斜杠开始转义序列，后面可能跟着
+a、b、f、n、r、t、v 或 。可以使用八进制 () 或十六进制（、和
+）表示法提供特定字符。</p>
+<p>相反，反引号指定的字符串文字中的转义字符不会被解析。</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">&quot;this is a string&quot;<br>&#x27;these are unescaped: <span class="hljs-symbol">\n</span> <span class="hljs-symbol">\\</span> <span class="hljs-symbol">\t</span>&#x27;<br>`these are not unescaped: <span class="hljs-symbol">\n</span> &#x27; &quot; <span class="hljs-symbol">\t</span>`<br></code></pre></td></tr></table></figure>
+<h3 id="float-literals">Float literals</h3>
+<p>浮点数标量值可以按以下格式写入文字整数或浮点数（仅包含空格是为了提高可读性）：
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs inform7"><span class="hljs-comment">[-+]</span>?(<br>      <span class="hljs-comment">[0-9]</span>*\.?<span class="hljs-comment">[0-9]</span>+(<span class="hljs-comment">[eE]</span><span class="hljs-comment">[-+]</span>?<span class="hljs-comment">[0-9]</span>+)?<br>    | 0<span class="hljs-comment">[xX]</span><span class="hljs-comment">[0-9a-fA-F]</span>+<br>    | <span class="hljs-comment">[nN]</span><span class="hljs-comment">[aA]</span><span class="hljs-comment">[nN]</span><br>    | <span class="hljs-comment">[iI]</span><span class="hljs-comment">[nN]</span><span class="hljs-comment">[fF]</span><br>)<br></code></pre></td></tr></table></figure> ## Time series selectors
+时间序列selector负责选择时间序列以及原始或推断的样本时间戳和值。</p>
+<h3 id="instant-vector-selectors">Instant vector selectors</h3>
+<p>Instant vector
+selectors允许在给定时间戳（时间点）选择一组时间序列和每个时间序列的单个样本值。在最简单的形式中，仅指定指标名称，这会生成一个即时向量，其中包含具有该指标名称的所有时间序列的元素。</p>
+<p>例如一个具有 http_requests_total 指标名称的所有时间序列：
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">http_requests_total</span><br></code></pre></td></tr></table></figure> 可以通过在大括号 (<code>&#123;&#125;</code>)
+中附加以逗号分隔的标签匹配器列表来进一步过滤这些时间序列。</p>
+<p>例如具有 `<code>http_requests_total</code>
+指标名称且<code>job</code>标签设置为 prometheus，
+且<code>group</code>标签设置为 canary 的时间序列： <figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">http_requests_total&#123;job=<span class="hljs-string">&quot;prometheus&quot;</span>,<span class="hljs-keyword">group</span>=<span class="hljs-string">&quot;canary&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+还可以对标签值进行负匹配，或者将标签值与正则表达式进行匹配。存在以下标签匹配运算符：</p>
+<ul>
+<li>=：选择与提供的字符串完全相同的标签。</li>
+<li>!=：选择不等于提供的字符串的标签。</li>
+<li>=~：选择与提供的字符串正则表达式匹配的标签。</li>
+<li>!~：选择与提供的字符串正则表达式不匹配的标签。</li>
+</ul>
+<p><strong>正则表达式匹配是完全锚定的。 env=~"foo" 的匹配被视为
+env=~"^foo$"。</strong></p>
+<p>例如，选择用于暂存、测试和开发环境的所有 http_requests_total
+时间序列以及除 GET 之外的 HTTP 方法。 <figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ocaml">http_requests_total&#123;environment=~<span class="hljs-string">&quot;staging|testing|development&quot;</span>,<span class="hljs-keyword">method!</span>=<span class="hljs-string">&quot;GET&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+匹配空标签值的标签匹配器还会选择根本没有特定标签集的所有时间序列。</p>
+<p>例如： <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-a&quot;&#125;<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-b&quot;&#125;<br>http_requests_total&#123;环境=“开发”&#125;<br></code></pre></td></tr></table></figure>
+查询<code>http_requests_total&#123;environment=""&#125;</code>将匹配并返回：
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-a&quot;&#125;<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-b&quot;&#125;<br></code></pre></td></tr></table></figure> 并排除： <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">http_requests_total&#123;<span class="hljs-attribute">environment</span>=“development”&#125;<br></code></pre></td></tr></table></figure>
+同一标签名可​​以使用多个匹配器。(<strong>都必须通过才能返回结果。</strong>)</p>
+<p>查询： <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total&#123;<span class="hljs-keyword">replica</span>!=&quot;rep-a&quot;,<span class="hljs-keyword">replica</span>=~&quot;rep.*&quot;&#125;<br></code></pre></td></tr></table></figure> 然后会匹配： <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-b&quot;&#125;<br></code></pre></td></tr></table></figure> vector selector
+必须指定一个名称或至少一个与空字符串不匹配的标签匹配器。以下表达式是非法的：
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cos">&#123;<span class="hljs-keyword">job</span>=~<span class="hljs-string">&quot;.*&quot;</span>&#125; <br></code></pre></td></tr></table></figure> 标签匹配器还可以通过匹配内部 __name__
+标签来应用于指标名称。例如，表达式
+<code>http_requests_total</code>相当于
+<code>&#123;__name__="http_requests_total"&#125;</code>。也可以使用 = (!=, =~, !~)
+以外的匹配器。以下表达式选择名称以 job: 开头的所有指标： <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">&#123;__name__=<span class="hljs-symbol">~&quot;work</span>:.*<span class="hljs-string">&quot;&#125;</span><br></code></pre></td></tr></table></figure>
+指标名称不能是关键字 bool、on、ignoring、group_left 和 group_right
+之一。以下表达式是非法的： <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-keyword">on</span>&#123;&#125; <br></code></pre></td></tr></table></figure> ### Range Vector selectors
+Range vector literal的工作方式与Instant vector
+literal类似，只不过它们选择从当前时刻返回的一系列样本。</p>
+<p>从语法上讲，持续时间附加在vector selectors末尾的方括号 ([])
+中，以指定应为每个结果范围。该范围是一个闭区间。</p>
+<p>例如择过去 5 分钟内为指标名称为 http_requests_total 且job标签设置为
+prometheus 的所有时间序列记录的所有值： <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">http_requests_total&#123;job<span class="hljs-operator">=</span><span class="hljs-string">&quot;prometheus&quot;</span>&#125;[<span class="hljs-number">5</span>m]<br></code></pre></td></tr></table></figure></p>
+<h3 id="time-durations">time durations</h3>
+<p>Time durations 指定为数字，并跟上时间单位： - ms,毫秒 - s,秒 - m,分钟
+- h,小时 - d,天，认为一天24h - w,周，一周7天 - y,年，一年365天</p>
+<p>持续时间可以通过串联来组合。单位必须按照从最长到最短的顺序排列。给定单位在一段时间内只能出现一次。</p>
+<p>以下是有效持续时间的一些示例： <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-number">5</span><span class="hljs-built_in">h</span><br><span class="hljs-number">1</span>h30m<br><span class="hljs-number">5</span>m<br><span class="hljs-number">10</span>s<br></code></pre></td></tr></table></figure> ### offset modifier
+<figure class="highlight plaintext"><figcaption><span>modifier允许改变单个Instant vector和Range vector的时间偏移。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs offset```">例如说，返回相对于当前查询评估时间过去 5 分钟的 http_requests_total 值：<br></code></pre></td></tr></table></figure> http_requests_total offset 5m <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">请注意，<span class="hljs-built_in">offset</span> modifier始终需要紧跟在selector后面，即以下内容是正确的：<br></code></pre></td></tr></table></figure>
+sum(http_requests_total{method="GET"} offset 5m) <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">以下格式是不正确的：<br></code></pre></td></tr></table></figure>
+sum(http_requests_total{method="GET"}) offset 5m // 无效。
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tap"><br>这同样适用于范围向量。<br><br>例如将返回 http_requests_total 一周前的<span class="hljs-number"> 5 </span>分钟速率：<br></code></pre></td></tr></table></figure> rate(http_requests_total[5m] offset 1w) <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">当查询过去的样本时，负偏移量将启用时间向前的比较：<br></code></pre></td></tr></table></figure>
+rate（http_requests_total[5m] offset -1w） ```</p>
 
                 
               </div>
