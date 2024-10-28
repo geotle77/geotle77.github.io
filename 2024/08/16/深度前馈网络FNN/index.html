@@ -16,21 +16,25 @@
   <meta name="author" content="geotle77">
   <meta name="keywords" content="Learning Notes, Technology Sharing, Life Record,Literature &amp; Poetry">
   
-    <meta name="description" content="深度前馈网络 今天介绍一个非常基础的神经网络模型，深度前馈网络（deep feedforward network），也叫做前馈神经网络（feedforward neural network,FNN）或者多层感知机（multilayer percetron,MLP），是典型的深度学习网络模型。">
+    <meta name="description" content="title: 深度前馈网络FNN date: 2024-08-16 22:52:17 index_img: .&#x2F;img&#x2F;深度前馈网络FNN&#x2F;image.png categories: - 学习笔记 tags: - 深度学习 - 前馈网络 --- # 深度前馈网络 今天介绍一个非常基础的神经网络模型，深度前馈网络（deep feedforward network），也叫做前馈神经网络（fee">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度前馈网络FNN">
 <meta property="og:url" content="http://example.com/2024/08/16/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/index.html">
 <meta property="og:site_name" content="geotle77&#39;s blog">
-<meta property="og:description" content="深度前馈网络 今天介绍一个非常基础的神经网络模型，深度前馈网络（deep feedforward network），也叫做前馈神经网络（feedforward neural network,FNN）或者多层感知机（multilayer percetron,MLP），是典型的深度学习网络模型。">
+<meta property="og:description" content="title: 深度前馈网络FNN date: 2024-08-16 22:52:17 index_img: .&#x2F;img&#x2F;深度前馈网络FNN&#x2F;image.png categories: - 学习笔记 tags: - 深度学习 - 前馈网络 --- # 深度前馈网络 今天介绍一个非常基础的神经网络模型，深度前馈网络（deep feedforward network），也叫做前馈神经网络（fee">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/image.png">
+<meta property="og:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/fnn_1.png">
+<meta property="og:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/fnn_2.png">
+<meta property="og:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/Relu.png">
+<meta property="og:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/sigmoid.png">
+<meta property="og:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/tanh.png">
+<meta property="og:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/dropout.png">
 <meta property="article:published_time" content="2024-08-16T14:52:17.000Z">
-<meta property="article:modified_time" content="2024-09-10T16:36:54.076Z">
+<meta property="article:modified_time" content="2024-10-28T14:46:47.486Z">
 <meta property="article:author" content="geotle77">
-<meta property="article:tag" content="深度学习">
-<meta property="article:tag" content="前馈网络">
+<meta property="article:tag" content="Learning Notes, Technology Sharing, Life Record,Literature &amp; Poetry">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/image.png">
+<meta name="twitter:image" content="http://example.com/img/%E6%B7%B1%E5%BA%A6%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9CFNN/fnn_1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -173,6 +177,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -230,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.2k 字
+          4.9k 字
         
       </span>
     
@@ -241,7 +257,7 @@
         
         
         
-          19 分钟
+          42 分钟
         
       </span>
     
@@ -291,7 +307,9 @@
             
               <div class="markdown-body">
                 
-                <h1 id="深度前馈网络">深度前馈网络</h1>
+                <p>title: 深度前馈网络FNN date: 2024-08-16 22:52:17 index_img:
+./img/深度前馈网络FNN/image.png categories: - 学习笔记 tags: - 深度学习
+- 前馈网络 --- # 深度前馈网络</p>
 <p>今天介绍一个非常基础的神经网络模型，深度前馈网络（deep feedforward
 network），也叫做前馈神经网络（feedforward neural
 network,FNN）或者多层感知机（multilayer
@@ -442,6 +460,187 @@ class="math inline">\(\eta\)</span>，但有时可以通过计算，选择使方
 <p>最速下降在梯度的每一个元素为零时收敛（或者很接近零时），但有时可以直接通过解方程<span
 class="math inline">\(\nabla_x
 f(\mathbf{x})=0\)</span>来直接跳到临界点。</p>
+<h4 id="随机梯度下降法">随机梯度下降法</h4>
+<p>根据前文，我们为了度量模型在整个数据集上的质量，以MSE计算为例，需要计算在训练集n个样本上的损失均值（也等价于求和）：</p>
+<p><span class="math display">\[
+L(\mathbf{w},b) = \frac{1}{n}\sum^n_{i=1}l^{(i)}(\mathbf{w},b) =
+\frac{1}{n}\sum
+^n_{i=1}\frac{1}{2}(\mathbf{w}^T\mathbf{x}^{(i)}+b-y^{(i)})^2
+\]</span></p>
+<p>我们希望找到一组参数</p>
+<p><span
+class="math inline">\((\mathbf{w}^*,b^*)\)</span>，这组参数能最小化在所有训练样本上的总损失。</p>
+<p>梯度下降的最简单用法是计算损失函数（数据集中所有样本的损失均值，）关于模型参数的导数（在这里也可以称为梯度）。
+但实际中的执行可能会非常慢：因为在每一次更新参数之前，我们必须遍历整个数据集。
+因此，我们通常会在每次需要计算更新的时候随机抽取一小批样本，
+这种变体叫做<strong>小批量随机梯度下降</strong>（minibatch stochastic
+gradient descent）。</p>
+<p>在每次迭代中，我们首先随机抽样一个小批量<span
+class="math inline">\(\mathcal{B}\)</span>，
+它是由固定数量的训练样本组成的。
+然后，我们计算小批量的平均损失关于模型参数的导数（也可以称为梯度）。
+最后，我们将梯度乘以一个预先确定的正数<span
+class="math inline">\(\eta\)</span>，并从当前参数的值中减掉。即：</p>
+<p><span class="math display">\[
+(\mathbf{w},b) \leftarrow
+(\mathbf{w},b)-\frac{\eta}{|\mathcal{B}|}\sum_{i\in \mathcal{B}
+}\partial_{(\mathbf{w},b)}\mathbf{l}^{(i)}(\mathbf{w},b)
+\]</span></p>
+<p>公式中的<span class="math inline">\(\mathbf{w}\)</span>和<span
+class="math inline">\(\mathbf{x}\)</span>都是向量。 <span
+class="math inline">\(\mathcal{B}\)</span>表示每个小批量中的样本数，这也称为批量大小（batch
+size）。 <span class="math inline">\(\eta\)</span>表示学习率（learning
+rate）。
+批量大小和学习率的值通常是手动预先指定，而不是通过模型训练得到的。
+这些可以调整但不在训练过程中更新的参数称为超参数（hyperparameter）。</p>
+<p>调参（hyperparameter tuning）是选择超参数的过程。
+超参数通常是我们根据训练迭代结果来调整的，
+而训练迭代结果是在独立的验证数据集（validation
+dataset）上评估得到的。</p>
+<p>⚠️之所以称为随机梯度下降，就是因为每个批次的梯度在全部数据集的视角下是随机的，并不会像计算全部数据集时那样精确下降。</p>
+<h3 id="通用近似定理">通用近似定理</h3>
+<p>如前文所述，增加上隐藏层的多层感知机可以捕捉到输入之间的复杂的相互作用，这些神经元依赖于每个输入的值。我们可以很容易地设计隐藏节点来执行任意计算。
+即使是网络只有一个隐藏层，给定足够的神经元和正确的权重，
+我们可以对任意函数建模，尽管实际中学习该函数是很困难的。</p>
+<p>而且，虽然一个单隐层网络能学习任何函数，
+但并不意味着我们应该尝试使用单隐藏层网络来解决所有问题。
+事实上，通过使用更深（而不是更广）的网络，我们可以更容易地逼近许多函数。</p>
+<h3 id="激活函数">激活函数</h3>
+<h4 id="relu">ReLu</h4>
+<p>前文已经提到，使用ReLU的原因是，它求导表现得特别好：要么让参数消失，要么让参数通过。
+这使得优化表现得更好，并且ReLU减轻了困扰以往神经网络的<strong>梯度消失问题</strong>。</p>
+<figure>
+<img src="/img/深度前馈网络FNN/Relu.png" srcset="/img/loading.gif" lazyload alt="Relu" />
+<figcaption aria-hidden="true">Relu</figcaption>
+</figure>
+<p>注意，ReLU函数有许多变体，包括参数化ReLU（Parameterized ReLU，pReLU）
+函数 (He et al., 2015)。
+该变体为ReLU添加了一个线性项，因此即使参数是负的，某些信息仍然可以通过：</p>
+<p><span class="math display">\[
+pRELU(x) =max(0,x)+\alpha min(0,x)
+\]</span></p>
+<h4 id="sigmoid函数">sigmoid函数</h4>
+<p>对于一个定义域<span
+class="math inline">\(\mathbb{R}\)</span>在中的输入，
+sigmoid函数将输入变换为区间(0, 1)上的输出。
+因此，sigmoid通常称为挤压函数（squashing function）： 它将范围（-inf,
+inf）中的任意输入压缩到区间（0, 1）中的某个值：</p>
+<p><span class="math display">\[
+sigmoid(x)=\frac{1}{1+exp(-x)}
+\]</span></p>
+<p>sigmoid函数是一个自然的选择，因为它是一个平滑的、可微的阈值单元近似。
+当我们想要将输出视作二元分类问题的概率时，sigmoid仍然被广泛用作输出单元上的激活函数
+（sigmoid可以视为softmax的特例）。
+然而，sigmoid在隐藏层中已经较少使用，它在大部分时候被更简单、更容易训练的ReLU所取代。</p>
+<figure>
+<img src="/img/深度前馈网络FNN/sigmoid.png" srcset="/img/loading.gif" lazyload alt="sigmoid" />
+<figcaption aria-hidden="true">sigmoid</figcaption>
+</figure>
+<p>sigmoid函数的导数为：</p>
+<p><span class="math display">\[
+sigmoid(x)(1-sigmoid(x))
+\]</span></p>
+<h4 id="tanh函数">tanh函数</h4>
+<p>与sigmoid函数类似， tanh(双曲正切)函数也能将其输入压缩转换到区间(-1,
+1)上。 tanh函数的公式如下：</p>
+<p><span class="math display">\[
+tanh(x)=\frac{1-exp(-2x)}{1+exp(-2x)}
+\]</span></p>
+<p><img src="/img/深度前馈网络FNN/tanh.png" srcset="/img/loading.gif" lazyload alt="tanh" />
+tanh函数的导数为：</p>
+<p><span class="math display">\[
+\frac{d}{d x}tanh(x)=1-tanh(x)^2
+\]</span></p>
+<h3 id="正则化技术">正则化技术</h3>
+<p>们总是可以通过去收集更多的训练数据来缓解过拟合。但这可能成本很高，耗时颇多，或者完全超出我们的控制，因而在短期内不可能做到。</p>
+<p>训练参数化机器学习模型时， 权重衰减（weight
+decay）是最广泛使用的正则化的技术之一， 它通常也被称为<span
+class="math inline">\(L_2\)</span>正则化。
+这项技术通过函数与零的距离来衡量函数的复杂度， 因为在所有函数<span
+class="math inline">\(f\)</span>中，函数<span
+class="math inline">\(f=0\)</span>（所有输入都得到值<span
+class="math inline">\(0\)</span>）在某种意义上是最简单的。<strong>但是我们应该如何精确地测量一个函数和零之间的距离呢？
+没有一个正确的答案。</strong></p>
+<p>一种简单的方法是通过线性函数<span
+class="math inline">\(f(\mathbf{x})=\mathbf{w}^T\mathbf{x}\)</span>中的权重向量的某个范数来度量其复杂性，
+例如<span class="math inline">\(||\mathbf{w}||^2\)</span>。
+要保证权重向量比较小，
+最常用方法是将其范数作为惩罚项加到最小化损失的问题中。
+将原来的训练目标最小化训练标签上的预测损失，
+调整为最小化预测损失和惩罚项之和。 现在，如果我们的权重向量增长的太大，
+我们的学习算法可能会更集中于最小化权重范数<span
+class="math inline">\(||\mathbf{w}||^2\)</span>。</p>
+<p>通过正则化常数<span
+class="math inline">\(\lambda\)</span>来平衡额外惩罚的损失，也即：</p>
+<p><span class="math display">\[
+L(\mathbf{w},b)+\frac{\lambda}{2}||\mathbf{w}||^2
+\]</span></p>
+<p>什么在这里我们使用平方范数而不是标准范数（即欧几里得距离）？这样做是为了便于计算。
+通过平方<span
+class="math inline">\(L_2\)</span>范数，我们去掉平方根，留下权重向量每个分量的平方和。
+这使得惩罚的导数很容易计算：导数的和等于和的导数。</p>
+<p><strong><span
+class="math inline">\(L_2\)</span>正则化线性模型构成经典的岭回归（ridge
+regression）算法</strong>， <strong><span
+class="math inline">\(L_1\)</span>正则化线性回归是统计学中类似的基本模型，
+通常被称为套索回归（lasso regression）。</strong></p>
+<ul>
+<li>使用<span
+class="math inline">\(L_2\)</span>范数的一个原因是它对权重向量的大分量施加了巨大的惩罚。
+这使得我们的学习算法偏向于在大量特征上均匀分布权重的模型。
+在实践中，这可能使它们对单个变量中的观测误差更为稳定。</li>
+<li>相比之下，<span
+class="math inline">\(L_1\)</span>惩罚会导致模型将权重集中在一小部分特征上，
+而将其他权重清除为零。 这称为特征选择（feature
+selection），这可能是其他场景下需要的。</li>
+</ul>
+<p>加上正则化技术之后的小批量随机梯度下降更新公式为：</p>
+<p><span class="math display">\[
+\mathbf{w}\leftarrow
+(1-\eta\lambda)\mathbf{w}-\frac{\eta}{|\mathcal{B}|}\sum_{i\in
+\mathcal{B} }\mathbf{x}^{(i)}(\mathbf{w}^T\mathbf{x}^{(i)}+b-y^{(i)})
+\]</span></p>
+<h3 id="dropout">Dropout</h3>
+<p>当面对更多的特征而样本不足时，线性模型往往会过拟合。
+相反，当给出更多样本而不是特征，通常线性模型不会过拟合。
+不幸的是，线性模型泛化的可靠性是有代价的。
+简单地说，线性模型没有考虑到特征之间的交互作用。
+对于每个特征，线性模型必须指定正的或负的权重，而忽略其他特征。</p>
+<p><strong>泛化性和灵活性之间的这种基本权衡被描述为偏差-方差权衡（bias-variance
+tradeoff）</strong>。 线性模型有很高的偏差：它们只能表示一小类函数。
+然而，这些模型的方差很低：它们在不同的随机数据样本上可以得出相似的结果。</p>
+<p>深度神经网络位于偏差-方差的另一端。
+与线性模型不同，神经网络并不局限于单独查看每个特征，而是学习特征之间的交互。
+即使我们有比特征多得多的样本，深度神经网络也有可能过拟合。</p>
+<p>我们期待“好”的预测模型能在未知的数据上有很好的表现：
+<strong>经典泛化理论认为，为了缩小训练和测试性能之间的差距，应该以简单的模型为目标</strong>。</p>
+<ul>
+<li><p>简单性以较小维度的形式展现，</p></li>
+<li><p>简单性的另一个角度是平滑性，即函数不应该对其输入的微小变化敏感。</p></li>
+</ul>
+<p>在训练过程中，如果在计算后续层之前向网络的每一层注入噪声，那么当训练一个有多层的深层网络时，注入噪声会在输入-输出映射上增强平滑性。这个想法被称为暂退法（dropout）。</p>
+<p>暂退法在前向传播过程中，计算每一内部层的同时注入噪声，这已经成为训练神经网络的常用技术。
+这种方法之所以被称为暂退法，因为我们从表面上看是在训练过程中丢弃（drop
+out）一些神经元。
+在整个训练过程的每一次迭代中，标准暂退法包括在计算下一层之前将当前层中的一些节点置零。
+<img src="/img/深度前馈网络FNN/dropout.png" srcset="/img/loading.gif" lazyload alt="dropout" /></p>
+<p>:warning:需要说明的是，暂退法的原始论文提到了一个关于有性繁殖的类比：
+<strong>神经网络过拟合与每一层都依赖于前一层激活值相关，称这种情况为“共适应性”。
+作者认为，暂退法会破坏共适应性，就像有性生殖会破坏共适应的基因一样。</strong></p>
+<p>那么关键的挑战就是如何注入这种噪声。
+一种想法是以一种无偏向（unbiased）的方式注入噪声。
+这样在固定住其他层时，每一层的期望值等于没有噪音时的值。</p>
+<p>在标准暂退法正则化中，通过按照保留（未丢弃）的节点的分数进行规范化来消除每一层的偏差。换言之，每个中间活性值<span
+class="math inline">\(h\)</span>以暂退概率<span
+class="math inline">\(p\)</span>由随机变量<span
+class="math inline">\(h&#39;\)</span>替换 <span
+class="math display">\[h&#39; =
+\begin{cases}
+0 &amp;  概率为0 \\
+\frac{h}{1-p} &amp; 其他情况
+\end{cases}
+\]</span> 其期望值保持不变，即<span class="math inline">\(E[h&#39;]
+=h\)</span></p>
 
                 
               </div>
@@ -450,36 +649,6 @@ f(\mathbf{x})=0\)</span>来直接跳到临界点。</p>
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
-      
-        <a href="/tags/%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9C/" class="print-no-link">#前馈网络</a>
-      
-    </div>
   
 </div>
 
