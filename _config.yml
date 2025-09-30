@@ -102,5 +102,5 @@ theme: fluid
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@github.com:geotle77/geolte77.github.io.git
+  repo: git@github.com:geotle77/geotle77.github.io.git
   branch: main
