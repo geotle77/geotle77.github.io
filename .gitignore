@@ -1,2 +1,4 @@
 public/
 node_modules/.deploy_git/
+node_modules
+.deploy_git
