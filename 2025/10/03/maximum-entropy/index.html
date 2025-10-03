@@ -19,15 +19,15 @@
   <meta name="author" content="geotle77">
   <meta name="keywords" content="">
   
-    <meta name="description" content="统计学习基础 熵 熵的定义 什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为不确定性的度量。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。 熵的计算公式如下： $$ H(P)&#x3D;-\sum P(x)log_{b}P(x) $$ 在这里b是对数所使用的底，通常是2，自然">
+    <meta name="description" content="统计学习基础 熵 熵的定义 什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为不确定性的度量。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。 熵的计算公式如下： H(P) &#x3D; −∑P(x)logbP(x) 在这里b是对数所使用的底，通常是2，自然常数e，或是10。 熵">
 <meta property="og:type" content="article">
 <meta property="og:title" content="统计学习基础">
 <meta property="og:url" content="https://geotle77.github.io/2025/10/03/maximum-entropy/index.html">
 <meta property="og:site_name" content="geotle77&#39;s Blog">
-<meta property="og:description" content="统计学习基础 熵 熵的定义 什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为不确定性的度量。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。 熵的计算公式如下： $$ H(P)&#x3D;-\sum P(x)log_{b}P(x) $$ 在这里b是对数所使用的底，通常是2，自然">
+<meta property="og:description" content="统计学习基础 熵 熵的定义 什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为不确定性的度量。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。 熵的计算公式如下： H(P) &#x3D; −∑P(x)logbP(x) 在这里b是对数所使用的底，通常是2，自然常数e，或是10。 熵">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
-<meta property="article:modified_time" content="2025-10-03T15:11:39.024Z">
+<meta property="article:modified_time" content="2025-10-03T15:41:53.568Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="数学，信息论">
 <meta name="twitter:card" content="summary_large_image">
@@ -236,7 +236,7 @@
         
         
         
-          20 分钟
+          19 分钟
         
       </span>
     
@@ -287,100 +287,151 @@
             
               <div class="markdown-body">
                 
-                <h1>统计学习基础</h1>
+                <h1 id="统计学习基础">统计学习基础</h1>
 <h2 id="熵">熵</h2>
 <h3 id="熵的定义">熵的定义</h3>
 <p>什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为<strong>不确定性的度量</strong>。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。</p>
 <p>熵的计算公式如下：</p>
-<p>$$<br>
-H(P)=-\sum P(x)log_{b}P(x)<br>
-$$</p>
+<p><span
+class="math display"><em>H</em>(<em>P</em>) = −∑<em>P</em>(<em>x</em>)<em>l</em><em>o</em><em>g</em><sub><em>b</em></sub><em>P</em>(<em>x</em>)</span></p>
 <p>在这里b是对数所使用的底，通常是2，自然常数e，或是10。</p>
-<p>熵的单位通常为比特，采用概率分布的对数作为信息的量度的原因是其可加性。一般地，我们需要用log2(n)位来表示一个可以取n个值的变量。例如，如果有一枚理想的硬币，其出现正面和反面的机会相等，那么我们使用一枚正常硬币进行若干次抛掷，这个事件的熵是一比特，因为结果不外乎两个——正面或者反面，可以表示为0, 1编码，而且两个结果彼此之间相互独立。若进行n次独立实验，则熵为n，因为可以用长度为n的比特流表示。</p>
-<p>这里举个例子：<br>
-假设一个随机变量X，取三种可能值$x_1,x_2,x_3$,概率分别为$\frac{1}{2},\frac{1}{4},\frac{1}{4}$,那么编码的平均比特长度为：<br>
-$\frac{1}{2}\times 1+\frac{1}{4}\times 2+\frac{1}{4}\times 2 = \frac{2}{3}$</p>
+<p>熵的单位通常为比特，采用概率分布的对数作为信息的量度的原因是其可加性。一般地，我们需要用log2(n)位来表示一个可以取n个值的变量。例如，如果有一枚理想的硬币，其出现正面和反面的机会相等，那么我们使用一枚正常硬币进行若干次抛掷，这个事件的熵是一比特，因为结果不外乎两个——正面或者反面，可以表示为0,
+1编码，而且两个结果彼此之间相互独立。若进行n次独立实验，则熵为n，因为可以用长度为n的比特流表示。</p>
+<p>这里举个例子： 假设一个随机变量X，取三种可能值<span
+class="math inline"><em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>, <em>x</em><sub>3</sub></span>,概率分别为<span
+class="math inline">$\frac{1}{2},\frac{1}{4},\frac{1}{4}$</span>,那么编码的平均比特长度为：
+<span class="math inline">$\frac{1}{2}\times 1+\frac{1}{4}\times
+2+\frac{1}{4}\times 2 = \frac{2}{3}$</span></p>
 <p>所以<strong>熵实际是对随机变量的比特量和发生概率相乘再总和的数学期望。</strong></p>
 <h3 id="熵的推广">熵的推广</h3>
-<h4 id="联合熵-joint-entropy">联合熵(joint entropy)</h4>
-<p>如果 $X, Y$ 是一对离散型随机变量 $X, Y ~ p(x, y)，X, Y$ 的联合熵 $H(X, Y)$ 为：</p>
-<p>$$H(X,Y) = \sum_{x \in X}\sum_{y \in Y} p(x,y)log_{2}p(x,y)$$<br>
+<h4 id="联合熵joint-entropy">联合熵(joint entropy)</h4>
+<p>如果 <span class="math inline"><em>X</em>, <em>Y</em></span>
+是一对离散型随机变量 <span
+class="math inline"><em>X</em>, <em>Y</em> <em>p</em>(<em>x</em>, <em>y</em>)，<em>X</em>, <em>Y</em></span>
+的联合熵 <span
+class="math inline"><em>H</em>(<em>X</em>, <em>Y</em>)</span> 为：</p>
+<p><span
+class="math display"><em>H</em>(<em>X</em>, <em>Y</em>) = ∑<sub><em>x</em> ∈ <em>X</em></sub>∑<sub><em>y</em> ∈ <em>Y</em></sub><em>p</em>(<em>x</em>, <em>y</em>)<em>l</em><em>o</em><em>g</em><sub>2</sub><em>p</em>(<em>x</em>, <em>y</em>)</span>
 联合熵描述的就是一对随机变量平均所需要的信息量，还可以推广到多个随机变量的情况。</p>
-<h4 id="条件熵-conditional-entropy">条件熵(conditional entropy)</h4>
-<p>给定随机变量 X 的情况下，随机变量 Y 的条件熵定义为：<br>
-$$\begin{align*}<br>
-H(X|Y) &amp;= \sum_{x \in X}p(x)H(Y|X=x)\<br>
-&amp;= \sum_{x \in X}p(x)[- \sum_{y \in Y}p(y|x)log_{2}p(y|x)]\<br>
-&amp;= \sum_{x \in X}\sum_{y \in Y} p(x,y)log_{2}p(y|x)<br>
-\end{align*}    $$</p>
-<p>该式可进一步化简为：<br>
-$$H(X)+H(Y|X)$$</p>
-<h3 id="相对熵-relative-entropy">相对熵(relative entropy)</h3>
-<p>(或称 Kullback-Leibler divergence, K-L 距离，或K-L散度)<br>
-它衡量的是相同事件空间里的两个概率分布的差异情况。并不是一种距离度量方式，其物理意义是：在相同事件空间里，概率分布P(x)对应的每个事件，若用概率分布 Q(x)编码时，平均每个基本事件（符号）编码长度增加了多少比特。我们用D（P||Q）表示KL距离，计算公式如下：<br>
-$$D(P||Q) = \sum_{x \in X}P(x)log\frac{P(x)}{Q(x)}$$</p>
-<p>进一步约定<br>
-$$ 0 log (0/Q) = 0, P log P(/0) = \infty$$</p>
-<p>根据公式，我们可以得到以下结论：</p>
-<ul>
-<li>当P(x)=Q(x)时，D(P||Q)=0,即其相对熵为零。</li>
-<li>当P(x)和Q(x)相似度越高时，KL距离越小</li>
-<li>D(P||Q)非负（非负性）</li>
-<li>不满足对称性，即D(P||Q)≠D(Q||P)</li>
-</ul>
-<p>KL距离主要是衡量两个概率分布的差异。可以理解为利用概率分布Q 拟合概率分布P 时的能量损耗，也就是说拟合以后丢失了多少的信息。<br>
+<h4 id="条件熵conditional-entropy">条件熵(conditional entropy)</h4>
+<p>给定随机变量 X 的情况下，随机变量 Y 的条件熵定义为： <span
+class="math display">$$\begin{align*}
+H(X|Y) &amp;= \sum_{x \in X}p(x)H(Y|X=x)\\
+       &amp;= \sum_{x \in X}p(x)[- \sum_{y \in Y}p(y|x)log_{2}p(y|x)]\\
+       &amp;= \sum_{x \in X}\sum_{y \in Y} p(x,y)log_{2}p(y|x)
+\end{align*}    $$</span></p>
+<p>该式可进一步化简为： <span
+class="math display"><em>H</em>(<em>X</em>) + <em>H</em>(<em>Y</em>|<em>X</em>)</span></p>
+<h3 id="相对熵relative-entropy">相对熵(relative entropy)</h3>
+<p>(或称 Kullback-Leibler divergence, K-L 距离，或K-L散度)<br />
+它衡量的是相同事件空间里的两个概率分布的差异情况。并不是一种距离度量方式，其物理意义是：在相同事件空间里，概率分布P(x)对应的每个事件，若用概率分布
+Q(x)编码时，平均每个基本事件（符号）编码长度增加了多少比特。我们用D（P||Q）表示KL距离，计算公式如下：
+<span class="math display">$$D(P||Q) = \sum_{x \in
+X}P(x)log\frac{P(x)}{Q(x)}$$</span></p>
+<p>进一步约定 <span
+class="math display">0<em>l</em><em>o</em><em>g</em>(0/<em>Q</em>) = 0, <em>P</em><em>l</em><em>o</em><em>g</em><em>P</em>(/0) = ∞</span></p>
+<p>根据公式，我们可以得到以下结论： -
+当P(x)=Q(x)时，D(P||Q)=0,即其相对熵为零。 -
+当P(x)和Q(x)相似度越高时，KL距离越小 - D(P||Q)非负（非负性） -
+不满足对称性，即D(P||Q)≠D(Q||P)</p>
+<p>KL距离主要是衡量两个概率分布的差异。可以理解为利用概率分布Q
+拟合概率分布P 时的能量损耗，也就是说拟合以后丢失了多少的信息。<br />
 在生成式模型中，这个指标会很常用到。</p>
 <h3 id="交叉熵">交叉熵</h3>
-<p>如果一个随机变量X ~ p(x)，理论模型q(x)为用于近似p(x)的概率分布，那么，统计分布p和模型q之间的交叉熵定义为：<br>
-$$\begin{align*}<br>
-H(X,q) &amp;= H(X) + D(p||q)\<br>
-&amp;= \sum_{x \in X}p(x)log p(x) + \sum_{x \in X}p(x)log \frac{p(x)}{q(x)}\<br>
-&amp;= - \sum_{x \in X} p(x)log q(x)<br>
-\end{align*}    $$</p>
-<p>交叉熵衡量的也是两个模型分布之间的差异。因为熵是理论上的平均最小编码长度，所以交叉熵只可能大于等于熵。换句话说，如果我们的估计是完美的，即$Q=P$，那么有$H(P,Q) = H(P)$，否则，$H(P,Q) &gt; H(P)$。</p>
+<p>如果一个随机变量X ~
+p(x)，理论模型q(x)为用于近似p(x)的概率分布，那么，统计分布p和模型q之间的交叉熵定义为：
+<span class="math display">$$\begin{align*}
+H(X,q) &amp;= H(X) + D(p||q)\\
+       &amp;= \sum_{x \in X}p(x)log p(x) + \sum_{x \in X}p(x)log
+\frac{p(x)}{q(x)}\\
+       &amp;= - \sum_{x \in X} p(x)log q(x)
+\end{align*}    $$</span></p>
+<p>交叉熵衡量的也是两个模型分布之间的差异。因为熵是理论上的平均最小编码长度，所以交叉熵只可能大于等于熵。换句话说，如果我们的估计是完美的，即<span
+class="math inline"><em>Q</em> = <em>P</em></span>，那么有<span
+class="math inline"><em>H</em>(<em>P</em>, <em>Q</em>) = <em>H</em>(<em>P</em>)</span>，否则，<span
+class="math inline"><em>H</em>(<em>P</em>, <em>Q</em>) &gt; <em>H</em>(<em>P</em>)</span>。</p>
 <h3 id="相对熵与交叉熵的区别">相对熵与交叉熵的区别</h3>
-<p>在机器学习中经常用p(x)表示真实数据的概率分布，由于真实数据的概率分布往往无法获得, 所以一般通过大量的训练数据来近似。假设我们通过某个模型得到了训练数据的概率分布q(x), 由于真实数据的概率分布p(x)往往是不变的，因此<strong>最小化交叉熵H(p, q)等效于最小化相对熵D(p||q)</strong>。<br>
-习惯上机器学习算法中通常采用交叉熵计算损失函数。例如, 在某机器学习任务中定义损失函数为交叉熵: $Loss=H(p, q)$，假设我们训练到得到一个非常好的模型，即 $p(x)\approx q(x)$，此时Loss不会降低为0, 而是一个很小的值, 如Loss=2, 它表示真实数据自身的熵为 $H(p)=2$。如果选择相对熵作为损失函数, 即$Loss=D(p||q)$, 同样假设我们训练得到一个非常好的模型，即 $p(x)\approx q(x)$，此时，Loss= 0，意味着两个概率分布几乎一样。实际上，上述两种方法所得到的Loss仅仅是数值上的区别，训练得到的模型是完全一样的，即两个概念的作用一样。</p>
-<h3 id="最大熵原理">最大熵原理</h3>
+<p>在机器学习中经常用p(x)表示真实数据的概率分布，由于真实数据的概率分布往往无法获得,
+所以一般通过大量的训练数据来近似。假设我们通过某个模型得到了训练数据的概率分布q(x),
+由于真实数据的概率分布p(x)往往是不变的，因此<strong>最小化交叉熵H(p,
+q)等效于最小化相对熵D(p||q)</strong>。<br />
+习惯上机器学习算法中通常采用交叉熵计算损失函数。例如,
+在某机器学习任务中定义损失函数为交叉熵: <span
+class="math inline"><em>L</em><em>o</em><em>s</em><em>s</em> = <em>H</em>(<em>p</em>, <em>q</em>)</span>，假设我们训练到得到一个非常好的模型，即
+<span
+class="math inline"><em>p</em>(<em>x</em>) ≈ <em>q</em>(<em>x</em>)</span>，此时Loss不会降低为0,
+而是一个很小的值, 如Loss=2, 它表示真实数据自身的熵为 <span
+class="math inline"><em>H</em>(<em>p</em>) = 2</span>。如果选择相对熵作为损失函数,
+即<span
+class="math inline"><em>L</em><em>o</em><em>s</em><em>s</em> = <em>D</em>(<em>p</em>||<em>q</em>)</span>,
+同样假设我们训练得到一个非常好的模型，即 <span
+class="math inline"><em>p</em>(<em>x</em>) ≈ <em>q</em>(<em>x</em>)</span>，此时，Loss=
+0，意味着两个概率分布几乎一样。实际上，上述两种方法所得到的Loss仅仅是数值上的区别，训练得到的模型是完全一样的，即两个概念的作用一样。
+### 最大熵原理</p>
 <p>最大熵原理的表述是：<strong>学习概率模型时，在所有可能的概率模型中，熵最大的模型是最好的模型</strong>。</p>
-<p>最大熵原理是在1957 年由E.T.Jaynes 提出的，在只掌握关于未知分布的部分知识时，应该选取符合这些知识但熵值最大的概率分布。因为在这种情况下，符合已知知识的概率分布可能不止一个。熵最大的时候，说明随机变量最不确定，也就是随机变量最随机，对其行为做准确预测最困难。那么最大熵原理的实质就是，<strong>在已知部分知识的前提下，关于未知分布最合理的推断就是符合已知知识最不确定或最随机的推断，这是我们可以作出的不偏不倚的选择，任何其它的选择都意味着我们增加了其它的约束和假设</strong>，这些约束和假设根据我们掌握的信息无法作出。</p>
+<p>最大熵原理是在1957 年由E.T.Jaynes
+提出的，在只掌握关于未知分布的部分知识时，应该选取符合这些知识但熵值最大的概率分布。因为在这种情况下，符合已知知识的概率分布可能不止一个。熵最大的时候，说明随机变量最不确定，也就是随机变量最随机，对其行为做准确预测最困难。那么最大熵原理的实质就是，<strong>在已知部分知识的前提下，关于未知分布最合理的推断就是符合已知知识最不确定或最随机的推断，这是我们可以作出的不偏不倚的选择，任何其它的选择都意味着我们增加了其它的约束和假设</strong>，这些约束和假设根据我们掌握的信息无法作出。</p>
 <p>因此，最大熵原理就是表述为在满足约束条件的模型集合中选择熵最大的那个模型。</p>
 <h2 id="最大熵模型">最大熵模型</h2>
-<p>假设分类模型是一个条件概率分布$P（Y|X）$, $X\in \chi \subseteq R^{n}$为输入,$Y\in\gamma$为输出，$\chi 和 \gamma$分别为输入和输出的集合。该模型表示的是对于给定的输入$X$，以条件概率$P(Y|X)$输出$Y$。</p>
-<p>如果现有一个训练数据集:<br>
-$$<br>
-T={(x_{1},y_{1}), (x_{2},y_{2}),(x_{3},y_{3}),…,(x_N,y_N))}$$</p>
-<p>$x_i$ 表示输入条件，$y_i$ 表示预测值。训练集中每一种情况的概率$\tilde{p}(x,y)$可以通过简单的统计计算得到：<br>
-$$\tilde{p}(x,y)=样本中含有(x,y)的数量/N$$<br>
-对于训练集T中的所有样本可通过特征函数(feature function)描述 $x\in X$ 和 $y \in Y$ 之间基于某种条件的关系：</p>
-<p>$$<br>
-f(x,y) =<br>
-\begin{cases}<br>
-1 &amp; \text{x,y之间满足某种条件}  \<br>
-0 &amp; \text{否则}<br>
-\end{cases}<br>
-$$</p>
-<p>$f(·)$实际上是克罗内克(Kronecker )函数。<br>
-那么接下来，那么，f(x, y)在训练集上关于经验分布$\tilde{p}(x,y)$的期望值可通过下面的式子计算出来：<br>
-$$E_{\tilde{p}}(f) = \sum_{x ,y} \tilde{p}(x,y)f(x,y) $$<br>
-对应的理论值则为：<br>
-$$E_{p}(f) = \sum_{x ,y} p(x,y)f(x,y) $$<br>
-由于 $p(x, y) = p(x)p(y|x)$，而且所建立的理论模型应该符合训练集中的概率分布（近似相等）,因此，理论期望值计算公式式可以写为:<br>
-$$E_{p}(f) = \sum_{x ,y} \tilde{p}(x)p(y|x)f(x,y) $$<br>
-其约束即为：<br>
-$$E_{\tilde{p}}(f) = E_{p}(f)$$</p>
-<p>假设训练集中有$n \in N$ 个特征函数 $f_j(x, y)$，它们在建模过程中<br>
-都对输出结果有影响，也就是说有n个约束条件，而理论上能够满足这些约束的模型有很多，它们构成一个集合：<br>
-$$P = {p|E_p(f_j)=E_{\tilde{p}}(f_j),j\in {1,2,…,n}} $$<br>
+<p>假设分类模型是一个条件概率分布<span
+class="math inline"><em>P</em>（<em>Y</em>|<em>X</em>）</span>, <span
+class="math inline"><em>X</em> ∈ <em>χ</em> ⊆ <em>R</em><sup><em>n</em></sup></span>为输入,<span
+class="math inline"><em>Y</em> ∈ <em>γ</em></span>为输出，<span
+class="math inline"><em>χ</em><em>和</em><em>γ</em></span>分别为输入和输出的集合。该模型表示的是对于给定的输入<span
+class="math inline"><em>X</em></span>，以条件概率<span
+class="math inline"><em>P</em>(<em>Y</em>|<em>X</em>)</span>输出<span
+class="math inline"><em>Y</em></span>。</p>
+<p>如果现有一个训练数据集: <span
+class="math display"><em>T</em> = (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), (<em>x</em><sub>2</sub>, <em>y</em><sub>2</sub>), (<em>x</em><sub>3</sub>, <em>y</em><sub>3</sub>), ..., (<em>x</em><sub><em>N</em></sub>, <em>y</em><sub><em>N</em></sub>))</span></p>
+<p><span class="math inline"><em>x</em><sub><em>i</em></sub></span>
+表示输入条件，<span
+class="math inline"><em>y</em><sub><em>i</em></sub></span>
+表示预测值。训练集中每一种情况的概率<span
+class="math inline"><em>p̃</em>(<em>x</em>, <em>y</em>)</span>可以通过简单的统计计算得到：
+<span
+class="math display"><em>p̃</em>(<em>x</em>, <em>y</em>) = <em>样</em><em>本</em><em>中</em><em>含</em><em>有</em>(<em>x</em>, <em>y</em>)<em>的</em><em>数</em><em>量</em>/<em>N</em></span>
+对于训练集T中的所有样本可通过特征函数(feature function)描述 <span
+class="math inline"><em>x</em> ∈ <em>X</em></span> 和 <span
+class="math inline"><em>y</em> ∈ <em>Y</em></span>
+之间基于某种条件的关系：</p>
+<p><span class="math display">$$
+f(x,y) =
+\begin{cases}
+1 &amp; \text{x,y之间满足某种条件}  \\
+0 &amp; \text{否则}
+\end{cases}
+$$</span></p>
+<p><span
+class="math inline"><em>f</em>(·)</span>实际上是克罗内克(Kronecker
+)函数。<br />
+那么接下来，那么，f(x, y)在训练集上关于经验分布<span
+class="math inline"><em>p̃</em>(<em>x</em>, <em>y</em>)</span>的期望值可通过下面的式子计算出来：
+<span
+class="math display"><em>E</em><sub><em>p̃</em></sub>(<em>f</em>) = ∑<sub><em>x</em>, <em>y</em></sub><em>p̃</em>(<em>x</em>, <em>y</em>)<em>f</em>(<em>x</em>, <em>y</em>)</span>
+对应的理论值则为： <span
+class="math display"><em>E</em><sub><em>p</em></sub>(<em>f</em>) = ∑<sub><em>x</em>, <em>y</em></sub><em>p</em>(<em>x</em>, <em>y</em>)<em>f</em>(<em>x</em>, <em>y</em>)</span>
+由于 <span
+class="math inline"><em>p</em>(<em>x</em>, <em>y</em>) = <em>p</em>(<em>x</em>)<em>p</em>(<em>y</em>|<em>x</em>)</span>，而且所建立的理论模型应该符合训练集中的概率分布（近似相等）,因此，理论期望值计算公式式可以写为:
+<span
+class="math display"><em>E</em><sub><em>p</em></sub>(<em>f</em>) = ∑<sub><em>x</em>, <em>y</em></sub><em>p̃</em>(<em>x</em>)<em>p</em>(<em>y</em>|<em>x</em>)<em>f</em>(<em>x</em>, <em>y</em>)</span>
+其约束即为： <span
+class="math display"><em>E</em><sub><em>p̃</em></sub>(<em>f</em>) = <em>E</em><sub><em>p</em></sub>(<em>f</em>)</span></p>
+<p>假设训练集中有<span
+class="math inline"><em>n</em> ∈ <em>N</em></span> 个特征函数 <span
+class="math inline"><em>f</em><sub><em>j</em></sub>(<em>x</em>, <em>y</em>)</span>，它们在建模过程中
+都对输出结果有影响，也就是说有n个约束条件，而理论上能够满足这些约束的模型有很多，它们构成一个集合：
+<span
+class="math display"><em>P</em> = <em>p</em>|<em>E</em><sub><em>p</em></sub>(<em>f</em><sub><em>j</em></sub>) = <em>E</em><sub><em>p̃</em></sub>(<em>f</em><sub><em>j</em></sub>), <em>j</em> ∈ 1, 2, ..., <em>n</em></span>
 在所有满足约束的模型中，使条件熵最大的模型就是最大熵模型，也就是我们要寻找的是最合理的模型。</p>
-<p>最大熵模型的学习等价于求解条件约束的优化问题：<br>
-$$\begin{align*}<br>
-p^<em>(y|X) &amp;= \arg\max_{p\in P}H(p)\<br>
-&amp;= \arg\max_{p\in P}{ -\sum_{x,y}\tilde{p}(x)p(y|x)\log p(y|x)}\<br>
-\text{s.t} \<br>
-\quad E_p(f_i) &amp;= E_{\tilde{p}}(f_j),j=1,2,3…,n\<br>
-\sum_{y}p(y|x)&amp;=1<br>
-\end{align</em>}    $$</p>
+<p>最大熵模型的学习等价于求解条件约束的优化问题： <span
+class="math display">$$\begin{align*}
+p^*(y|X) &amp;= \arg\max_{p\in P}H(p)\\
+       &amp;= \arg\max_{p\in P}{ -\sum_{x,y}\tilde{p}(x)p(y|x)\log
+p(y|x)}\\
+       \text{s.t} \\
+       \quad E_p(f_i) &amp;= E_{\tilde{p}}(f_j),j=1,2,3...,n\\
+       \sum_{y}p(y|x)&amp;=1
+\end{align*}    $$</span></p>
 
                 
               </div>
@@ -450,9 +501,9 @@ p^<em>(y|X) &amp;= \arg\max_{p\in P}H(p)\<br>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/10/03/markov/" title="随机过程">
+                      <a href="/2025/10/03/k8s/" title="k8s概述">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">随机过程</span>
+                        <span class="hidden-mobile">k8s概述</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -460,8 +511,8 @@ p^<em>(y|X) &amp;= \arg\max_{p\in P}H(p)\<br>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/10/03/rag/" title="rag">
-                        <span class="hidden-mobile">rag</span>
+                      <a href="/2025/10/03/markov/" title="随机过程">
+                        <span class="hidden-mobile">随机过程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

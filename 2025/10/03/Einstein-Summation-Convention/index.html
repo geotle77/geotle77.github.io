@@ -19,15 +19,15 @@
   <meta name="author" content="geotle77">
   <meta name="keywords" content="">
   
-    <meta name="description" content="爱因斯坦求和约定 **爱因斯坦求和约定（Einstein Summation Convention）**是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算 在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，">
+    <meta name="description" content="爱因斯坦求和约定 爱因斯坦求和约定（Einstein Summation Convention）是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算 在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，又称为爱">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Einstein Summation Convention">
 <meta property="og:url" content="https://geotle77.github.io/2025/10/03/Einstein-Summation-Convention/index.html">
 <meta property="og:site_name" content="geotle77&#39;s Blog">
-<meta property="og:description" content="爱因斯坦求和约定 **爱因斯坦求和约定（Einstein Summation Convention）**是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算 在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，">
+<meta property="og:description" content="爱因斯坦求和约定 爱因斯坦求和约定（Einstein Summation Convention）是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算 在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，又称为爱">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
-<meta property="article:modified_time" content="2025-10-03T15:02:15.231Z">
+<meta property="article:modified_time" content="2025-10-03T15:41:33.916Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="算术约定">
 <meta name="twitter:card" content="summary_large_image">
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          996 字
+          983 字
         
       </span>
     
@@ -287,33 +287,45 @@
             
               <div class="markdown-body">
                 
-                <h1>爱因斯坦求和约定</h1>
-<p>**爱因斯坦求和约定（Einstein Summation Convention）**是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算</p>
-<p>在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，又称为爱因斯坦标记法（Einstein notation），在处理关于坐标的方程式时非常有用。</p>
+                <h1 id="爱因斯坦求和约定">爱因斯坦求和约定</h1>
+<p><strong>爱因斯坦求和约定（Einstein Summation
+Convention）</strong>是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算</p>
+<p>在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein
+summation convention）是一种标记的约定，又称为爱因斯坦标记法（Einstein
+notation），在处理关于坐标的方程式时非常有用。</p>
 <h2 id="简介">简介</h2>
 <p>按照爱因斯坦求和约定，当一个单独项目内有标号变量出现两次，一次是上标，一次是下标时，则必须总和所有这单独项目的可能值。通常而言，标号的标值为1、2、3（代表维度为三的欧几里得空间），或0、1、2、3（代表维度为四的时空或闵可夫斯基时空）。这种约定的好处是可以简化数学公式的书写，使得公式更加简洁。</p>
 <p>具体来说：</p>
 <ul>
-<li>当一个索引同时出现在上标（如 $A^i$ ）和下标（如  $B_i$ ）时，表示对这个索引进行求和。例如：</li>
+<li>当一个索引同时出现在上标（如 <span
+class="math inline"><em>A</em><sup><em>i</em></sup></span> ）和下标（如
+<span class="math inline"><em>B</em><sub><em>i</em></sub></span>
+）时，表示对这个索引进行求和。例如：</li>
 </ul>
-<p>$$<br>
-A^i B_i = \sum_i A^i B_i<br>
-$$</p>
-<p>这表示对于所有的  $i$ ，计算  $A^i$  和  $B_i$  的乘积并求和。</p>
-<p>假设我们有一个向量  $A = [A^1, A^2, \dots, A^n]$  和另一个向量  $B = [B_1, B_2, \dots, B_n]$ ，它们的点积可以表示为：</p>
-<p>$$<br>
-A \cdot B = A^i B_i<br>
-$$</p>
-<p>按照爱因斯坦求和约定，这里隐含了对  i  从 1 到  n  的求和，即：</p>
-<p>$$<br>
-A \cdot B = \sum_{i=1}^{n} A^i B_i<br>
-$$</p>
+<p><span
+class="math display"><em>A</em><sup><em>i</em></sup><em>B</em><sub><em>i</em></sub> = ∑<sub><em>i</em></sub><em>A</em><sup><em>i</em></sup><em>B</em><sub><em>i</em></sub></span></p>
+<p>这表示对于所有的 <span class="math inline"><em>i</em></span> ，计算
+<span class="math inline"><em>A</em><sup><em>i</em></sup></span> 和
+<span class="math inline"><em>B</em><sub><em>i</em></sub></span>
+的乘积并求和。</p>
+<p>假设我们有一个向量 <span
+class="math inline"><em>A</em> = [<em>A</em><sup>1</sup>, <em>A</em><sup>2</sup>, …, <em>A</em><sup><em>n</em></sup>]</span>
+和另一个向量 <span
+class="math inline"><em>B</em> = [<em>B</em><sub>1</sub>, <em>B</em><sub>2</sub>, …, <em>B</em><sub><em>n</em></sub>]</span>
+，它们的点积可以表示为：</p>
+<p><span
+class="math display"><em>A</em> ⋅ <em>B</em> = <em>A</em><sup><em>i</em></sup><em>B</em><sub><em>i</em></sub></span></p>
+<p>按照爱因斯坦求和约定，这里隐含了对 i 从 1 到 n 的求和，即：</p>
+<p><span class="math display">$$
+A \cdot B = \sum_{i=1}^{n} A^i B_i
+$$</span></p>
 <p>!!!注意到：</p>
 <blockquote>
 <p>请不要将上标与指数混淆，大多数涉及到方程式都是线性的，不超过变量的一次方。</p>
 </blockquote>
 <h2 id="应用">应用</h2>
-<p>torch.einsum 是一个非常强大的工具，可以用来进行各种张量运算，如矩阵乘法、转置、内积、外积等，利用简洁的字符串表示法。其优势在于，它不仅能够简洁地表达复杂的操作，还能够通过优化来提升性能，尤其是在多维数组和高维张量的操作中。</p>
+<p>torch.einsum
+是一个非常强大的工具，可以用来进行各种张量运算，如矩阵乘法、转置、内积、外积等，利用简洁的字符串表示法。其优势在于，它不仅能够简洁地表达复杂的操作，还能够通过优化来提升性能，尤其是在多维数组和高维张量的操作中。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.einsum(equation, *operands)<br></code></pre></td></tr></table></figure>
 <ul>
@@ -322,29 +334,33 @@ $$</p>
 </ul>
 <h3 id="例子">例子</h3>
 <h4 id="矩阵乘法">矩阵乘法</h4>
-<p>对于两个矩阵  A  和  B ，其矩阵乘法可以通过 torch.einsum 表示为：</p>
+<p>对于两个矩阵 A 和 B ，其矩阵乘法可以通过 torch.einsum 表示为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.einsum(<span class="hljs-string">&#x27;ik,kj-&gt;ij&#x27;</span>, A, B)<br></code></pre></td></tr></table></figure>
 <p>这里 <code>'ik,kj-&gt;ij'</code> 表示：</p>
 <ul>
 <li><strong>输入部分</strong> <code>（ik,kj）</code>：
 <ul>
-<li>i 和 k 是矩阵  A  的索引，其中 i 对应  A  的行，k 对应  A  的列。</li>
-<li>k 和 j 是矩阵  B  的索引，其中 k 对应  B  的行，j 对应  B  的列。<br>
-在这里，k 作为共享索引出现在了  A  和  B  中，这代表我们会对  A  中的列和  B  中的行进行求和（也就是矩阵乘法中的点积）。</li>
-</ul>
-</li>
+<li>i 和 k 是矩阵 A 的索引，其中 i 对应 A 的行，k 对应 A 的列。</li>
+<li>k 和 j 是矩阵 B 的索引，其中 k 对应 B 的行，j 对应 B 的列。
+在这里，k 作为共享索引出现在了 A 和 B 中，这代表我们会对 A 中的列和 B
+中的行进行求和（也就是矩阵乘法中的点积）。</li>
+</ul></li>
 <li><strong>箭头部分</strong> <code>-&gt;ij</code>：
 <ul>
-<li>i 对应矩阵  A  的行索引。</li>
-<li>j 对应矩阵  B  的列索引。<br>
-箭头后的部分指定了输出张量  C  的维度（即结果矩阵的维度），因此这里 ij 表示输出矩阵  C  的维度将是  $m \times p$ ，即矩阵  A  的行数和矩阵  B  的列数。</li>
+<li>i 对应矩阵 A 的行索引。</li>
+<li>j 对应矩阵 B 的列索引。 箭头后的部分指定了输出张量 C
+的维度（即结果矩阵的维度），因此这里 ij 表示输出矩阵 C 的维度将是 <span
+class="math inline"><em>m</em> × <em>p</em></span> ，即矩阵 A
+的行数和矩阵 B 的列数。</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<p>也就是说，对于矩阵  A  中的每个行索引  i  和列索引  k ，以及矩阵  B  中的行索引  k  和列索引  j ，我们计算这些索引相同的元素的乘积，并对  k  进行求和（即矩阵乘法中的点积）。</p>
-<p>对于复杂一点的例子，比如高纬度的张量运算，torch.einsum 也能够轻松应对。</p>
+<p>也就是说，对于矩阵 A 中的每个行索引 i 和列索引 k ，以及矩阵 B
+中的行索引 k 和列索引 j ，我们计算这些索引相同的元素的乘积，并对 k
+进行求和（即矩阵乘法中的点积）。</p>
+<p>对于复杂一点的例子，比如高纬度的张量运算，torch.einsum
+也能够轻松应对。</p>
 <h4 id="批量矩阵乘法">批量矩阵乘法</h4>
-<p>对于批量矩阵乘法，假设  A  和  B  是三维张量，可以使用如下表达式：</p>
+<p>对于批量矩阵乘法，假设 A 和 B 是三维张量，可以使用如下表达式：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">C[b, i, j] = <span class="hljs-built_in">sum</span>(A[b, i, k] * B[b, k, j] over k)<br><br><span class="hljs-comment"># torch.einsum 表达式</span><br>torch.einsum(<span class="hljs-string">&#x27;bik,bkj-&gt;bij&#x27;</span>, A, B)<br></code></pre></td></tr></table></figure>
 
                 
@@ -415,9 +431,9 @@ $$</p>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/10/03/To-know-about-Transformer/" title="Tranformer 原理及应用">
+                      <a href="/2025/10/03/distributed-training/" title="分布式训练">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Tranformer 原理及应用</span>
+                        <span class="hidden-mobile">分布式训练</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

@@ -281,7 +281,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/liner-algebra/" target="_blank">
         <div>
-          笔记 本文是临近夏令营，简单地复习了一下线性代数方面相关的内容，果然重学了一遍才知道当初什么都没学懂！之后还会更新一些进阶的内容，希望我能记得起来。 线性代数及其应用 线性方程组 线性方程式形如$a_1x_1+a_2x_2+\cdots+a_nx_n=b$的式子，其中$a_i$为系数，$x_i$为未知数，$b$为常数。 一个线性方程组则为： $$ \begin{cases} a_{11}x_1+a
+          笔记 本文是临近夏令营，简单地复习了一下线性代数方面相关的内容，果然重学了一遍才知道当初什么都没学懂！之后还会更新一些进阶的内容，希望我能记得起来。 线性代数及其应用 线性方程组 线性方程式形如a1x1 + a2x2 + ⋯ + anxn = b的式子，其中ai为系数，xi为未知数，b为常数。 一个线性方程组则为： $$ \begin{cases} a_{11}x_1+a_{12}x_2+\cdo
         </div>
       </a>
 
@@ -323,7 +323,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/distributed-training/" target="_blank">
         <div>
-          分布式训练 开始之前首先贴几个链接：  openmlsys 分布式训练——通信原语 分布式——集合通信  背景 算力不足 单处理器的算力不足是促使人们设计分布式训练系统的一个主要原因。一个处理器的算力可以用每秒钟浮点数操作（Floating Point Operations Per Second，FLOPS）来衡量。根据摩尔定律（Moore’s Law），中央处理器的算力每18个月增长2倍,并且中
+          分布式训练 开始之前首先贴几个链接： - openmlsys - 分布式训练——通信原语 - 分布式——集合通信 ## 背景 ### 算力不足 单处理器的算力不足是促使人们设计分布式训练系统的一个主要原因。一个处理器的算力可以用每秒钟浮点数操作（Floating Point Operations Per Second，FLOPS）来衡量。根据摩尔定律（Moore’s Law），中央处理器的算力每1
         </div>
       </a>
 
@@ -365,7 +365,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/markov/" target="_blank">
         <div>
-          随机过程 定义：随机过程（stochastic process）通常是指随着时间或者空间变化的一组随机变量。随机过程是一组随机变量的集合。集合内的随机变量以时间或空间位置作为索引下标，通常是时间。根据下标是否为连续的又可以分为离散随机过程和连续随机过程。 例如，离散时间的随机过程可以写作随机变量序列的形式： $$ X_0, X_1, X_2, \cdots, X_t,\cdots $$ 其中，$X
+          随机过程 定义：随机过程（stochastic process）通常是指随着时间或者空间变化的一组随机变量。随机过程是一组随机变量的集合。集合内的随机变量以时间或空间位置作为索引下标，通常是时间。根据下标是否为连续的又可以分为离散随机过程和连续随机过程。 例如，离散时间的随机过程可以写作随机变量序列的形式： X0, X1, X2, ⋯, Xt, ⋯ 其中，Xt为随机变量，下标t表示时间。各个时刻的
         </div>
       </a>
 
@@ -407,7 +407,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/maximum-entropy/" target="_blank">
         <div>
-          统计学习基础 熵 熵的定义 什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为不确定性的度量。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。 熵的计算公式如下： $$ H(P)=-\sum P(x)log_{b}P(x) $$ 在这里b是对数所使用的底，通常是2，自然
+          统计学习基础 熵 熵的定义 什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为不确定性的度量。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。 熵的计算公式如下： H(P) = −∑P(x)logbP(x) 在这里b是对数所使用的底，通常是2，自然常数e，或是10。 熵
         </div>
       </a>
 
@@ -449,7 +449,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/loki/" target="_blank">
         <div>
-          Grafana Loki 介绍和使用 Grafana Grafana 是一个开源的可视化和监控工具，广泛用于分析和展示时间序列数据（如系统性能指标、应用程序日志和业务数据）。它提供了强大的数据可视化功能，支持多种数据源，并能够通过动态仪表板展示各种实时监控信息。Grafana 常用于运维监控、DevOps、IoT、云计算等领域。 特性 Grafana 能与多种不同类型的数据源集成，包括 Prome
+          Grafana Loki 介绍和使用 Grafana Grafana 是一个开源的可视化和监控工具，广泛用于分析和展示时间序列数据（如系统性能指标、应用程序日志和业务数据）。它提供了强大的数据可视化功能，支持多种数据源，并能够通过动态仪表板展示各种实时监控信息。Grafana 常用于运维监控、DevOps、IoT、云计算等领域。 ### 特性 Grafana 能与多种不同类型的数据源集成，包括 P
         </div>
       </a>
 
@@ -531,7 +531,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/Einstein-Summation-Convention/" target="_blank">
         <div>
-          爱因斯坦求和约定 **爱因斯坦求和约定（Einstein Summation Convention）**是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算 在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，
+          爱因斯坦求和约定 爱因斯坦求和约定（Einstein Summation Convention）是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算 在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，又称为爱
         </div>
       </a>
 
@@ -550,46 +550,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E7%AE%97%E6%9C%AF%E7%BA%A6%E5%AE%9A/">#算术约定</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/10/03/computional-graph/" target="_blank">
-          计算图概述
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/computional-graph/" target="_blank">
-        <div>
-          Computational Graph Background 早期的机器学习框架主要是针对较为简单的全连接（e.g FNN）和卷积神经网络设计，这些神经网络模型的结构比较简单，神经网络层之间串行连接，我们很容易分析出数据流过神经网络模型时的计算过程。因此，这样的固定计算过程可以用简单的配置文件来定义，一旦给定这样的配置文件，我们就可以清楚地表达出模型定义。 随着日益复杂的机器学习模型的出现（生成对
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-10-03 22:39" pubdate>
-              2025-10-03
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E5%9B%BE%EF%BC%8CPyTorch/">#计算图，PyTorch</a>
             
           </div>
         
@@ -630,6 +590,46 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E5%8D%9A%E5%BC%88%E8%AE%BA/">#博弈论</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/10/03/docker/" target="_blank">
+          容器核心原理
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/10/03/docker/" target="_blank">
+        <div>
+          Docker核心原理 Docker容器的本质实际上就是宿主机上的进程。 进程隔离：进程隔离是指将不同的进程组分开管理，使它们相互独立，避免共享或影响对方的系统资源。进程隔离在 namespace 中起到核心作用，确保一个命名空间内的进程不会对其他命名空间的进程产生影响。实现进程隔离的目的是为了模拟不同“系统”实例的运行环境，每个命名空间内的进程都可以认为自己在独立的系统中。 如何实现Docker下
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-03 22:39" pubdate>
+              2025-10-03
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Docker%EF%BC%8C%E8%99%9A%E6%8B%9F%E5%8C%96/">#Docker，虚拟化</a>
             
           </div>
         

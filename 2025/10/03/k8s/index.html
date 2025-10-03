@@ -27,7 +27,7 @@
 <meta property="og:description" content="Docker云平台解读 kubernetes是一个管理跨主机容器化应用的系统，实现了包括应用部署、高可用管理和弹性伸缩在内的一系列基础功能并封装为一套完整、简单易用的RESTful API接口。 Restful API RESTful API（Representational State Transfer API）是一种设计风格的应用程序接口（API），它基于 REST 架构风格，用于在不同的系统">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
-<meta property="article:modified_time" content="2025-10-03T15:00:27.489Z">
+<meta property="article:modified_time" content="2025-10-03T15:41:38.571Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="kubernetes,云平台">
 <meta name="twitter:card" content="summary_large_image">
@@ -287,35 +287,44 @@
             
               <div class="markdown-body">
                 
-                <h1>Docker云平台解读</h1>
-<p>kubernetes是一个管理跨主机容器化应用的系统，实现了包括应用部署、高可用管理和弹性伸缩在内的一系列基础功能并封装为一套完整、简单易用的RESTful API接口。</p>
-<h2 id="Restful-API">Restful API</h2>
-<p>RESTful API（Representational State Transfer API）是一种设计风格的应用程序接口（API），它基于 REST 架构风格，用于在不同的系统或应用之间通过 HTTP 协议进行通信。RESTful API 是目前最流行的 API 架构风格之一，广泛应用于 Web 服务和移动应用等场景。其核心思想是通过 HTTP 协议以一种简单、无状态的方式进行系统间的通信。一个遵循 REST 架构风格的 API 被称为 RESTful API。</p>
-<p>RESTful API 的核心组成部分包括<strong>资源（Resources）</strong>、<strong>HTTP 方法</strong>、**状态码（HTTP Status Codes）**等。下面是 RESTful API 的一些重要特点：</p>
+                <h1 id="docker云平台解读">Docker云平台解读</h1>
+<p>kubernetes是一个管理跨主机容器化应用的系统，实现了包括应用部署、高可用管理和弹性伸缩在内的一系列基础功能并封装为一套完整、简单易用的RESTful
+API接口。</p>
+<h2 id="restful-api">Restful API</h2>
+<p>RESTful API（Representational State Transfer
+API）是一种设计风格的应用程序接口（API），它基于 REST
+架构风格，用于在不同的系统或应用之间通过 HTTP 协议进行通信。RESTful API
+是目前最流行的 API 架构风格之一，广泛应用于 Web
+服务和移动应用等场景。其核心思想是通过 HTTP
+协议以一种简单、无状态的方式进行系统间的通信。一个遵循 REST 架构风格的
+API 被称为 RESTful API。</p>
+<p>RESTful API
+的核心组成部分包括<strong>资源（Resources）</strong>、<strong>HTTP
+方法</strong>、<strong>状态码（HTTP Status Codes）</strong>等。下面是
+RESTful API 的一些重要特点：</p>
 <ul>
-<li>
-<p><strong>资源（Resources）</strong>：RESTful API 中的每个“资源”都可以通过 URI（Uniform Resource Identifier，统一资源标识符）来唯一标识。例如，/users 可能表示用户资源，/posts 可能表示博客文章资源。</p>
-</li>
-<li>
-<p><strong>HTTP 方法</strong>：RESTful API 使用标准的 HTTP 方法来执行对资源的操作，常用的 HTTP 方法有：</p>
+<li><p><strong>资源（Resources）</strong>：RESTful API
+中的每个“资源”都可以通过 URI（Uniform Resource
+Identifier，统一资源标识符）来唯一标识。例如，/users
+可能表示用户资源，/posts 可能表示博客文章资源。</p></li>
+<li><p><strong>HTTP 方法</strong>：RESTful API 使用标准的 HTTP
+方法来执行对资源的操作，常用的 HTTP 方法有：</p>
 <ul>
 <li>GET：用于获取资源，不会对服务器上的数据产生副作用。</li>
 <li>POST：用于创建资源或提交数据。</li>
 <li>PUT：用于更新现有资源的全部内容。</li>
 <li>PATCH：用于部分更新资源。</li>
 <li>DELETE：用于删除资源。</li>
-</ul>
-</li>
-<li>
-<p><strong>状态码（HTTP Status Codes）</strong>：RESTful API 使用 HTTP 状态码来表示请求的结果。例如：</p>
+</ul></li>
+<li><p><strong>状态码（HTTP Status Codes）</strong>：RESTful API 使用
+HTTP 状态码来表示请求的结果。例如：</p>
 <ul>
 <li>200 OK：请求成功。</li>
 <li>201 Created：成功创建资源。</li>
 <li>400 Bad Request：请求参数错误。</li>
 <li>404 Not Found：资源未找到。</li>
 <li>500 Internal Server Error：服务器内部错误。</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 
                 
@@ -396,8 +405,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/10/03/liner-algebra/" title="线性代数及其应用">
-                        <span class="hidden-mobile">线性代数及其应用</span>
+                      <a href="/2025/10/03/maximum-entropy/" title="统计学习基础">
+                        <span class="hidden-mobile">统计学习基础</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
