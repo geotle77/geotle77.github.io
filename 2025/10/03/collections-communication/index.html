@@ -19,21 +19,20 @@
   <meta name="author" content="geotle77">
   <meta name="keywords" content="">
   
-    <meta name="description" content="集合通信 通信模型 假定在一个分布式机器学习集群中，存在p个计算设备，并由一个网络来连接所有的设备。每个设备有自己的独立内存，并且所有设备间的通信都通过该网络传输。同时，每个设备都有一个编号i，其中i的范围从1到p。 设备之间的点对点（Point-to-Point, P2P）通信由全双工传输(Full-Duplex Transmission)实现。该通信模型的基本行为可以定义如下：  每次通信有且">
+    <meta name="description" content="集合通信 集合通信是分布式训练中非常重要的一个概念，它是指在分布式系统中，多个计算设备之间进行通信的一种方式。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="集合通信">
 <meta property="og:url" content="https://geotle77.github.io/2025/10/03/collections-communication/index.html">
 <meta property="og:site_name" content="geotle77&#39;s Blog">
-<meta property="og:description" content="集合通信 通信模型 假定在一个分布式机器学习集群中，存在p个计算设备，并由一个网络来连接所有的设备。每个设备有自己的独立内存，并且所有设备间的通信都通过该网络传输。同时，每个设备都有一个编号i，其中i的范围从1到p。 设备之间的点对点（Point-to-Point, P2P）通信由全双工传输(Full-Duplex Transmission)实现。该通信模型的基本行为可以定义如下：  每次通信有且">
+<meta property="og:description" content="集合通信 集合通信是分布式训练中非常重要的一个概念，它是指在分布式系统中，多个计算设备之间进行通信的一种方式。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://geotle77.github.io/img/pics/collections_communication/broadcast.png">
-<meta property="og:image" content="https://geotle77.github.io/img/pics/collections_communication/reduce.png">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/collections.png">
 <meta property="article:published_time" content="2025-10-03T14:38:19.000Z">
-<meta property="article:modified_time" content="2025-10-03T14:48:53.335Z">
+<meta property="article:modified_time" content="2025-10-04T11:07:30.902Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="集合通信，分布式训练">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://geotle77.github.io/img/pics/collections_communication/broadcast.png">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/collections.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -199,7 +198,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -212,6 +211,11 @@
         
           
   <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
     
     
       <span class="post-meta">
@@ -228,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          1.9k 字
         
       </span>
     
@@ -291,7 +295,8 @@
               <div class="markdown-body">
                 
                 <h1 id="集合通信">集合通信</h1>
-<h2 id="通信模型">通信模型</h2>
+<p>集合通信是分布式训练中非常重要的一个概念，它是指在分布式系统中，多个计算设备之间进行通信的一种方式。
+<span id="more"></span> ## 通信模型</p>
 <p>假定在一个分布式机器学习集群中，存在<span
 class="math inline"><em>p</em></span>个计算设备，并由一个网络来连接所有的设备。每个设备有自己的独立内存，并且所有设备间的通信都通过该网络传输。同时，每个设备都有一个编号<span
 class="math inline"><em>i</em></span>，其中<span
@@ -415,6 +420,27 @@ class="math inline"><em>p</em></span>等分等。</p>
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83/" class="category-chain-item">分布式训练</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
@@ -427,49 +453,6 @@ class="math inline"><em>p</em></span>等分等。</p>
 
 
               
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>集合通信</div>
-      <div>https://geotle77.github.io/2025/10/03/collections-communication/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>geotle77</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2025年10月3日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
 
               
                 <div class="post-prevnext my-3">
