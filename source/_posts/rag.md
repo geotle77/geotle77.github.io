@@ -1,13 +1,16 @@
 ---
-title: rag
+title: RAG概述——原理和实现
 tags: RAG,LLM
 date: 2025-10-03 22:39:12
+index_img: /img/index_img/RAG.png
+banner_img: /img/banner/RAG.png
+categories: LLM
 ---
 
 # RAG概述——原理和实现
-
 检索-增强生成(Retrieval-Augmented Generation，RAG)是大语言模型中的一种常用的手段，它通过纳入外部知识来增强llm的性能，可以有效避免其出现幻觉并提高答案的准确度。
-    ![rag](/img/pics/rag/pics/rag/rag.png)
+<!-- more -->
+![rag](/img/pics/rag/rag.png)
 
 ## Problems of llm
 
@@ -20,7 +23,7 @@ RAG就是通过语义相似性计算从外部知识库中检索相关文档块�
 ## How does RAG work?
 
 随着对RAG技术的深入研究，一共出现了三种RAG范式： Naive RAG, Advanced RAG, and Modular RAG.
-![kinds of rag](/img/pics/rag/pics/rag/kinds_of_rag.png)
+![kinds of rag](/img/pics/rag/kinds_of_rag.png)
 
 ### naive rag
 

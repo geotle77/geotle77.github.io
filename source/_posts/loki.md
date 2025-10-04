@@ -3,11 +3,14 @@ title: Grafana Loki 介绍和使用
 tags: Grafana,Loki,数据库
 sticky: 95
 date: 2025-10-03 22:39:12
+index_img: /img/index_img/grafana.png
+categories: 数据库
 ---
 
 # Grafana Loki 介绍和使用
 ## Grafana
 Grafana 是一个开源的可视化和监控工具，广泛用于分析和展示时间序列数据（如系统性能指标、应用程序日志和业务数据）。它提供了强大的数据可视化功能，支持多种数据源，并能够通过动态仪表板展示各种实时监控信息。Grafana 常用于运维监控、DevOps、IoT、云计算等领域。
+<!-- more -->
 ### 特性
 Grafana 能与多种不同类型的数据源集成，包括 Prometheus、InfluxDB、Elasticsearch、MySQL、PostgreSQL、Graphite 等。这意味着用户可以采集不同的数据存储在不同的数据库中，并且能够通过grafana将其集成在一起共同展示。**每种数据源都有独特的查询语言，Grafana 提供灵活的查询编辑器来帮助用户构建查询语句，适配不同的数据源。** 
 

@@ -2,9 +2,14 @@
 title: 计算图概述
 tags: 计算图，PyTorch
 date: 2025-10-03 22:39:12
+banner_img: /img/banner/village.png
+index_img: /img/index_img/computional_graph.png
+categories: 机器学习
 ---
 
 # Computational Graph
+计算图是机器学习框架中非常重要的一个概念，它是指在机器学习框架中，计算图是用来表示机器学习模型的计算过程的。
+<!-- more -->
 ## Background
 早期的机器学习框架主要是针对较为简单的全连接（e.g FNN）和卷积神经网络设计，这些神经网络模型的结构比较简单，神经网络层之间串行连接，我们很容易分析出数据流过神经网络模型时的计算过程。因此，这样的固定计算过程可以用简单的配置文件来定义，一旦给定这样的配置文件，我们就可以清楚地表达出模型定义。
 

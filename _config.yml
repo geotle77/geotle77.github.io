@@ -14,7 +14,7 @@ timezone: 'Asia/Shanghai'
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://geotle77.github.io
-root: /BLOGS/
+#root: /BLOGS/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -40,7 +40,7 @@ external_link:
   field: site # Apply to the whole site
   exclude: ''
 filename_case: 0
-render_drafts: true
+render_drafts: false
 post_asset_folder: true
 relative_link: false
 future: true
@@ -104,4 +104,4 @@ theme: fluid
 deploy:
   type: git
   repo: https://github.com/geotle77/geotle77.github.io.git
-  branch: main
+  branch: gh-pages

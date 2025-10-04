@@ -3,9 +3,13 @@ title: Prometheus介绍
 tags: Prometheus,时序数据
 sticky: 94
 date: 2025-10-03 22:39:12
+index_img: /img/index_img/Prometheus.png
+categories: 数据库
 ---
 
 # Prometheus介绍
+Prometheus是一个系统监控和警报系统。
+<!-- more -->
 ## 介绍
 PrometheusPrometheus 是一个系统监控和警报系统。简单来说，就是一个存储时间序列数据的数据库，Prometheus 将所有metric data存储为时间序列，即将系统的度量信息与记录的时间戳一起存储。
 

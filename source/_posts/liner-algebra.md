@@ -3,12 +3,14 @@ title: 线性代数及其应用
 tags: 线性代数
 sticky: 99
 date: 2025-10-03 22:39:12
+index_img: /img/index_img/liner_algebra.png
+categories: 数学
 ---
 
 # 笔记
 
 本文是临近夏令营，简单地复习了一下线性代数方面相关的内容，果然重学了一遍才知道当初什么都没学懂！之后还会更新一些进阶的内容，希望我能记得起来。
-
+<!-- more -->
 ## 线性代数及其应用
 
 ### 线性方程组
@@ -42,21 +44,21 @@ $$
 
 $$
 \begin{bmatrix}
-a_{11} & a_{12} & \cdots & a_{1n}\\
-a_{21} & a_{22} & \cdots & a_{2n}\\  
- \vdots & \vdots & \ddots & \vdots\\
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\  
+ \vdots & \vdots & \ddots & \vdots \\
 a_{m1} & a_{m2} & \cdots & a_{mn}
 \end{bmatrix}
 \begin{bmatrix}
-x_1\\
-x_2\\  
- \vdots \\
+x_1 \\
+x_2 \\  
+\vdots \\
 x_n
 \end{bmatrix}
 =
 \begin{bmatrix}
-b_1\\
-b_2\\  
+b_1 \\
+b_2 \\  
  \vdots \\
 b_m
 \end{bmatrix}
@@ -1152,12 +1154,13 @@ $$
 取$r=rank A$,那么将$U$和$V$矩阵分块为第一块包含r列的子矩阵，于是有。
 
 $$
-A=[U_r \quad U_{m-r}]\begin{bmatrix}
-    D & 0 \\
-    0 & 0
+A=[U_r \quad U_{m-r}]
+\begin{bmatrix}
+D & 0 \\
+0 & 0
 \end{bmatrix}\begin{bmatrix}
-    V_r^T \\
-    V_{n-r}^T
+V_r^T \\
+V_{n-r}^T
 \end{bmatrix}=U_rD V_r^T
 $$
 

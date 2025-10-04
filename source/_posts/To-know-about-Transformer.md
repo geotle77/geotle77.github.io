@@ -2,9 +2,10 @@
 title: Tranformer 原理及应用
 tags: LLM
 date: 2025-10-03 22:39:12
+index_img: /img/index_img/transformer.png
+categories: LLM
 sticky: 100
 ---
-
 # Tranformer 原理及应用
 
 Transformer由论文《Attention is All You Need》提出，这之后这句话也是一直贯穿深度学习的研究当中。简单来说，**Transformer的作用就是将一个序列转换为另一个序列，例如说中英文翻译。**
@@ -84,7 +85,7 @@ A 矩阵由一堆 one-hot 向量组成。它们分别位于第一列、第四列
 
 **我们的目的是使用转换模型，对于词汇表中的每个单词，它都会显示下一个单词可能是什么**那么如果用户一半时间询问照片，30% 时间询问文件，其余时间询问目录，则转换模型将如下所示。
 
-|                       ![example4](/img/pics/transformer/example_tra_3.png)                       |
+|                 ![example4](/img/pics/transformer/example_tra_3.png)                 |
 | :---------------------------------------------------------------------------------: |
 | *转换模型示例图，图源 https://www.zhihu.com/question/471328838/answer/3011638037* |
 
@@ -92,7 +93,7 @@ A 矩阵由一堆 one-hot 向量组成。它们分别位于第一列、第四列
 
 马尔可夫链可以方便地用矩阵形式表示。使用与创建 one-hot 向量时相同的索引方案，每一行代表词汇表中的一个单词。每一列也是如此。每列中的值显示下一个单词出现的概率。因为矩阵中每个元素的值代表一个概率，所以它们都会落在 0 到 1 之间。由于概率总和为 1，因此每行中的值总和为 1。
 
-|                       ![example5](/img/pics/transformer/example_tra_4.png)                       |
+|                  ![example5](/img/pics/transformer/example_tra_4.png)                  |
 | :----------------------------------------------------------------------------------: |
 | *马尔可夫转移矩阵 图源 https://www.zhihu.com/question/471328838/answer/3011638037* |
 
@@ -100,7 +101,7 @@ A 矩阵由一堆 one-hot 向量组成。它们分别位于第一列、第四列
 
 例如，如果我们只是想得到每个单词出现在 my 之后的概率，我们可以创建一个代表单词 my 的 one-hot 向量，并将其乘以我们的转换矩阵。这会拉出相关行的行，并向我们显示下一个单词的概率分布。
 
-|                     ![example6](/img/pics/transformer/example_tra_5.png)                     |
+|                ![example6](/img/pics/transformer/example_tra_5.png)                |
 | :------------------------------------------------------------------------------: |
 | *独热码的作用 图源 https://www.zhihu.com/question/471328838/answer/3011638037* |
 
@@ -286,7 +287,7 @@ $ softmax(\frac{Q \cdot K^T}{\sqrt{d}}) $ 的结果是一个矩阵，对于这�
 - 有多个查询/键/值权重矩阵集合，并且每一个都是随机初始化的。每个注意力头都是用矩阵$X$乘以$W^Q、W^K、W^V$来产生查询、键、值矩阵。
 - 多个注意力头会注意到不同的内容，我们对各种注意到的部分进行组合，就能避免某些可能存在的情况被忽视。
 
-具体来说，在《the illustrated transformer》中已经提到，因为不同的初始化参数，训练后得到的注意力得分是不一样的。也就意味着可能对于同一个词在不同的头上会注意到不同的位置。也就是如下图所示：  
+具体来说，在《the illustrated transformer》中已经提到，因为不同的初始化参数，训练后得到的注意力得分是不一样的。也就意味着可能对于同一个词在不同的头上会注意到不同的位置。也就是如下图所示：
 ![multi-head attention](/img/pics/transformer/multi-head-attention.png)
 当计算“it”的注意力得分时，八列不同颜色的表格指示了八个头不同的注意到的位置，当对“it”一词进行编码时，一个注意力头最关注的是“animals”，而另一个是专注于“tired”——从某种意义上说，模型对“it”一词的表示在“animals”和“tired”的一些表示中提取得到。
 
@@ -306,7 +307,7 @@ $$
 ### Add
 
 这里用到了残差连接的思想，即
-<img src="/img/pics/transformer/res_block.png" width="500" height="100">
+`<img src="/img/pics/transformer/res_block.png" width="500" height="100">`
 
 加入残差块的目的是为了防止在深度神经网络的训练过程中发生退化的问题，退化的意思就是深度神经网络通过增加网络的层数，Loss逐渐减小，然后趋于稳定达到饱和，然后再继续增加网络层数，Loss反而增大。
 对于多余的层，我们需要保证多出来的网络进行恒等映射。只有进行了恒等映射之后才能保证这多出来的神经网络不会影响到模型的效果。恒等映射，即让F（X）=0 就可以了。x经过线性变换（随机初始化权重一般偏向于0），输出值明显会偏向于0，而且经过激活函数Relu会将负数变为0，过滤了负数的影响。  这样当网络自己决定哪些网络层为冗余层时，使用ResNet的网络很大程度上解决了学习恒等映射的问题，**用学习残差F(x)=0更新该冗余层的参数来代替学习h(x)=x更新冗余层的参数。**
@@ -367,7 +368,7 @@ Decoder block 第二个 Multi-Head Attention 变化不大， 主要的区别在�
 ### Softmax预测输出单词
 
 Decoder block 最后的部分是利用 Softmax 预测下一个单词，在之前的网络层我们可以得到一个最终的输出 Z，Softmax 根据输出矩阵的每一行预测下一个单词：
-<img src="/img/pics/transformer/output.png" width="600" height="200">
+`<img src="/img/pics/transformer/output.png" width="600" height="200">`
 
 具体来说，这个输出层接收 Decoder 的最后一个输出，然后通过一个全连接层（也就是一个线性变换）将其转换为一个向量，这个向量的长度等于词汇表的大小。然后，这个向量通过 Softmax 函数转换为一个概率分布。Softmax 函数可以确保所有的输出值都在 0 和 1 之间，并且所有值的总和为 1，因此可以被解释为概率。这个概率分布表示了模型对下一个词是词汇表中每个词的概率的预测。在实际应用中，我们通常选择概率最高的词作为下一个词的预测。
 

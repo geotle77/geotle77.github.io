@@ -2,12 +2,14 @@
 title: Einstein Summation Convention
 tags: 算术约定
 date: 2025-10-03 22:39:12
+index_img: /img/index_img/es.png
+categories: 数学
 ---
 
 # 爱因斯坦求和约定
 
 **爱因斯坦求和约定（Einstein Summation Convention）**是一种在数学和物理学中广泛使用的简化符号规则，特别是在张量计算和理论物理中。这个约定使得求和的过程更加简洁和直观，通常用于描述多维空间中的向量、矩阵或张量运算
-
+<!-- more -->
 在数学里，特别是将线性代数套用到物理时，爱因斯坦求和约定（Einstein summation convention）是一种标记的约定，又称为爱因斯坦标记法（Einstein notation），在处理关于坐标的方程式时非常有用。
 
 ## 简介
