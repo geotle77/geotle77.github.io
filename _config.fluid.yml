@@ -18,11 +18,11 @@
 
 # 用于浏览器标签的图标
 # Icon for browser tab
-favicon: /img/fluid.png
+favicon: /img/icon/cat.png
 
 # 用于苹果设备的图标
 # Icon for Apple touch
-apple_touch_icon: /img/fluid.png
+apple_touch_icon: /img/icon/橘猫.png
 
 # 浏览器标签页中的标题分隔符，效果：文章名 - 站点名
 # Title separator in browser tab, eg: article - site
@@ -242,7 +242,7 @@ custom_css:
 # 网页访问统计
 # Analysis of website visitors
 web_analytics:
-  enable: false
+  enable: true
 
   # 遵循访客浏览器"请勿追踪"的设置，如果开启则不统计其访问
   # Follow the "Do Not Track" setting of the visitor's browser
@@ -270,11 +270,11 @@ web_analytics:
   # LeanCloud 计数统计，可用于 PV UV 展示，如果 `web_analytics: enable` 没有开启，PV UV 展示只会查询不会增加
   # LeanCloud count statistics, which can be used for PV UV display. If `web_analytics: enable` is false, PV UV display will only query and not increase
   leancloud:
-    app_id:
-    app_key:
+    app_id: cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI
+    app_key: tGI9ixwYdsYh43ghrgRvhLDW
     # REST API 服务器地址，国际版不填
     # Only the Chinese mainland users need to set
-    server_url:
+    server_url: https://cs16up94.api.lncldglobal.com
     # 统计页面时获取路径的属性
     # Get the attribute of the page path during statistics
     path: window.location.pathname
@@ -445,36 +445,36 @@ open_graph:
 footer:
   # 页脚第一行文字的 HTML，建议保留 Fluid 的链接，用于向更多人推广本主题
   # HTML of the first line of the footer, it is recommended to keep the Fluid link to promote this theme to more people
-  content: '
-    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-    <i class="iconfont icon-love"></i>
-    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-    </script>
-  '
+ # content: '
+#    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+#    <i class="iconfont icon-love"></i>
+ #   <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+ # '
 
-# 展示网站的 PV、UV 统计数
-# Display website PV and UV statistics
-statistics:
+  # 展示网站的 PV、UV 统计数
+  # Display website PV and UV statistics
+  statistics:
     enable: true
 
     # 统计数据来源，使用 leancloud, umami 需要设置 `web_analytics` 中对应的参数；使用 busuanzi 不需要额外设置，但是有时不稳定，另外本地运行时 busuanzi 显示统计数据很大属于正常现象，部署后会正常
     # Data source. If use leancloud, umami, you need to set the parameter in `web_analytics`
     # Options: busuanzi | leancloud | umami
-source: "busuanzi"
+    source: "leancloud"
+    pv_format: "总访问量 {} 次"  # 显示的文本，{}是数字的占位符（必须包含)，下同
+    uv_format: "总访客数 {} 人"
 
   # 国内大陆服务器的备案信息
   # For Chinese mainland website policy, other areas keep disable
-beian:
-  enable: false
-  # ICP证号
-  icp_text: 京ICP证123456号
-  # 公安备案号，不填则只显示ICP
-  police_text: 京公网安备12345678号
-  # 公安备案的编号，用于URL跳转查询
-  police_code: 12345678
-  # 公安备案的图片. 为空时不显示备案图片
-  police_icon: /img/police_beian.png
+  beian:
+    enable: false
+    # ICP证号
+    icp_text: 京ICP证123456号
+    # 公安备案号，不填则只显示ICP
+    police_text: 京公网安备12345678号
+    # 公安备案的编号，用于URL跳转查询
+    police_code: 12345678
+    # 公安备案的图片. 为空时不显示备案图片
+    police_icon: /img/police_beian.png
 
 
 #---------------------------
@@ -604,7 +604,7 @@ post:
       # 统计数据来源
       # Data Source
       # Options: busuanzi | leancloud | umami
-      source: "busuanzi"
+      source: "leancloud"
 
   # 在文章开头显示文章更新时间，该时间默认是 md 文件更新时间，可通过 front-matter 中 `updated` 手动指定（和 date 一样格式）
   # Update date is displayed at the beginning of the post. The default date is the update date of the md file, which can be manually specified by `updated` in front-matter (same format as date)
@@ -758,7 +758,7 @@ post:
     # 指定的插件，需要同时设置对应插件的必要参数
     # The specified plugin needs to set the necessary parameters at the same time
     # Options: utterances | disqus | gitalk | valine | waline | changyan | livere | remark42 | twikoo | cusdis | giscus | discuss
-    type: disqus
+    type: waline
 
 
 #---------------------------
@@ -845,7 +845,7 @@ valine:
 # Derived from Valine, with self-hosted service and new features
 # See: https://waline.js.org/
 waline:
-  serverURL: ''
+  serverURL: https://blog-ashen-gamma-45.vercel.app
   path: window.location.pathname
   meta: ['nick', 'mail', 'link']
   requiredMeta: ['nick']
@@ -991,14 +991,14 @@ about:
   banner_img_height: 60
   banner_mask_alpha: 0.3
   avatar: /img/avatar.png
-  name: "Fluid"
-  intro: "An elegant theme for Hexo"
+  name: "geotle77"
+  intro: "A blog for my learning and thinking"
   # 更多图标可从 https://hexo.fluid-dev.com/docs/icon/ 查找，`class` 代表图标的 css class，添加 `qrcode` 后，图标不再是链接而是悬浮二维码
   # More icons can be found from https://hexo.fluid-dev.com/docs/en/icon/  `class` is the css class of the icon. If adding `qrcode`, the icon is no longer a link, but a hovering QR code
   icons:
-    - { class: "iconfont icon-github-fill", link: "https://github.com", tip: "GitHub" }
-    - { class: "iconfont icon-douban-fill", link: "https://douban.com", tip: "豆瓣" }
-    - { class: "iconfont icon-wechat-fill", qrcode: "/img/favicon.png" }
+    - { class: "iconfont icon-github-fill", link: "https://github.com/geotle77", tip: "GitHub" }
+    - { class: "iconfont icon-zhihu-fill", link: "https://www.zhihu.com/people/geotle77-18", tip: "知乎" }
+    - { class: "iconfont icon-wechat-fill", qrcode: "/img/icon/qrcode.png"}
 
 
 #---------------------------
@@ -1072,11 +1072,11 @@ links:
   # 评论插件
   # Comment plugin
   comments:
-    enable: false
+    enable: true
     # 指定的插件，需要同时设置对应插件的必要参数
     # The specified plugin needs to set the necessary parameters at the same time
     # Options: utterances | disqus | gitalk | valine | waline | changyan | livere | remark42 | twikoo | cusdis | giscus | discuss
-    type: disqus
+    type: waline
 
 
 #---------------------------

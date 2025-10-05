@@ -12,6 +12,7 @@
     "version": "7.3.0"
   },
   "dependencies": {
+    "@waline/client": "^3.6.0",
     "hexo": "^7.0.0",
     "hexo-deployer-git": "^4.0.0",
     "hexo-filter-mathjax": "^0.9.1",
