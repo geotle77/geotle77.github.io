@@ -19,24 +19,24 @@
   <meta name="author" content="geotle77">
   <meta name="keywords" content="">
   
-    <meta name="description" content="统计学习基础 熵是信息论中一个非常重要的概念，它描述了信息的不确定性。">
+    <meta name="description" content="正态分布 好久没有更新博客了，花了好大力气重新部署了一下，这次新增了comments功能，大家可以试试看. 最近在上模式识别与机器学习的课，其中提到了贝叶斯判别分析，其中提到了正态分布的假设。实际上，我一直没有理解为什么一定要用正态分布，或者说为什么经常是假设其为正态分布。本科上概率论与数理统计的时候，我就对此产生了疑问，而真正想清楚这个问题确实是花了相当久，它背后其实有很多有意思的数学推理。 我">
 <meta property="og:type" content="article">
-<meta property="og:title" content="统计学习基础">
-<meta property="og:url" content="https://geotle77.github.io/2025/10/03/maximum-entropy/index.html">
+<meta property="og:title" content="为什么数据一定是正态分布的？">
+<meta property="og:url" content="https://geotle77.github.io/2025/10/05/normal-distribution/index.html">
 <meta property="og:site_name" content="geotle77&#39;s Blog">
-<meta property="og:description" content="统计学习基础 熵是信息论中一个非常重要的概念，它描述了信息的不确定性。">
+<meta property="og:description" content="正态分布 好久没有更新博客了，花了好大力气重新部署了一下，这次新增了comments功能，大家可以试试看. 最近在上模式识别与机器学习的课，其中提到了贝叶斯判别分析，其中提到了正态分布的假设。实际上，我一直没有理解为什么一定要用正态分布，或者说为什么经常是假设其为正态分布。本科上概率论与数理统计的时候，我就对此产生了疑问，而真正想清楚这个问题确实是花了相当久，它背后其实有很多有意思的数学推理。 我">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://geotle77.github.io/img/index_img/entropy.png">
-<meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
-<meta property="article:modified_time" content="2025-10-05T09:04:44.256Z">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/normal_distribution.png">
+<meta property="article:published_time" content="2025-10-05T09:48:56.350Z">
+<meta property="article:modified_time" content="2025-10-05T09:57:58.463Z">
 <meta property="article:author" content="geotle77">
-<meta property="article:tag" content="数学，信息论">
+<meta property="article:tag" content="概率论与数理统计,数学">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/entropy.png">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/normal_distribution.png">
   
   
   
-  <title>统计学习基础 - geotle77&#39;s Blog</title>
+  <title>为什么数据一定是正态分布的？ - geotle77&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="统计学习基础"></span>
+            <span id="subtitle" data-typed-text="为什么数据一定是正态分布的？"></span>
           
         </div>
 
@@ -231,8 +231,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-10-03 22:39" pubdate>
-          2025年10月3日 晚上
+        <time datetime="2025-10-05 17:48" pubdate>
+          2025年10月5日 下午
         </time>
       </span>
     
@@ -300,172 +300,130 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">统计学习基础</h1>
+            <h1 id="seo-header">为什么数据一定是正态分布的？</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="统计学习基础">统计学习基础</h1>
-<p>熵是信息论中一个非常重要的概念，它描述了信息的不确定性。</p>
-<span id="more"></span>
-<h2 id="熵">熵</h2>
-<h3 id="熵的定义">熵的定义</h3>
-<p>什么是熵呢？熵是在1948年由克劳德·艾尔伍德·香农从热力学中引入到信息论中的概念。信息论中，熵可以理解为<strong>不确定性的度量</strong>。事件的概率分布和每个事件的信息量构成了一个随机变量，这个随机变量的均值（即期望）就是这个分布产生的信息量的平均值（即熵）。</p>
-<p>熵的计算公式如下：</p>
-<p><span
-class="math display"><em>H</em>(<em>P</em>) = −∑<em>P</em>(<em>x</em>)<em>l</em><em>o</em><em>g</em><sub><em>b</em></sub><em>P</em>(<em>x</em>)</span></p>
-<p>在这里b是对数所使用的底，通常是2，自然常数e，或是10。</p>
-<p>熵的单位通常为比特，采用概率分布的对数作为信息的量度的原因是其可加性。一般地，我们需要用log2(n)位来表示一个可以取n个值的变量。例如，如果有一枚理想的硬币，其出现正面和反面的机会相等，那么我们使用一枚正常硬币进行若干次抛掷，这个事件的熵是一比特，因为结果不外乎两个——正面或者反面，可以表示为0,
-1编码，而且两个结果彼此之间相互独立。若进行n次独立实验，则熵为n，因为可以用长度为n的比特流表示。</p>
-<p>这里举个例子： 假设一个随机变量X，取三种可能值<span
-class="math inline"><em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>, <em>x</em><sub>3</sub></span>,概率分别为<span
-class="math inline">$\frac{1}{2},\frac{1}{4},\frac{1}{4}$</span>,那么编码的平均比特长度为：
-<span class="math inline">$\frac{1}{2}\times 1+\frac{1}{4}\times
-2+\frac{1}{4}\times 2 = \frac{2}{3}$</span></p>
-<p>所以<strong>熵实际是对随机变量的比特量和发生概率相乘再总和的数学期望。</strong></p>
-<h3 id="熵的推广">熵的推广</h3>
-<h4 id="联合熵joint-entropy">联合熵(joint entropy)</h4>
-<p>如果 <span class="math inline"><em>X</em>, <em>Y</em></span>
-是一对离散型随机变量 <span
-class="math inline"><em>X</em>, <em>Y</em> <em>p</em>(<em>x</em>, <em>y</em>)，<em>X</em>, <em>Y</em></span>
-的联合熵 <span
-class="math inline"><em>H</em>(<em>X</em>, <em>Y</em>)</span> 为：</p>
-<p><span
-class="math display"><em>H</em>(<em>X</em>, <em>Y</em>) = ∑<sub><em>x</em> ∈ <em>X</em></sub>∑<sub><em>y</em> ∈ <em>Y</em></sub><em>p</em>(<em>x</em>, <em>y</em>)<em>l</em><em>o</em><em>g</em><sub>2</sub><em>p</em>(<em>x</em>, <em>y</em>)</span></p>
-<p>联合熵描述的就是一对随机变量平均所需要的信息量，还可以推广到多个随机变量的情况。</p>
-<h4 id="条件熵conditional-entropy">条件熵(conditional entropy)</h4>
-<p>给定随机变量 X 的情况下，随机变量 Y 的条件熵定义为：</p>
-<p><span class="math display">$$
-\begin{align*}
-H(X|Y) &amp;= \sum_{x \in X}p(x)H(Y|X=x)\\
-       &amp;= \sum_{x \in X}p(x)[- \sum_{y \in Y}p(y|x)log_{2}p(y|x)]\\
-       &amp;= \sum_{x \in X}\sum_{y \in Y} p(x,y)log_{2}p(y|x)
-\end{align*}
-$$</span></p>
-<p>该式可进一步化简为：</p>
-<p><span
-class="math display"><em>H</em>(<em>X</em>) + <em>H</em>(<em>Y</em>|<em>X</em>)</span></p>
-<h3 id="相对熵relative-entropy">相对熵(relative entropy)</h3>
-<p>(或称 Kullback-Leibler divergence, K-L 距离，或K-L散度)
-它衡量的是相同事件空间里的两个概率分布的差异情况。并不是一种距离度量方式，其物理意义是：在相同事件空间里，概率分布P(x)对应的每个事件，若用概率分布
-Q(x)编码时，平均每个基本事件（符号）编码长度增加了多少比特。我们用D（P||Q）表示KL距离，计算公式如下：</p>
-<p><span class="math display">$$
-D(P||Q) = \sum_{x \in X}P(x)log\frac{P(x)}{Q(x)}
-$$</span></p>
-<p>进一步约定</p>
-<p><span
-class="math display">0<em>l</em><em>o</em><em>g</em>(0/<em>Q</em>) = 0, <em>P</em><em>l</em><em>o</em><em>g</em><em>P</em>(/0) = ∞</span></p>
-<p>根据公式，我们可以得到以下结论：</p>
-<ul>
-<li>当P(x)=Q(x)时，D(P||Q)=0,即其相对熵为零。</li>
-<li>当P(x)和Q(x)相似度越高时，KL距离越小</li>
-<li>D(P||Q)非负（非负性）</li>
-<li>不满足对称性，即D(P||Q)≠D(Q||P)</li>
-</ul>
-<p>KL距离主要是衡量两个概率分布的差异。可以理解为利用概率分布Q
-拟合概率分布P 时的能量损耗，也就是说拟合以后丢失了多少的信息。
-在生成式模型中，这个指标会很常用到。</p>
-<h3 id="交叉熵">交叉熵</h3>
-<p>如果一个随机变量X ~
-p(x)，理论模型q(x)为用于近似p(x)的概率分布，那么，统计分布p和模型q之间的交叉熵定义为：</p>
-<p><span class="math display">$$
-\begin{align*}
-H(X,q) &amp;= H(X) + D(p||q)\\
-       &amp;= \sum_{x \in X}p(x)log p(x) + \sum_{x \in X}p(x)log
-\frac{p(x)}{q(x)}\\
-       &amp;= - \sum_{x \in X} p(x)log q(x)
-\end{align*}
-$$</span></p>
-<p>交叉熵衡量的也是两个模型分布之间的差异。因为熵是理论上的平均最小编码长度，所以交叉熵只可能大于等于熵。换句话说，如果我们的估计是完美的，即<span
-class="math inline"><em>Q</em> = <em>P</em></span>，那么有<span
-class="math inline"><em>H</em>(<em>P</em>, <em>Q</em>) = <em>H</em>(<em>P</em>)</span>，否则，<span
-class="math inline"><em>H</em>(<em>P</em>, <em>Q</em>) &gt; <em>H</em>(<em>P</em>)</span>。</p>
-<h3 id="相对熵与交叉熵的区别">相对熵与交叉熵的区别</h3>
-<p>在机器学习中经常用p(x)表示真实数据的概率分布，由于真实数据的概率分布往往无法获得,
-所以一般通过大量的训练数据来近似。假设我们通过某个模型得到了训练数据的概率分布q(x),
-由于真实数据的概率分布p(x)往往是不变的，因此<strong>最小化交叉熵H(p,
-q)等效于最小化相对熵D(p||q)</strong>。
-习惯上机器学习算法中通常采用交叉熵计算损失函数。例如,
-在某机器学习任务中定义损失函数为交叉熵: <span
-class="math inline"><em>L</em><em>o</em><em>s</em><em>s</em> = <em>H</em>(<em>p</em>, <em>q</em>)</span>，假设我们训练到得到一个非常好的模型，即
+                <h1 id="正态分布">正态分布</h1>
+<p>好久没有更新博客了，花了好大力气重新部署了一下，这次新增了comments功能，大家可以试试看.</p>
+<p>最近在上模式识别与机器学习的课，其中提到了贝叶斯判别分析，其中提到了正态分布的假设。实际上，我一直没有理解为什么一定要用正态分布，或者说为什么经常是假设其为正态分布。本科上概率论与数理统计的时候，我就对此产生了疑问，而真正想清楚这个问题确实是花了相当久，它背后其实有很多有意思的数学推理。</p>
+<p>我们都知道在贝叶斯判别分析中，核心思想是“选取后验概率最大的类别”。但后验概率的计算依赖于每一类的概率密度函数
 <span
-class="math inline"><em>p</em>(<em>x</em>) ≈ <em>q</em>(<em>x</em>)</span>，此时Loss不会降低为0,
-而是一个很小的值, 如Loss=2, 它表示真实数据自身的熵为 <span
-class="math inline"><em>H</em>(<em>p</em>) = 2</span>。如果选择相对熵作为损失函数,
-即<span
-class="math inline"><em>L</em><em>o</em><em>s</em><em>s</em> = <em>D</em>(<em>p</em>||<em>q</em>)</span>,
-同样假设我们训练得到一个非常好的模型，即 <span
-class="math inline"><em>p</em>(<em>x</em>) ≈ <em>q</em>(<em>x</em>)</span>，此时，Loss=
-0，意味着两个概率分布几乎一样。实际上，上述两种方法所得到的Loss仅仅是数值上的区别，训练得到的模型是完全一样的，即两个概念的作用一样。</p>
+class="math inline"><em>p</em>(<em>x</em>|<em>ω</em><sub><em>i</em></sub>)</span>。这时，大多数教材都会直接写一句话：“假设
+<span
+class="math inline"><em>p</em>(<em>x</em>|<em>ω</em><sub><em>i</em></sub>)</span>
+服从多维正态分布”。可这恰恰是我最初的疑问：为什么是正态？这假设合理吗？如果不是正态，会怎样？我一向是比较喜欢从0开始推导的，所以就写一篇博客来记录一下这个过程。</p>
+<h2 id="什么是正态分布">什么是正态分布</h2>
+<p>正态分布（Normal Distribution），也称为高斯分布（Gaussian
+Distribution），是概率论中最重要的分布之一。它的概率密度函数（PDF）呈现出钟形曲线，因此也被称为“钟形曲线”。正态分布具有以下几个特点：</p>
+<ul>
+<li>对称性：正态分布的曲线是对称的，均值两侧的值对称分布。</li>
+<li>单峰性：正态分布只有一个峰值，即最高点。</li>
+<li>正态分布的均值、标准差和概率密度函数完全由这两个参数确定。</li>
+</ul>
+<p>一维正态分布的数学表达式为： <span class="math display">$$
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$</span> 其中，<span class="math inline"><em>μ</em></span>是均值，<span
+class="math inline"><em>σ</em></span>是标准差。</p>
+<h2 id="为什么数据一定是正态分布的">为什么数据一定是正态分布的？</h2>
+<p>在回答这个问题之前，我们首先在心中保持这样的观念：
+<strong>我们的观察是后验的，我们无法知道真实的数据分布，我们只能通过观察来近似真实的数据分布。</strong>
+从观测角度讲我们往往只知道数据的均值和方差。此时，能满足这些约束的分布有无穷多种。
+当我们只知道部分统计特征（比如均值与方差）时，怎样去构造一个合理的概率分布？如果我们随意假设一种形式，就相当于在数据之外加入了主观偏好。我们希望一种“信息最少”的假设方式——这就引出了最大熵原理。</p>
 <h3 id="最大熵原理">最大熵原理</h3>
-<p>最大熵原理的表述是：<strong>学习概率模型时，在所有可能的概率模型中，熵最大的模型是最好的模型</strong>。</p>
-<p>最大熵原理是在1957 年由E.T.Jaynes
-提出的，在只掌握关于未知分布的部分知识时，应该选取符合这些知识但熵值最大的概率分布。因为在这种情况下，符合已知知识的概率分布可能不止一个。熵最大的时候，说明随机变量最不确定，也就是随机变量最随机，对其行为做准确预测最困难。那么最大熵原理的实质就是，<strong>在已知部分知识的前提下，关于未知分布最合理的推断就是符合已知知识最不确定或最随机的推断，这是我们可以作出的不偏不倚的选择，任何其它的选择都意味着我们增加了其它的约束和假设</strong>，这些约束和假设根据我们掌握的信息无法作出。</p>
-<p>因此，最大熵原理就是表述为在满足约束条件的模型集合中选择熵最大的那个模型。</p>
-<h2 id="最大熵模型">最大熵模型</h2>
-<p>假设分类模型是一个条件概率分布<span
-class="math inline"><em>P</em>（<em>Y</em>|<em>X</em>）</span>, <span
-class="math inline"><em>X</em> ∈ <em>χ</em> ⊆ <em>R</em><sup><em>n</em></sup></span>为输入,<span
-class="math inline"><em>Y</em> ∈ <em>γ</em></span>为输出，<span
-class="math inline"><em>χ</em><em>和</em><em>γ</em></span>分别为输入和输出的集合。该模型表示的是对于给定的输入<span
-class="math inline"><em>X</em></span>，以条件概率<span
-class="math inline"><em>P</em>(<em>Y</em>|<em>X</em>)</span>输出<span
-class="math inline"><em>Y</em></span>。</p>
-<p>如果现有一个训练数据集:</p>
+<p>什么叫最大熵呢？可以看我之前写的最大熵模型：<a
+href="https://geotle77.github.io/posts/maximum-entropy/">最大熵模型</a>。</p>
+<p>熵代表了“不确定性”。Jaynes 对其有一个非常拗口的陈述:<br />
+&gt; The principle of maximum entropy states that the probability
+distribution which best represents the current state of knowledge about
+a system is the one with largest entropy, in the context of precisely
+stated prior data (such as a proposition that expresses testable
+information).</p>
+<p>这里的意思是，在已知某些约束条件下，熵最大的分布是最优的。可是，还是需要进一步回答，熵最大是什么意思？最优指的是和什么比较？</p>
+<p>首先，熵最大是什么意思？熵的定义是： <span
+class="math display"><em>H</em>(<em>X</em>) = −∑<sub><em>x</em> ∈ <em>X</em></sub><em>p</em>(<em>x</em>)log <em>p</em>(<em>x</em>)</span>
+其中，<span class="math inline"><em>p</em>(<em>x</em>)</span>是<span
+class="math inline"><em>X</em></span>的概率分布。熵实际是对随机变量的比特量和发生概率相乘再总和的数学期望，也就是说熵越大，不确定性越大。熵最大的时候，说明随机变量最不确定，也就是随机变量最随机，对其行为做准确预测最困难。那么最大熵原理的实质就是，<strong>在已知部分知识的前提下，关于未知分布最合理的推断就是符合已知知识最不确定或最随机的推断，这是我们可以作出的不偏不倚的选择，任何其它的选择都意味着我们增加了其它的约束和假设</strong>，这些约束和假设根据我们掌握的信息无法作出。</p>
+<p>这里需要反复品鉴这句话的内涵，什么叫做不偏不倚的选择，也就是说如果我们不选择最大熵的模型，而是选择其他的模型，那么就是我们增加了一些预设的约束和假设，而这些约束和假设并不一定符合真实的数据分布。</p>
+<p>所以回到我们一开始的问题，在已知均值和方差的情况下，熵最大的分布就是正态分布。
+<span
+class="math display">max<sub><em>p</em></sub><em>H</em>(<em>p</em>) = −∫<em>p</em>(<em>x</em>)ln <em>p</em>(<em>x</em>) <em>d</em><em>x</em>,  s.t.
+𝔼[<em>x</em>] = <em>μ</em>, 𝔼[(<em>x</em> − <em>μ</em>)<sup>2</sup>] = <em>σ</em><sup>2</sup> ⇒ <em>p</em>(<em>x</em>) ∝ <em>e</em><sup>−(<em>x</em> − <em>μ</em>)<sup>2</sup>/(2<em>σ</em><sup>2</sup>)</sup>.</span></p>
+<p>因此，最大熵原理告诉我们：当我们只知道均值与方差，而对数据的其他特性一无所知时，最合理的分布假设就是正态分布。</p>
+<h2 id="多维正态分布的情形">多维正态分布的情形</h2>
+<p>现在，我们已经知道了在一维情况下，正态分布是最优的选择。那么，在多维情况下，正态分布是否也是最优的选择呢？</p>
+<p>在多维情况下，正态分布的定义是： <span class="math display">$$
+p(x) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}}
+e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)}
+$$</span> 其中，<span class="math inline"><em>μ</em></span>是均值，<span
+class="math inline"><em>Σ</em></span>是协方差矩阵。</p>
+<p>在这里，其实我们又会引入一个新问题，在多维情况下，为什么会引入协方差矩阵？</p>
+<p>在多变量情形下利用最大熵原理，用拉格朗日乘子法（对约束条件加乘子），做变分求解。求解的
+Euler–Lagrange 方程给出的最优解是： <span class="math display">$$
+p(x)\propto \exp\Big(
+-\tfrac{1}{2}(x-\mu)^\top \Sigma^{-1}(x-\mu)
+\Big),
+$$</span> 其中，<span class="math inline"><em>μ</em></span>是均值，<span
+class="math inline"><em>Σ</em></span>是协方差矩阵。在多维情况下，正态分布的分布也是满足均值和协方差约束的分布中熵最大的分布。</p>
+<p>接下来，我们来理解一下这里的协方差矩阵的实际含义是什么。实际上，这里的二次型<span
+class="math inline">$-\tfrac{1}{2}(x-\mu)^\top
+\Sigma^{-1}(x-\mu)$</span>是马氏距离的平方，用来描述<span
+class="math inline"><strong>x</strong></span>偏离均值<span
+class="math inline"><strong>μ</strong></span>的“标准化距离”。 -
+方差越大的方向，距离被压缩（波动大时偏离算“小”）。 -
+有相关的方向，距离会沿着协方差的“椭圆”方向计算。</p>
+<p>而前面的<span
+class="math inline">$\frac{1}{(2\pi)^{d/2}|\Sigma|^{1/2}}$</span>则是为了保证整个空间上的积分为1，使它成为真正的概率密度。
+- <span class="math inline">(2<em>π</em>)<sup><em>d</em>/2</sup></span>
+来自 d 维高斯积分的体积。 - <span
+class="math inline">|<em>Σ</em>|<sup>1/2</sup></span>
+表示协方差矩阵的体积缩放：协方差越大，密度峰值越低（因为同样的“总概率”要铺到更大的范围）。</p>
+<h3 id="马氏距离">马氏距离</h3>
+<p>我们都知道，单变量情形下不需要考虑相关性，但如果在多变量情形下，不同变量之间有相关性，那么我们就需要考虑相关性。为什么这么说呢？</p>
+<p>举个例子，假设我们有两个变量<span
+class="math inline"><em>x</em><sub>1</sub></span>和<span
+class="math inline"><em>x</em><sub>2</sub></span>，它们分别代表一个人的身高和体重，它们之间有相关性，身高越高，体重越重。如果我们不考虑相关性，那么我们就无法正确地描述数据的分布。</p>
 <p><span
-class="math display"><em>T</em> = (<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>), (<em>x</em><sub>2</sub>, <em>y</em><sub>2</sub>), (<em>x</em><sub>3</sub>, <em>y</em><sub>3</sub>), ..., (<em>x</em><sub><em>N</em></sub>, <em>y</em><sub><em>N</em></sub>))</span></p>
-<p><span class="math inline"><em>x</em><sub><em>i</em></sub></span>
-表示输入条件，<span
-class="math inline"><em>y</em><sub><em>i</em></sub></span>
-表示预测值。训练集中每一种情况的概率<span
-class="math inline"><em>p̃</em>(<em>x</em>, <em>y</em>)</span>可以通过简单的统计计算得到：</p>
+class="math display"><em>p</em>(<em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>) = <em>p</em>(<em>x</em><sub>1</sub>)<em>p</em>(<em>x</em><sub>2</sub>)</span></p>
+<p>但是，如果我们考虑相关性，那么我们就需要考虑相关性。</p>
 <p><span
-class="math display"><em>p̃</em>(<em>x</em>, <em>y</em>) = <em>样</em><em>本</em><em>中</em><em>含</em><em>有</em>(<em>x</em>, <em>y</em>)<em>的</em><em>数</em><em>量</em>/<em>N</em></span></p>
-<p>对于训练集T中的所有样本可通过特征函数(feature function)描述 <span
-class="math inline"><em>x</em> ∈ <em>X</em></span> 和 <span
-class="math inline"><em>y</em> ∈ <em>Y</em></span>
-之间基于某种条件的关系：</p>
+class="math display"><em>p</em>(<em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>) = <em>p</em>(<em>x</em><sub>1</sub>)<em>p</em>(<em>x</em><sub>2</sub>|<em>x</em><sub>1</sub>)</span></p>
+<p>这个时候，如果我们还想要在高维空间里定义一个“以某个中心为最高点、离中心越远概率越小”的分布，那么这个“远近”必须同时考虑：
+- 各维度量纲不同：不同变量方差差别大； -
+各维度间有相关性：方向并不正交。</p>
+<p>因此，我们就需要引入协方差矩阵来描述相关性，马氏距离定义为</p>
 <p><span class="math display">$$
-f(x,y) =
-\begin{cases}
-1 &amp; \text{x,y之间满足某种条件}  \\
-0 &amp; \text{否则}
-\end{cases}
+D_M(\mathbf x)
+= \sqrt{(\mathbf x-\boldsymbol\mu)^\top
+\Sigma^{-1}
+(\mathbf x-\boldsymbol\mu)}.
 $$</span></p>
-<p><span
-class="math inline"><em>f</em>(·)</span>实际上是克罗内克(Kronecker
-)函数。 那么接下来，那么，f(x, y)在训练集上关于经验分布<span
-class="math inline"><em>p̃</em>(<em>x</em>, <em>y</em>)</span>的期望值可通过下面的式子计算出来：</p>
-<p><span
-class="math display"><em>E</em><sub><em>p̃</em></sub>(<em>f</em>) = ∑<sub><em>x</em>, <em>y</em></sub><em>p̃</em>(<em>x</em>, <em>y</em>)<em>f</em>(<em>x</em>, <em>y</em>)</span></p>
-<p>对应的理论值则为：</p>
-<p><span
-class="math display"><em>E</em><sub><em>p</em></sub>(<em>f</em>) = ∑<sub><em>x</em>, <em>y</em></sub><em>p</em>(<em>x</em>, <em>y</em>)<em>f</em>(<em>x</em>, <em>y</em>)</span></p>
-<p>由于 <span
-class="math inline"><em>p</em>(<em>x</em>, <em>y</em>) = <em>p</em>(<em>x</em>)<em>p</em>(<em>y</em>|<em>x</em>)</span>，而且所建立的理论模型应该符合训练集中的概率分布（近似相等）,因此，理论期望值计算公式式可以写为:</p>
-<p><span
-class="math display"><em>E</em><sub><em>p</em></sub>(<em>f</em>) = ∑<sub><em>x</em>, <em>y</em></sub><em>p̃</em>(<em>x</em>)<em>p</em>(<em>y</em>|<em>x</em>)<em>f</em>(<em>x</em>, <em>y</em>)</span></p>
-<p>其约束即为：</p>
-<p><span
-class="math display"><em>E</em><sub><em>p̃</em></sub>(<em>f</em>) = <em>E</em><sub><em>p</em></sub>(<em>f</em>)</span></p>
-<p>假设训练集中有<span
-class="math inline"><em>n</em> ∈ <em>N</em></span> 个特征函数 <span
-class="math inline"><em>f</em><sub><em>j</em></sub>(<em>x</em>, <em>y</em>)</span>，它们在建模过程中
-都对输出结果有影响，也就是说有n个约束条件，而理论上能够满足这些约束的模型有很多，它们构成一个集合：</p>
-<p><span
-class="math display"><em>P</em> = <em>p</em>|<em>E</em><sub><em>p</em></sub>(<em>f</em><sub><em>j</em></sub>) = <em>E</em><sub><em>p̃</em></sub>(<em>f</em><sub><em>j</em></sub>), <em>j</em> ∈ 1, 2, ..., <em>n</em></span></p>
-<p>在所有满足约束的模型中，使条件熵最大的模型就是最大熵模型，也就是我们要寻找的是最合理的模型。</p>
-<p>最大熵模型的学习等价于求解条件约束的优化问题：</p>
+<p>背后的操作可以拆解：</p>
+<ol type="1">
+<li>白化(whitening)：</li>
+</ol>
+<p>把数据进行线性变换，变换后 <span
+class="math inline"><strong>z</strong></span> 的协方差是单位阵 <span
+class="math inline"><strong>I</strong></span>，各维度方差1、互不相关。
+<span
+class="math display"><strong>z</strong> = <em>Σ</em><sup>−1/2</sup>(<strong>x</strong> − <strong>μ</strong>),</span></p>
+<ol start="2" type="1">
+<li>计算欧氏距离：</li>
+</ol>
 <p><span class="math display">$$
-\begin{align*}
-p^*(y|X) &amp;= \arg\max_{p\in P}H(p)\\
-       &amp;= \arg\max_{p\in P}{ -\sum_{x,y}\tilde{p}(x)p(y|x)\log
-p(y|x)}\\
-       \text{s.t} \\
-       \quad E_p(f_i) &amp;= E_{\tilde{p}}(f_j),j=1,2,3...,n\\
-       \sum_{y}p(y|x)&amp;=1
-\end{align*}
+D_E(\mathbf z)
+= \sqrt{\mathbf z^\top \mathbf z} = \sqrt{(\mathbf
+x-\boldsymbol\mu)^\top \Sigma^{-1} (\mathbf x-\boldsymbol\mu)}
 $$</span></p>
+<p>经过线性变换后，就可以得到等密度面是满足马氏距离为常数的点集，几何上是一族椭球面；
+- 椭球的方向由 <span class="math inline"><em>Σ</em></span>
+的特征向量决定，长短轴由特征值的平方根决定。</p>
+<p>换句话说，多元正态的“钟形”并不是圆的，而是一个按照协方差拉伸、旋转过的椭球。马氏距离恰好就是这个椭球坐标系下的“半径”。这也解释了为什么在多维空间中，线性判别边界往往是“马氏距离相等”的集合：它实际上是在不同类别的椭球之间取中垂面。</p>
+<h2 id="总结">总结</h2>
+<p>正态分布并不意味着“世界真的是高斯的”，而是说，在我们信息不足、又需要可计算模型的前提下，它是最合理的折中。如果不是高斯分布呢？
+假设我们只知道一个变量的取值上下界a,b,
+聪明的你一定已经猜到，这个时候对其最合理的假设是什么了？</p>
 
                 
               </div>
@@ -499,7 +457,7 @@ $$</span></p>
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%B0%E5%AD%A6%EF%BC%8C%E4%BF%A1%E6%81%AF%E8%AE%BA/" class="print-no-link">#数学，信息论</a>
+        <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1-%E6%95%B0%E5%AD%A6/" class="print-no-link">#概率论与数理统计,数学</a>
       
     </div>
   
@@ -513,18 +471,12 @@ $$</span></p>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/10/03/loki/" title="Grafana Loki 介绍和使用">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Grafana Loki 介绍和使用</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/10/03/collections-communication/" title="集合通信">
-                        <span class="hidden-mobile">集合通信</span>
+                      <a href="/2025/10/03/Einstein-Summation-Convention/" title="Einstein Summation Convention">
+                        <span class="hidden-mobile">Einstein Summation Convention</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
