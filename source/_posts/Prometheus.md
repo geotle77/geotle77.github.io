@@ -10,6 +10,7 @@ categories: 数据库
 # Prometheus介绍
 Prometheus是一个系统监控和警报系统。
 <!-- more -->
+
 ## 介绍
 PrometheusPrometheus 是一个系统监控和警报系统。简单来说，就是一个存储时间序列数据的数据库，Prometheus 将所有metric data存储为时间序列，即将系统的度量信息与记录的时间戳一起存储。
 
@@ -19,6 +20,7 @@ Prometheus是继Kubernetes之后的第二款加入CNCF的开源软件。
 
 ## 基本架构
 prometheus的基础组件为：
+
 - Prometheus Server,用于抓取和存储metrics data
 - Targets to be scraped，例如能展示其指标的应用程序，或者能导出其他应用程序指标的程序。
 - Alertmanager,用于通过预先设置的规则产生告警（一旦metric data出现不符合预期的数据）
@@ -30,14 +32,19 @@ Web 服务器会将这些指标信息暴露为一个 HTTP 端点（通常是 /me
 
 ## metircs 数据类型
 Prometheus共支持四种类型的metrics，分别是Counter,Gauge,Histogram,Summary.  
+
 - Counter  
 Counter是一种指标值，其只增不减除非被重置。Counter只能用在例如请求次数，错误次数之类的指标。  
+
 - Gauge
 Gauge是一种可增可减的数，因此可以被用在例如节点数量、队列中事件数目等的指标。
+
 - Histogram  
 Histogram 是一种用于收集和分析度量数据的更为复杂的指标类型。它通过将测量值（如请求处理时间）分配到预定义的**桶（buckets）**中，从而提供了对数据分布的更深入分析。
+
 - Summary
 Summaries也可以用来测量事件，并可以作为Histogram的替代品。Summaries更加轻量，但同时也会损失更多的数据。Summary是在应用层的级别上计算的，意味着它不会同时去维护多个微服务实例，只能提供单一实例的局部信息。
+
 ## 可视化指标
 Grafana是一款开源的数据可视化和监控工具，广泛用于监控和分析系统和应用程序的性能。通过Grafana，用户可以创建、浏览和共享数据的可视化仪表板，这些仪表板可以实时显示数据，并帮助用户识别和解决问题。我们可以将prometheus接入到grafana中来将获得的metric data进行可视化。
 

@@ -11,14 +11,13 @@ abbrlink: https://github.com/geotle77
 > 本科 @ 中国科学院大学（UCAS）计算机科学与技术  
 > 研究生 @ 中国科学院大学（UCAS） 计算机网络信息中心 计算机应用技术  
 > 方向：**大模型训练与推理（LLM Train/Infer）** · 系统与工程优化 · 分布式框架   
-> 关键词：GPU 集群、NCCL、DCGM 监控、可靠性与容错、性能工程、LLM
+> 关键词：GPU 集群、NCCL、DCGM 监控、可靠性与容错、性能工程、LLM  
 
 ---
 
 ## 🧭 Now（此刻在做的事）  
 
 - 🧪 研究 **大模型训推框架** 的可复现基线与 CI（权重 diff、流水线回归） 
-
 - 🔧 折腾 **GPU 集群稳定性**：光模块 DDM、故障预测、慢节点定位
 
 ---
@@ -77,7 +76,7 @@ abbrlink: https://github.com/geotle77
 ---
 
 ## 📫 联系我
-- 📮 Email：`franxxx2@gmail.com`  
+- 📮 Email：`franxxx2277@gmail.com`  
 - 🧑‍💻 GitHub：<https://github.com/geotle77>  
 
 ---
