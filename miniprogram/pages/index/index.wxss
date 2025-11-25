@@ -1,0 +1,44 @@
+page {
+  background-color: #f6f6f6;
+}
+
+.container {
+  padding: 30rpx;
+}
+
+.post-item {
+  margin-bottom: 30rpx;
+  padding: 40rpx;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.post-item:active {
+  transform: scale(0.98);
+}
+
+.post-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+  line-height: 1.4;
+}
+
+.post-date {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.post-excerpt {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}

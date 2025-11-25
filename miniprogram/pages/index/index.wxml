@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="post-list">
+    <block wx:for="{{posts}}" wx:key="slug">
+      <view class="post-item" bindtap="onPostTap" data-post="{{item}}" data-index="{{index}}">
+        <view class="post-title">{{item.title}}</view>
+        <view class="post-date">{{item.date}}</view>
+        <view class="post-excerpt">{{item.excerpt}}</view>
+      </view>
+    </block>
+  </view>
+</view>

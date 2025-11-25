@@ -105,3 +105,23 @@ deploy:
   type: git
   repo: https://github.com/geotle77/geotle77.github.io.git
   branch: gh-pages
+
+# JSON Content Generator
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: true
+    slug: true
+    updated: true
+    comments: true
+    link: true
+    permalink: true
+    excerpt: true
+    categories: true
+    tags: true

@@ -1,0 +1,9 @@
+<view class="container">
+  <view class="post-header">
+    <view class="post-title">{{post.title}}</view>
+    <view class="post-date">{{post.date}}</view>
+  </view>
+  <view class="post-content">
+    <mp-html content="{{post.content}}" />
+  </view>
+</view>
