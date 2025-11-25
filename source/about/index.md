@@ -52,7 +52,7 @@ abbrlink: https://github.com/geotle77
 
 ## 🧰 技术栈（选）
 - **语言**：Python、C；Go 进阶中  
-- **训练框架**：PyTorch、Megatron-LM、(StepMind)*  
+- **训练框架**：PyTorch、Megatron-LM
 - **分布式**：NCCL、TP/PP/SP、torchrun  
 - **DevOps**：Docker、GitLab CI/CD、JuiceFS、Prometheus/Grafana  
 - **数据库/搜索**：Postgres（含向量扩展）、MongoDB
