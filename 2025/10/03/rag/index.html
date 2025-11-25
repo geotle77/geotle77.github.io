@@ -1,0 +1,866 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="RAG概述——原理和实现 检索-增强生成(Retrieval-Augmented Generation，RAG)是大语言模型中的一种常用的手段，它通过纳入外部知识来增强llm的性能，可以有效避免其出现幻觉并提高答案的准确度。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAG概述——原理和实现">
+<meta property="og:url" content="https://geotle77.github.io/2025/10/03/rag/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="RAG概述——原理和实现 检索-增强生成(Retrieval-Augmented Generation，RAG)是大语言模型中的一种常用的手段，它通过纳入外部知识来增强llm的性能，可以有效避免其出现幻觉并提高答案的准确度。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/RAG.png">
+<meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
+<meta property="article:modified_time" content="2025-10-04T11:09:08.274Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="RAG,LLM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/RAG.png">
+  
+  
+  
+  <title>RAG概述——原理和实现 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner/RAG.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RAG概述——原理和实现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-03 22:39" pubdate>
+          2025年10月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RAG概述——原理和实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="rag概述原理和实现">RAG概述——原理和实现</h1>
+<p>检索-增强生成(Retrieval-Augmented
+Generation，RAG)是大语言模型中的一种常用的手段，它通过纳入外部知识来增强llm的性能，可以有效避免其出现幻觉并提高答案的准确度。
+<span id="more"></span> <img src="/img/pics/rag/rag.png" srcset="/img/loading.gif" lazyload alt="rag" /></p>
+<h2 id="problems-of-llm">Problems of llm</h2>
+<p>大语言模型(LLMs)在自然语言处理尤其是生成上取得了巨大的成就，但它们仍然面临着很大的局限性，特别是在特定领域或知识密集型任务中。在处理超出其训练数据或需要当前信息的查询时，会产生
+“幻觉”。</p>
+<pre><code class="hljs">所谓幻觉也就是：大语言模型会给出一些看起来正确但却与事实完全不相符的答案，一个典型的例子就是一本正经地解释“林黛玉倒拔垂杨柳”。这是因为llms事先并不知道水浒传和红楼梦的故事，倘若有一种方法能够将这样的外部知识告诉给模型，模型就可以正确地进行回复。</code></pre>
+<p>RAG就是通过语义相似性计算从外部知识库中检索相关文档块，从而增强了
+LLM。通过引用外部知识，RAG 可有效减少生成与事实不符内容的问题。</p>
+<h2 id="how-does-rag-work">How does RAG work?</h2>
+<p>随着对RAG技术的深入研究，一共出现了三种RAG范式： Naive RAG, Advanced
+RAG, and Modular RAG. <img src="/img/pics/rag/kinds_of_rag.png" srcset="/img/loading.gif" lazyload
+alt="kinds of rag" /></p>
+<h3 id="naive-rag">naive rag</h3>
+<h4 id="indroduce">indroduce</h4>
+<p>朴素RAG的基本流程是</p>
+<ul>
+<li><p>索引：对于外部数据，首先要进行清理和对不同格式的提取，然后将其转换为<strong>统一的纯文本格式</strong>。为了适应语言模型的<strong>上下文限制</strong>，文本被分割成更小的、易于消化的块。然后，使用嵌入模型将语块编码为<strong>矢量表示</strong>，并存储到矢量数据库中。这一步骤对于在随后的检索阶段进行高效的相似性搜索至关重要。</p></li>
+<li><p>检索：收到用户查询后，RAG
+系统会使用索引编制阶段使用的相同编码模型，将查询转换为矢量表示。然后，系统会计算查询向量与索引语料库中的语块向量之间的相似度得分。系统会优先检索与查询相似度最高的
+K 个语块。将检索到的数据与用户查询一起作为输入传递给语言模型。</p></li>
+<li><p>生成：提出的查询和选定的文档被合成为一个连贯的提示（一般会有各类模板），而大型语言模型的任务就是对此作出回应。该模型的回答方法可根据任务的具体标准而有所不同，使其既能利用固有的参数知识，也能根据所提供文档中包含的信息进行回答。在持续对话的情况下，任何现有的对话历史记录都可以整合到提示中，从而使模型能够有效地参与多轮对话互动。</p></li>
+</ul>
+<p>这是一种最早也最基本的RAG技术，简单来说就是，它遵循的传统流程是将文档索引到矢量数据库中，根据与用户查询的相似度检索最相关的语块，然后将查询和检索到的语块一起输入语言模型以生成最终答案。</p>
+<h4 id="drawbacks">drawbacks</h4>
+<p>主要是三个问题：</p>
+<ol type="1">
+<li>检索阶段往往在精确度和召回率方面存在困难，导致选择错位或不相关的信息块，以及丢失关键信息。</li>
+<li>在生成回复时，模型可能会面临幻觉问题，即生成的内容与检索到的上下文不符。这一阶段还可能出现输出内容不相关、有误或有偏差的情况，从而影响回复的质量和可靠性。</li>
+<li>将检索到的信息与不同的任务进行整合有时会导致输出结果脱节或不连贯。当从多个来源检索到类似信息时，这一过程还可能遇到冗余问题，从而导致重复的回复。确定不同段落的意义和相关性，并确保文体和音调的一致性，这些都增加了工作的复杂性。</li>
+</ol>
+<p>可以看到面对复杂的问题，基于原始查询的单一检索可能不足以获取足够的上下文信息。此外，生成模型可能会过度依赖增强信息，导致输出结果只是重复检索到的内容，而没有增加有见地的或综合的信息。</p>
+<h3 id="advanced-rag">advanced rag</h3>
+<p>高级 RAG
+为了提高检索质量，它采用了检索前和检索后策略。还通过使用滑动窗口方法、细粒度分割和元数据的整合，改进了索引技术。</p>
+<ul>
+<li><p>预检索过程。这一阶段的主要重点是优化索引结构和原始查询。优化索引的目标是
+<em>提高索引内容的质量</em>
+。这涉及以下策略：<strong>提高数据粒度、优化索引结构、添加元数据、优化排列和混合检索</strong>。而查询优化的目标是
+<em>使用户的原始问题更清晰、更适合检索任务</em>。常见的方法包括<strong>查询重写查询转换、查询扩展等技术</strong>。</p>
+<p>例如：将问题”what’s the French capital?“更换为”What is the capital
+city of France?”</p></li>
+<li><p>检索后过程。检索到相关上下文后，将其与查询进行有效整合至关重要。检索后流程的主要方法包括重新排序信息块和压缩上下文。对检索到的信息重新排序，将最相关的内容移至提示边缘是一项关键策略。将所有相关文档直接输入
+LLM
+可能会导致信息过载（即用不相关的内容冲淡对关键细节的关注）。为了减轻这种情况，<strong>检索后的工作主要集中在选择基本信息、强调关键部分以及缩短要处理的上下文</strong>。</p></li>
+</ul>
+<h3 id="modular-rag">modular rag</h3>
+<p>模块化 RAG
+架构具有更强的适应性和多功能性,它采用了多种策略来改进其组件，例如为相似性搜索添加搜索模块，以及通过微调完善检索器。</p>
+<ul>
+<li><p>新模块：模块化 RAG
+框架引入了额外的专业组件，以增强检索和处理能力。</p>
+<ul>
+<li>搜索模块可<strong>适应特定场景</strong>，使用 LLM
+生成的代码和查询语言，在搜索引擎、数据库和知识图谱等各种数据源中进行直接搜索。</li>
+<li>内存模块利用 LLM
+的内存引导检索，创建了一个无限制的内存池，通过迭代式<strong>自我增强</strong>，使文本与数据分布更紧密地结合在一起。</li>
+<li>预测模块旨在通过 LLM
+直接生成上下文，确保相关性和准确性，从而<strong>减少冗余和噪音</strong>。</li>
+<li>“任务适配器”（Task Adapter）模块可<strong>根据各种下游任务对 RAG
+进行量身定制</strong>，自动对zero-shot
+input进行及时检索，并通过few-shot查询生成创建特定任务检索器。这种综合方法不仅简化了检索流程，还显著提高了检索信息的质量和相关性，以更高的精度和灵活性满足各种任务和查询的需要。</li>
+</ul></li>
+<li><p>新模式：模块化 RAG
+允许模块替换或重新配置，以应对特定挑战，因而具有出色的适应性。此外，模块化
+RAG
+还通过集成新模块或调整现有模块之间的交互流程来扩展这种灵活性，从而增强其在不同任务中的适用性。</p></li>
+</ul>
+<h2 id="comparison-between-ft-and-rag">comparison between ft and
+rag</h2>
+<ol type="1">
+<li>RAG
+可以比作为模型提供量身定做的信息检索教科书，是精确信息检索任务的理想选择。相比之下，FT
+就好比学生随着时间的推移不断内化知识，适用于需要复制特定结构、风格或格式的场景。</li>
+<li>RAG
+在动态环境中表现出色，可提供实时知识更新并有效利用外部知识源，具有很高的可解释性。不过，它的延迟较高，而且在数据检索方面需要考虑道德问题。另一方面，FT
+更为静态，更新时需要重新训练，但可以对模型的行为和风格进行深度定制。它需要大量的计算资源来准备和训练数据集，虽然可以减少幻觉，但在处理不熟悉的数据时可能会面临挑战。</li>
+<li>在 RAG 和 FT
+之间做出选择，取决于应用环境中对数据动态、定制和计算能力的具体需求。<strong>RAG
+和 FT
+并不相互排斥，可以相互补充，在不同层面上增强模型的能力</strong>。</li>
+</ol>
+<h2 id="pratical">Pratical</h2>
+<p>项目地址：<a
+target="_blank" rel="noopener" href="https://colab.research.google.com/github/mrdbourke/simple-local-rag/blob/main/00-simple-local-rag.ipynb">a
+simple local rag</a></p>
+<p>这个项目介绍了如何建立 一个RAG
+管道，使我们能够与llm聊天，并且llm能够学到pdf文档中的知识。</p>
+<p>通过编写以下代码</p>
+<ol type="1">
+<li>打开 PDF 文档（几乎可以使用任何 PDF 文档）。</li>
+<li>将 PDF
+教科书的文本格式化，为嵌入模型做好准备（这一过程称为文本分割/分块）。</li>
+<li>嵌入教科书中的所有文本块，并将其转化为我们可以存储的数字表示。</li>
+<li>建立一个检索系统，使用矢量搜索根据查询找到相关的文本块。</li>
+<li>创建一个包含检索到的文本片段的提示。</li>
+<li>根据教科书中的段落生成查询答案。</li>
+<li>上述步骤可分为两个主要部分：</li>
+<li>文档预处理/嵌入创建（步骤 1-3）。</li>
+<li>搜索和回答（第 4-6 步）。 ## 参考文献 【1】<a
+target="_blank" rel="noopener" href="https://www.thecloudgirl.dev/blog/three-paradigms-of-retrieval-augmented-generation-rag-for-llms">Three
+Paradigms of Retrieval-Augmented Generation (RAG) for LLMs</a></li>
+</ol>
+<p>【2】Retrieval-Augmented Generation for Large Language Models: A
+Survey https://arxiv.org/pdf/2312.10997</p>
+<p>【3】<a
+target="_blank" rel="noopener" href="https://colab.research.google.com/github/mrdbourke/simple-local-rag/blob/main/00-simple-local-rag.ipynb">a
+simple local rag</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/LLM/" class="category-chain-item">LLM</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/RAG-LLM/" class="print-no-link">#RAG,LLM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/03/maximum-entropy/" title="统计学习基础">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">统计学习基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/03/collections-communication/" title="集合通信">
+                        <span class="hidden-mobile">集合通信</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

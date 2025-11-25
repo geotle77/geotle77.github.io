@@ -1,0 +1,879 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Computational Graph 计算图是机器学习框架中非常重要的一个概念，它是指在机器学习框架中，计算图是用来表示机器学习模型的计算过程的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算图概述">
+<meta property="og:url" content="https://geotle77.github.io/2025/10/03/computional-graph/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="Computational Graph 计算图是机器学习框架中非常重要的一个概念，它是指在机器学习框架中，计算图是用来表示机器学习模型的计算过程的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/computional_graph.png">
+<meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
+<meta property="article:modified_time" content="2025-10-05T11:05:24.536Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="计算图，PyTorch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/computional_graph.png">
+  
+  
+  
+  <title>计算图概述 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner/village.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算图概述"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-03 22:39" pubdate>
+          2025年10月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          43 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算图概述</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="computational-graph">Computational Graph</h1>
+<p>计算图是机器学习框架中非常重要的一个概念，它是指在机器学习框架中，计算图是用来表示机器学习模型的计算过程的。
+<span id="more"></span></p>
+<h2 id="background">Background</h2>
+<p>早期的机器学习框架主要是针对较为简单的全连接（e.g
+FNN）和卷积神经网络设计，这些神经网络模型的结构比较简单，神经网络层之间串行连接，我们很容易分析出数据流过神经网络模型时的计算过程。因此，这样的固定计算过程可以用简单的配置文件来定义，一旦给定这样的配置文件，我们就可以清楚地表达出模型定义。</p>
+<p>随着日益复杂的机器学习模型的出现（生成对抗网络、注意力模型等），不能再通过简单地直接定义算子的使用过程来表达一个模型（例如带有分支和循环的结构的模型）。机器学习框架需要能够高效分析出算子的执行依赖关系，并进行梯度计算及管理训练参数，以优化计算策略和自动化梯度计算。<strong>计算图</strong>就是这样一个通用的数据结构来理解、表达和执行机器学习模型，提高机器学习框架训练复杂模型的效率。</p>
+<h2 id="composition-of-computational-graph">Composition of computational
+graph</h2>
+<p>计算图的基本构成是基本数据结构张量（tensor）和基本运算单元算子构成。</p>
+<pre><code class="hljs">算子包括很多类型：算子是构建神经网络的基础，可以理解为一种低级API。通过对算子的封装可以实现各类神经网络层，当开发神经网络层遇到内置算子无法满足时，就可以使用自定义算子来实现。它们可以对张量数据进行加工处理，实现机器学习中的各种常用的计算逻辑。可以按照功能将算子分为：张量操作算子、神经网络算子、数据流算子和控制流算子等。例如卷积（convolution）、池化（pooling）、全连接（Fully Connected）等。</code></pre>
+<p>计算图中使用节点来表示算子，节点间的有向边来表示张量的状态，也描述了算子间的依赖关系。
+<img src="/img/pics/computional_graph/simple_cg.png" srcset="/img/loading.gif" lazyload
+alt="simple computational graph" /></p>
+<h3 id="张量">张量</h3>
+<p>张量其实就是指多维数据，使用秩来表示张量的维度。例如，标量为0维张量，向量为一维张量。在一般的机器学习框架中，张量不仅需要存储数据，还需要存储张量的数据形状、数据类型、秩、存储位置和梯度传递状态等多个属性。</p>
+<p>一般来说，在机器学习的环境下，张量的形状一般是“整齐”的，也就是每个轴具有相同的元素个数（e.g
+一个矩形/一个立方体），而有时为了节省内存也会使用不规则张量和稀疏张量。
+<img src="/img/pics/computional_graph/tensor_type.png" srcset="/img/loading.gif" lazyload
+alt="tensor kind" /></p>
+<pre><code class="hljs">稀疏张量一般应用在图数据与图神经网络中，采用特殊的存储格式（如coordinate list,COO），高效存储稀疏数据以节省存储空间。</code></pre>
+<h2 id="calculate-dependencies">Calculate dependencies</h2>
+<p>计算图存在依赖关系，这种依赖关系影响的是算子的执行顺序与并行情况。<strong>循环依赖</strong>的数据流向在机器学习算法中是不被允许的，它会形成计算逻辑上的死循环，使得模型的训练程序无法正常结束，造成数据趋向于无穷大或者0成为无效数据。
+<img src="/img/pics/computional_graph/caculate_dependency.png" srcset="/img/loading.gif" lazyload
+alt="caculate dependency" />
+根据依赖关系，我们可以知道某些节点必须等待其前继节点的计算任务完成后才能开始，因此需要避免此类节点之前的节点被删除或更改。</p>
+<h2 id="cyclic-unfolding">Cyclic unfolding</h2>
+<p>对于存在循环关系的计算图，一般使用展开机制来实现。 <img
+src="/img/pics/computional_graph/cyclic_unfolding.png" srcset="/img/loading.gif" lazyload
+alt="cyclic unfolding" />
+循环体中的计算子图会按照迭代次数进行复制，将展开的子图进行串联，相邻迭代轮次的计算子图是直接依赖的关系。由于在计算图中，每一个张量和运算符都有唯一的标识符，即使是相同的运算符在不同迭代的计算任务中也会有不同的标识符。这样可以对展开后的子图中的计算节点赋予独特的标识符来避免循环依赖。</p>
+<h2 id="control-flow">Control flow</h2>
+<p>通过控制流可以设定特定的顺序来执行计算任务，让某些计算节点执行任意次数或者根据条件判断某些节点不执行。常见的控制流分为条件分支和循环两种，当模型包含控制流时，梯度在反向传播时应能在反向梯度计算图中也构造出相应的控制流，才能正确地计算参与运算的张量的梯度。
+<img src="/img/pics/computional_graph/control_flow.png" srcset="/img/loading.gif" lazyload
+alt="control flow" />
+可以想到，当模型中含有循环控制时，每一次的循环都依赖于前一次循环的计算结构，所以循环控制中还需要维护一个张量列表用来将循环迭代中的中间结果缓存起来，用来参与前向计算和梯度计算。</p>
+<h1 id="generation-of-computational-graph">generation of computational
+graph</h1>
+<p>在机器学习框架中，计算图可以分为静态图和动态图两种。</p>
+<p><strong>静态图</strong>：静态生成可以根据前段语言描述的神经网络拓扑结构以及参数变量信息来进行构建，静态图执行期间可以不依赖前端语言描述，因此常用于模型部署。</p>
+<p><strong>动态图</strong>：动态图在每一次执行神经网络模型时都需要依据前段语言描述生成一份临时的计算图，因此计算图的动态生成过程灵活可变，有助于神经网络结构的调整。</p>
+<h2 id="static-generation">static generation</h2>
+<p>静态的计算图的生成与执行采用先编译后执行的方式，将图的定义和执行分离。<br />
+<img src="/img/pics/computional_graph/static%20graph.png" srcset="/img/loading.gif" lazyload
+alt="static graph" />
+前端语言定义模型后，机器学习框架会首先对神经网络模型进行分析，获取网络层之间的拓扑关系以及参数变量设置、损失函数等信息。然后框架会将完整的模型编译为可被后段计算硬件调用执行的固定代码文本，也即静态计算图。</p>
+<p>当使用静态计算图进行模型训练或者推理时，无需再编译前端语言模型。<strong>静态计算图直接接收数据并通过相应硬件调度来执行图中的算子完成任务。</strong></p>
+<pre><code class="hljs">机器学习框架在进行静态编译时并不读取输入数据，而是使用一种特殊的张量来表示输入数据，辅助构建完整的计算图，这种特殊张量也就被称为：数据占位符（placeholder）.所谓的数据占位符其实就是定义的数据变量（e.g X Y）。
+
+前端定义需要声明并编写包含数据占位符、损失函数、优化函数、网络编译和执行环境以及网络执行器等在内的预定义配置项。</code></pre>
+<p>静态计算图的优势在于<strong>计算性能</strong>和<strong>直接部署</strong>。静态图在机器学习框架编译时就能够获取模型完整的图拓扑关系。而掌握全局信息则更容易制定计算图的优化策略。部署模型进行应用时，可以将静态计算图序列化保存，这在模型推理时就可以执行序列化的模型而不必再重新编译前端语言代码。</p>
+<h3 id="disadvantages">disadvantages</h3>
+<p>前端语言构建的神经网络模型经过编译后，计算图的结构就会固定执行且不再改变，经过优化后的用于执行的静态图代码也与原始代码存在较大差距。因此，在执行过程中发生错误时，会返回优化后代码出错的位置，用户难以查看优化后的代码，这会增大代码调试的难度。</p>
+<h2 id="dynamic-generation">dynamic generation</h2>
+<p>动态图采用解析式的执行模型，其核心特点是编译与执行同时发生。<br />
+<img src="/img/pics/computional_graph/dynamic_graph.png" srcset="/img/loading.gif" lazyload
+alt="dynamic graph" />
+动态图会采用前端语言自身的解释器来对代码进行解析，利用机器学习框架本身的算子分发功能，即刻执行并输出输出结果。该过程并不产生静态的计算图，而是按照前端语言描述模型结构，按照计算依赖关系进行调度执行，动态生成临时的图拓扑结构。</p>
+<p><img src="/img/pics/computional_graph/dynamic_generation.png" srcset="/img/loading.gif" lazyload
+alt="dynamic gerneration" />
+具体来说，神经网络前向计算按照模型声明定义的顺序进行执行。当模型接收输入数据<strong>X</strong>后，机器学习框架开始动态生成图拓扑结构，添加输入节点并准备将数据传输给后续节点。当模型中存在条件控制时，动态图模式下会即刻得到逻辑判断结果并确定数据流向。机器学习框架会在添加节点的同时完成算子分发计算并返回计算结果，同时做好准备向后续添加的节点传输数据。<strong>当模型再次进行前向计算时，动态生成的图结构则失效，并再次根据输入和控制条件生成新的图结构</strong>。相比于静态生成，可以发现动态生成的图结构并不能完整表示前端语言描述的模型结构，需要即时根据控制条件和数据流向产生图结构。由于机器学习框架无法通过动态生成获取完整的模型结构，因此动态图模式下难以进行模型优化以提高计算效率。</p>
+<p>在静态生成方式下，由于已经获取完整的神经网络模型定义，因此可以同时构建出完整的前向计算图和反向计算图。而在动态生成中，由于边解析边执行的特性，反向梯度计算的构建随着前向计算调用而进行。在执行前向过程中，机器学习框架根据前向算子的调用信息，记录对应的反向算子信息以及参与梯度计算的张量信息。前向计算完毕之后，反向算子与张量信息随之完成记录，机器学习框架会根据前向动态图拓扑结构，将所有反向过程串联起来形成整体反向计算图。最终，将反向图在计算硬件上执行计算得到梯度用于参数更新。</p>
+<p>尽管动态生成中完整的网络结构在执行前是未知的，不能使用静态图中的图优化技术来提高计算执行性能。但其即刻算子调用与计算的能力，使得模型代码在运行的时候，每执行一句就会立即进行运算并会返回具体的值，方便开发者在模型构建优化过程中进行错误分析、结果查看等调试工作。</p>
+<h1 id="advanced-tool">Advanced tool</h1>
+<p>目前TensorFlow、MindSpore、PyTorch、PaddlePaddle等主流机器学习框架为了兼顾动态图易用性和静态图执行性能高效两方面优势，均具备动态图转静态图的功能，支持使用动态图编写代码，框架自动转换为静态图网络结构执行计算。</p>
+<p>动态图转换为静态图的实现方式有两种：</p>
+<ul>
+<li>基于追踪转换：以动态图模式执行并记录调度的算子，构建和保存为静态图模型。</li>
+<li>基于源码转换：分析前端代码来将动态图代码自动转写为静态图代码，并在底层自动帮用户使用静态图执行器运行。</li>
+</ul>
+<h2 id="trace-transition">trace transition</h2>
+<p>基于追踪转换的原理相对简单，当使用动态图模式构建好网络后，使用追踪进行转换将分为两个阶段。</p>
+<p>第一个阶段与动态生成原理相同，机器学习框架创建并运行动态图代码，自动追踪数据流的流动以及算子的调度，将所有的算子捕获并根据调度顺序构建静态图模型。与动态生成不同的地方在于机器学习框架并不会销毁构建好的图，而是将其保存为静态图留待后续执行计算。</p>
+<p>第二个阶段，当执行完一次动态图后，机器学习框架已生成静态图，当再次调用相同的模型时，机器学习框架会自动指向静态图模型执行计算。追踪技术只是记录第一次执行动态图时调度的算子，但若是模型中存在依赖于中间结果的条件分支控制流，只能追踪到根据第一次执行时触发的分支。<strong>此时构建的静态图模型并不是完整的，缺失了数据未流向的其他分支。</strong>在后续的调用中，因为静态模型已无法再改变，若计算过程中数据流向缺失分支会导致模型运行错误。同样的，依赖于中间数据结果的循环控制也无法追踪到全部的迭代状态。</p>
+<h2 id="code-transition">code transition</h2>
+<p>基于源码转换的方式则能够改善基于追踪转换的缺陷。基于源码转换的流程经历两个阶段。</p>
+<p>第一个阶段，对动态图模式下的代码扫描进行词法分析，通过词法分析器分析源代码中的所有字符，对代码进行分割并移除空白符、注释等，将所有的单词或字符都转化成符合规范的词法单元列表。接着进行语法分析即解析器，将得到的词法单元列表转换成树形式，并对语法进行检查避免错误。</p>
+<p>第二阶段，动态图转静态图的核心部分就是对抽象语法树进行转写，机器学习框架中对每一个需要转换的语法都预设有转换器，每一个转换器对语法树进行扫描改写，将动态图代码语法映射为静态图代码语法。其中最为重要的前端语言控制流，会在这一阶段分析转换为静态图接口进行实现，也就避免了基于追踪转换中控制流缺失的情况。转写完毕之后，即可从新的语法树还原出可执行的静态图代码.</p>
+<h1 id="sceduler-of-computational-graph">Sceduler of computational
+graph</h1>
+<p>模型的训练过程就是计算图中算子的调度执行过程。宏观来看训练任务是由设定好的训练迭代次数来循环执行计算图，此时需要优化迭代训练计算图过程中数据流载入和训练（推理）执行等多个任务之间的调度策略。微观上单次迭代需要考虑计算图内部的调度执行问题，根据计算图结构、计算依赖关系、计算控制分析算子的执行调度。</p>
+<h2 id="execute">Execute</h2>
+<p>算子的调度执行包含两个步骤：<br />
+- 第一步，根据拓扑排序算法，将计算图进行拓扑排序得到线性算子调度序列； -
+第二步，将序列中国的算子分配到指令流进行计算，并尽可能并行计算。</p>
+<p>我们已经知道，计算图是一种由依赖边和算子构成的有向无环图，必须保证算子执行时的依赖关系不被打破。</p>
+<figure>
+<img src="/img/pics/computional_graph/cg_execute.png" srcset="/img/loading.gif" lazyload
+alt="算子执行调度" />
+<figcaption aria-hidden="true">算子执行调度</figcaption>
+</figure>
+<pre><code class="hljs">拓扑排序就是不断将入度为0的节点取出放入队列中直至有向无环图中的全部节点都加入到队列中。</code></pre>
+<p>生成调度序列之后，需要将序列中的算子与数据分发到指定的GPU/NPU上执行运算。根据算子依赖关系和计算设备数量，可以将无相互依赖关系的算子分发到不同的计算设备，同时执行运算，这一过程称之为并行计算，与之相对应的按照序贯顺序在同一设备执行运算被称为串行计算。</p>
+<h2 id="serial-and-parallel">Serial and parallel</h2>
+<ul>
+<li><strong>串行</strong>：队列中的任务必须按照顺序进行调度执行直至任务队列结束、</li>
+<li><strong>并行</strong>：队列中的任务可以同时进行调度执行，加快执行效率。</li>
+</ul>
+<h3 id="serial">Serial</h3>
+<p>微观上。计算图中大多数算子之间存在直接依赖或者间接依赖关系，具有依赖关系的算子间任务调度则必定存在执行前后的时间顺序。算子的执行队列只能以串行的方式进行调度，保证算子都能正确接受到输入数据，才能完成计算图的一次完整执行。</p>
+<p>宏观上，每一轮迭代中计算图必须读取训练数据，执行完整的前向计算和反向梯度计算，将图中所有参数值更新完毕后，才能开始下一轮的计算图迭代计算更新。所以“数据载入-数据预处理-模型训练”的计算图整体任务调度是以串行方式进行的。</p>
+<h3 id="parallel">Parallel</h3>
+<p>计算图内部，算子除了直接依赖和间接依赖之外，还存在算子间相互独立的情况。此时可以将算子分配到不同的硬件上进行并行计算。<strong>并行包括算子并行、模型并行以及数据并行</strong>。</p>
+<ul>
+<li>算子并行不仅可以在相互独立的算子间实现，同时也可以将单个算子合理的切分为相互独立的多个子操作，进一步提高并行性。<br />
+</li>
+<li>模型并行就是将整体计算图进行合理的切分，分配到不同设备上进行并行计算，缩短单次计算图迭代训练时间。<br />
+</li>
+<li>数据并行则同时以不同的数据训练多个相同结构的计算图，减少训练迭代次数，加快训练效率。</li>
+</ul>
+<h2 id="synchronous-and-asynchronous">Synchronous and asynchronous</h2>
+<p>我们可以将一次完整计算图的训练执行过程分为三个阶段：数据载入、数据预处理和网络训练。这三个环节之间的任务调度是以串行方式进行，每一个环节都有赖于前一个环节的输出。<strong>但对计算图的训练是多轮迭代的过程，多轮训练之间的三个环节可以用同步与异步两种机制来进行调度执行。</strong>（其实就相当于流水线）</p>
+<ul>
+<li><strong>同步</strong>：顺序执行任务，当前任务执行完后会等待后续任务执行情况，任务之间需要等待、协调运行；</li>
+<li><strong>异步</strong>：当前任务完成后，不需要等待后续任务的执行情况，可继续执行当前任务下一轮迭代。</li>
+</ul>
+<p>以同步机制来执行计算图训练时，每一轮迭代中，数据载入后进行数据预处理操作，然后进行训练。每一个环节执行完当前迭代中的任务后，会一直等待后续环节的处理，直至计算图完成一次迭代训练更新参数值后，才会进行下一轮迭代的数据载入、数据预处理以及网络训练。也就是说，<strong>当进行数据载入时，数据预处理、模型训练处于等待的状态</strong>；
+<img src="/img/pics/computional_graph/synchronous.png" srcset="/img/loading.gif" lazyload
+alt="syncharonous" /></p>
+<p>以异步机制来执行计算图训练时，在迭代训练中，当数据通道载入数据后交给后续的数据预处理环节后，不需要等待计算图训练迭代完成，直接读取下一批次的数据。异步机制的引入减少了数据载入、数据预处理、网络训练三个环节的空闲等待时间，能够大幅度缩短迭代训练的整体时间，提高任务执行效率。
+<img src="/img/pics/computional_graph/asynchaonus.png" srcset="/img/loading.gif" lazyload
+alt="asynchronous" /></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E5%9B%BE%EF%BC%8CPyTorch/" class="print-no-link">#计算图，PyTorch</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/03/Prometheus/" title="Prometheus介绍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Prometheus介绍</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/03/cooperative_game_theory/" title="合作博弈论">
+                        <span class="hidden-mobile">合作博弈论</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

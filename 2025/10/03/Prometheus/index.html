@@ -1,0 +1,917 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Prometheus介绍 Prometheus是一个系统监控和警报系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prometheus介绍">
+<meta property="og:url" content="https://geotle77.github.io/2025/10/03/Prometheus/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="Prometheus介绍 Prometheus是一个系统监控和警报系统。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/Prometheus.png">
+<meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
+<meta property="article:modified_time" content="2025-10-05T11:03:59.833Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="Prometheus,时序数据">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/Prometheus.png">
+  
+  
+  
+  <title>Prometheus介绍 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Prometheus介绍"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-03 22:39" pubdate>
+          2025年10月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Prometheus介绍</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="prometheus介绍">Prometheus介绍</h1>
+<p>Prometheus是一个系统监控和警报系统。 <span id="more"></span></p>
+<h2 id="介绍">介绍</h2>
+<p>PrometheusPrometheus
+是一个系统监控和警报系统。简单来说，就是一个存储时间序列数据的数据库，Prometheus
+将所有metric
+data存储为时间序列，即将系统的度量信息与记录的时间戳一起存储。</p>
+<pre><code class="hljs">Metric data（度量数据）是指用于量化和监测系统、应用程序或服务的性能和健康状态的数据。这类数据通常是通过定期收集和记录的指标，旨在帮助开发者和运维人员了解系统的运行状况、识别潜在问题并进行性能优化。</code></pre>
+<p>Prometheus是继Kubernetes之后的第二款加入CNCF的开源软件。</p>
+<h2 id="基本架构">基本架构</h2>
+<p>prometheus的基础组件为：</p>
+<ul>
+<li>Prometheus Server,用于抓取和存储metrics data</li>
+<li>Targets to be
+scraped，例如能展示其指标的应用程序，或者能导出其他应用程序指标的程序。</li>
+<li>Alertmanager,用于通过预先设置的规则产生告警（一旦metric
+data出现不符合预期的数据） <img
+src="/img/pics//Prometheus/architecture.png" srcset="/img/loading.gif" lazyload alt="Architecture" /></li>
+</ul>
+<p>例子，假设有一个web服务器作为目标对象，我们想要提取其中的一个指标，比如说web服务器处理的API调用数量。那么通过在Prometheus在web服务器上加入一些instrumentation
+code（监控代码）来定义和记录指标，并使之公开指标信息。</p>
+<p>Web 服务器会将这些指标信息暴露为一个 HTTP 端点（通常是 /metrics），供
+Prometheus 访问。接下来我们就可以通过配置 Prometheus，在 Prometheus
+的配置文件中，设置要抓取的 Web 服务器的 IP
+地址和端口，并指定抓取的时间间隔（例如每分钟）。抓取指标：Prometheus
+会按照配置的时间间隔定期请求 Web
+服务器的指标端点，从而获取和存储这些指标数据。以此类推，我们可以创建并抓取多个指标来了解应用程序的运行状态，并根据其创建多个图表。</p>
+<h2 id="metircs-数据类型">metircs 数据类型</h2>
+<p>Prometheus共支持四种类型的metrics，分别是Counter,Gauge,Histogram,Summary.</p>
+<ul>
+<li><p>Counter<br />
+Counter是一种指标值，其只增不减除非被重置。Counter只能用在例如请求次数，错误次数之类的指标。</p></li>
+<li><p>Gauge
+Gauge是一种可增可减的数，因此可以被用在例如节点数量、队列中事件数目等的指标。</p></li>
+<li><p>Histogram<br />
+Histogram
+是一种用于收集和分析度量数据的更为复杂的指标类型。它通过将测量值（如请求处理时间）分配到预定义的<strong>桶（buckets）</strong>中，从而提供了对数据分布的更深入分析。</p></li>
+<li><p>Summary
+Summaries也可以用来测量事件，并可以作为Histogram的替代品。Summaries更加轻量，但同时也会损失更多的数据。Summary是在应用层的级别上计算的，意味着它不会同时去维护多个微服务实例，只能提供单一实例的局部信息。</p></li>
+</ul>
+<h2 id="可视化指标">可视化指标</h2>
+<p>Grafana是一款开源的数据可视化和监控工具，广泛用于监控和分析系统和应用程序的性能。通过Grafana，用户可以创建、浏览和共享数据的可视化仪表板，这些仪表板可以实时显示数据，并帮助用户识别和解决问题。我们可以将prometheus接入到grafana中来将获得的metric
+data进行可视化。</p>
+<p>在 Grafana 中，http://localhost:9090 通常指的是 Prometheus 的默认
+HTTP API
+接口。通过grafana接入到这个接口，grafana就可以查看prometheus存储的数据。grafana提供了dashboard来自定义我们对数据的可视化方式，例如折线图、扇形图和热图等。</p>
+<h2 id="告警alert">告警（alert）</h2>
+<p>利用prometheus采集存储到的指标，我们可以定义规则来产生告警。例如说，当一些指标高过某个阈值时，prometheus就会通过Alertmanager产生告警。Alertmanager支持一系列的接收器（例如email,webhook,pagerduty,slack等），当产生告警时，它就会发送到对应的接收器上。</p>
+<h1 id="prometheus教程">Prometheus教程</h1>
+<p>我们可以从两个角度来学习Prometheus，一个是搭建和配置Promethus，另一个就是将其当作一个metricstore来使用。这里主要关注对其的使用，主要对这个数据库的查询。</p>
+<h2 id="data-model">Data Model</h2>
+<p>如上所述，prometheus主要是存储时间序列数据，即属于同一指标和同一组标注维度的时间戳数据。除了这些时间序列外，prometheus可能还会因为查询生成临时的时间序列（例如某几个时间序列的聚合）
+## Metric
+这里继续详细介绍一下prometheus中的metric.每个时间序列都是被唯一的metric
+name(指标名称)和一些可选的键值对（称之为labels）所标识。</p>
+<p><strong>Metric names</strong>:</p>
+<ul>
+<li>指定要测量的系统的一般特征（例如，http_requests_total - 收到的 HTTP
+请求总数）。</li>
+<li>度量名称可包含 ASCII 字母、数字、下划线和冒号。它必须匹配
+<code>regex [a-zA-Z_:][a-zA-Z0-9_:]*</code>。</li>
+</ul>
+<p>注意：冒号是为用户定义的记录规则保留的。</p>
+<p><strong>Metric labels</strong>：</p>
+<ul>
+<li>使 Prometheus
+的维度数据模型能够识别同一度量名称的任何给定标签组合。它可识别该度量的特定维度实例（例如：使用
+POST 方法向 /api/tracks 处理程序发送的所有 HTTP
+请求）。查询语言允许根据这些维度进行过滤和聚合。</li>
+<li>更改任何标签的值，包括添加或删除标签，都将创建一个新的时间序列。</li>
+<li>标签可包含 ASCII
+字母、数字和下划线。它们必须与<code>regex [a-zA-Z_][a-zA-Z0-9_]*</code>
+匹配。</li>
+<li>以 __（两个“_”）开头的标签名称保留供内部使用。</li>
+<li>标签值可包含任何 Unicode 字符。</li>
+<li>标签值为空的标签等同于不存在的标签。</li>
+</ul>
+<p>在prometheus中，<strong>Samples</strong>就是指从真实时间序列中采样到的样本数据，每个样本都包括一个64位浮点数据和一个毫秒级精度的时间戳。</p>
+<p>例子： <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">metric</span> <span class="hljs-attr">name</span>&gt;</span>&#123;<span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">name</span>&gt;</span>=<span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">value</span>&gt;</span>, ...&#125;<br></code></pre></td></tr></table></figure> 就是指定来一个唯一的时间序列，例如, metric name
+为api_http_requests_total 并且 labels 为method=“POST” and
+handler=“/messages” 的时间序列数据可能是这样： <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">api_http_requests_total&#123;method=<span class="hljs-string">&quot;<span class="hljs-keyword">POST</span>&quot;</span>, handler=<span class="hljs-string">&quot;/messages&quot;</span>&#125;<br></code></pre></td></tr></table></figure> ## jobs and
+instances
+在prometheus的术语中，一个可以抓取指标数据的端点称之为一个instance，通常对应于一个单独独进程。而一系列相同目的instance的集合（为提高可扩展性或可靠性而复制的进程）就称为一个job.</p>
+<p>例子： <figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs smali">job: api-server<br>   <span class="hljs-built_in"> instance </span>1: 1.2.3.4:5670<br>   <span class="hljs-built_in"> instance </span>2: 1.2.3.4:5671<br>   <span class="hljs-built_in"> instance </span>3: 5.6.7.8:5670<br>   <span class="hljs-built_in"> instance </span>4: 5.6.7.8:5671<br></code></pre></td></tr></table></figure>
+prometheus可以自动地定义时间序列的labels来指示所抓取的对象。</p>
+<h1 id="promql语法">PromQL语法</h1>
+<p>PromQL是prometheus提供的一种功能查询语言，能够帮助用户实时选择和聚合时间序列数据。PromQL查询到的结果可以被一个外部系统通过HTTP
+API进行调用。</p>
+<h2 id="基本原理">基本原理</h2>
+<p>PromQL中，一个表达式/子表达式计算得到的四种结果类型：</p>
+<ul>
+<li>Instant vetccor: 是
+一组时间序列，每个时间序列包含一个样本，所有时间序列共享相同的时间戳</li>
+<li>Range vector:
+一组时间序列，其中包含每个时间序列随时间变化的一系列数据点</li>
+<li>Scalar: 一个简单的浮点值</li>
+<li>String: 一个简单的字符串值；一般不使用</li>
+</ul>
+<p>根据使用的情况，只有一些类型作为用户指定的表达式结果的时候才是合法的。（唯一能够绘制图表的类型就是Instant
+vector）。 ## Literals ### String literals
+字符串由单引号，双引号或者反引号指定。PromQL 遵循与 Go
+相同的转义规则。对于单引号或双引号中的字符串文字，反斜杠开始转义序列，后面可能跟着
+a、b、f、n、r、t、v 或 。可以使用八进制 () 或十六进制（、和
+）表示法提供特定字符。</p>
+<p>相反，反引号指定的字符串文字中的转义字符不会被解析。</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">&quot;this is a string&quot;<br>&#x27;these are unescaped: <span class="hljs-symbol">\n</span> <span class="hljs-symbol">\\</span> <span class="hljs-symbol">\t</span>&#x27;<br>`these are not unescaped: <span class="hljs-symbol">\n</span> &#x27; &quot; <span class="hljs-symbol">\t</span>`<br></code></pre></td></tr></table></figure>
+<h3 id="float-literals">Float literals</h3>
+<p>浮点数标量值可以按以下格式写入文字整数或浮点数（仅包含空格是为了提高可读性）：
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs inform7"><span class="hljs-comment">[-+]</span>?(<br>      <span class="hljs-comment">[0-9]</span>*\.?<span class="hljs-comment">[0-9]</span>+(<span class="hljs-comment">[eE]</span><span class="hljs-comment">[-+]</span>?<span class="hljs-comment">[0-9]</span>+)?<br>    | 0<span class="hljs-comment">[xX]</span><span class="hljs-comment">[0-9a-fA-F]</span>+<br>    | <span class="hljs-comment">[nN]</span><span class="hljs-comment">[aA]</span><span class="hljs-comment">[nN]</span><br>    | <span class="hljs-comment">[iI]</span><span class="hljs-comment">[nN]</span><span class="hljs-comment">[fF]</span><br>)<br></code></pre></td></tr></table></figure> ## Time series selectors
+时间序列selector负责选择时间序列以及原始或推断的样本时间戳和值。</p>
+<h3 id="instant-vector-selectors">Instant vector selectors</h3>
+<p>Instant vector
+selectors允许在给定时间戳（时间点）选择一组时间序列和每个时间序列的单个样本值。在最简单的形式中，仅指定指标名称，这会生成一个即时向量，其中包含具有该指标名称的所有时间序列的元素。</p>
+<p>例如一个具有 http_requests_total 指标名称的所有时间序列：
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">http_requests_total</span><br></code></pre></td></tr></table></figure> 可以通过在大括号 (<code>&#123;&#125;</code>)
+中附加以逗号分隔的标签匹配器列表来进一步过滤这些时间序列。</p>
+<p>例如具有 `<code>http_requests_total</code>
+指标名称且<code>job</code>标签设置为 prometheus，
+且<code>group</code>标签设置为 canary 的时间序列： <figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">http_requests_total&#123;job=<span class="hljs-string">&quot;prometheus&quot;</span>,<span class="hljs-keyword">group</span>=<span class="hljs-string">&quot;canary&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+还可以对标签值进行负匹配，或者将标签值与正则表达式进行匹配。存在以下标签匹配运算符：</p>
+<ul>
+<li>=：选择与提供的字符串完全相同的标签。</li>
+<li>!=：选择不等于提供的字符串的标签。</li>
+<li>=~：选择与提供的字符串正则表达式匹配的标签。</li>
+<li>!~：选择与提供的字符串正则表达式不匹配的标签。</li>
+</ul>
+<p><strong>正则表达式匹配是完全锚定的。 env=~“foo” 的匹配被视为
+env=~“^foo$”。</strong></p>
+<p>例如，选择用于暂存、测试和开发环境的所有 http_requests_total
+时间序列以及除 GET 之外的 HTTP 方法。 <figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ocaml">http_requests_total&#123;environment=~<span class="hljs-string">&quot;staging|testing|development&quot;</span>,<span class="hljs-keyword">method!</span>=<span class="hljs-string">&quot;GET&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+匹配空标签值的标签匹配器还会选择根本没有特定标签集的所有时间序列。</p>
+<p>例如： <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-a&quot;&#125;<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-b&quot;&#125;<br>http_requests_total&#123;环境=“开发”&#125;<br></code></pre></td></tr></table></figure>
+查询<code>http_requests_total&#123;environment=""&#125;</code>将匹配并返回：
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-a&quot;&#125;<br>http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-b&quot;&#125;<br></code></pre></td></tr></table></figure> 并排除： <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">http_requests_total&#123;<span class="hljs-attribute">environment</span>=“development”&#125;<br></code></pre></td></tr></table></figure>
+同一标签名可​​以使用多个匹配器。(<strong>都必须通过才能返回结果。</strong>)</p>
+<p>查询： <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total&#123;<span class="hljs-keyword">replica</span>!=&quot;rep-a&quot;,<span class="hljs-keyword">replica</span>=~&quot;rep.*&quot;&#125;<br></code></pre></td></tr></table></figure> 然后会匹配： <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">http_requests_total&#123;<span class="hljs-keyword">replica</span>=&quot;rep-b&quot;&#125;<br></code></pre></td></tr></table></figure> vector selector
+必须指定一个名称或至少一个与空字符串不匹配的标签匹配器。以下表达式是非法的：
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cos">&#123;<span class="hljs-keyword">job</span>=~<span class="hljs-string">&quot;.*&quot;</span>&#125; <br></code></pre></td></tr></table></figure> 标签匹配器还可以通过匹配内部 __name__
+标签来应用于指标名称。例如，表达式
+<code>http_requests_total</code>相当于
+<code>&#123;__name__="http_requests_total"&#125;</code>。也可以使用 = (!=, =~, !~)
+以外的匹配器。以下表达式选择名称以 job: 开头的所有指标： <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">&#123;__name__<span class="hljs-punctuation">=</span><span class="hljs-symbol">~&quot;work</span>:.*<span class="hljs-string">&quot;&#125;</span><br></code></pre></td></tr></table></figure>
+指标名称不能是关键字 bool、on、ignoring、group_left 和 group_right
+之一。以下表达式是非法的： <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-keyword">on</span>&#123;&#125; <br></code></pre></td></tr></table></figure> ### Range Vector selectors
+Range vector literal的工作方式与Instant vector
+literal类似，只不过它们选择从当前时刻返回的一系列样本。</p>
+<p>从语法上讲，持续时间附加在vector selectors末尾的方括号 ([])
+中，以指定应为每个结果范围。该范围是一个闭区间。</p>
+<p>例如择过去 5 分钟内为指标名称为 http_requests_total 且job标签设置为
+prometheus 的所有时间序列记录的所有值： <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">http_requests_total&#123;job<span class="hljs-operator">=</span><span class="hljs-string">&quot;prometheus&quot;</span>&#125;[<span class="hljs-number">5</span>m]<br></code></pre></td></tr></table></figure></p>
+<h3 id="time-durations">time durations</h3>
+<p>Time durations 指定为数字，并跟上时间单位： - ms,毫秒 - s,秒 - m,分钟
+- h,小时 - d,天，认为一天24h - w,周，一周7天 - y,年，一年365天</p>
+<p>持续时间可以通过串联来组合。单位必须按照从最长到最短的顺序排列。给定单位在一段时间内只能出现一次。</p>
+<p>以下是有效持续时间的一些示例： <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-number">5</span><span class="hljs-built_in">h</span><br><span class="hljs-number">1</span>h30m<br><span class="hljs-number">5</span>m<br><span class="hljs-number">10</span>s<br></code></pre></td></tr></table></figure> ### offset modifier
+<figure class="highlight plaintext"><figcaption><span>modifier允许改变单个Instant vector和Range vector的时间偏移。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs offset```">例如说，返回相对于当前查询评估时间过去 5 分钟的 http_requests_total 值：<br></code></pre></td></tr></table></figure> http_requests_total offset 5m <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">请注意，<span class="hljs-built_in">offset</span> modifier始终需要紧跟在selector后面，即以下内容是正确的：<br></code></pre></td></tr></table></figure>
+sum(http_requests_total{method=“GET”} offset 5m) <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">以下格式是不正确的：<br></code></pre></td></tr></table></figure>
+sum(http_requests_total{method=“GET”}) offset 5m // 无效。
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tap"><br>这同样适用于范围向量。<br><br>例如将返回 http_requests_total 一周前的<span class="hljs-number"> 5 </span>分钟速率：<br></code></pre></td></tr></table></figure> rate(http_requests_total[5m] offset 1w) <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">当查询过去的样本时，负偏移量将启用时间向前的比较：<br></code></pre></td></tr></table></figure>
+rate（http_requests_total[5m] offset -1w） ```</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Prometheus-%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE/" class="print-no-link">#Prometheus,时序数据</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/03/Einstein-Summation-Convention/" title="Einstein Summation Convention">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Einstein Summation Convention</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/03/computional-graph/" title="计算图概述">
+                        <span class="hidden-mobile">计算图概述</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

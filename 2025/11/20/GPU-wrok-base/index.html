@@ -1,0 +1,1145 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="GPU大作业入门指南 本教程旨在提供一个基本的入门指南，专门为零基础同学打造的完成大作业二的教程，仅限基础题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="国科大GPU架构与编程25秋大作业二入门指南">
+<meta property="og:url" content="https://geotle77.github.io/2025/11/20/GPU-wrok-base/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="GPU大作业入门指南 本教程旨在提供一个基本的入门指南，专门为零基础同学打造的完成大作业二的教程，仅限基础题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/GPU_work_base.png">
+<meta property="article:published_time" content="2025-11-20T11:29:03.000Z">
+<meta property="article:modified_time" content="2025-11-25T03:12:27.548Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="GPU,课程，大作业">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/GPU_work_base.png">
+  
+  
+  
+  <title>国科大GPU架构与编程25秋大作业二入门指南 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="国科大GPU架构与编程25秋大作业二入门指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-20 19:29" pubdate>
+          2025年11月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">国科大GPU架构与编程25秋大作业二入门指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="gpu大作业入门指南">GPU大作业入门指南</h1>
+<p>本教程旨在提供一个基本的入门指南，专门为零基础同学打造的完成大作业二的教程，仅限基础题。
+<span id="more"></span></p>
+<h2 id="基本要求">基本要求</h2>
+<p>首先快速回顾一下大作业二的要求：</p>
+<ul>
+<li>选择一个赛道：摩尔线程，沐曦科技，并行科技</li>
+<li>根据教材《Programming Massively Parallel Processors: A Hands-on
+Approach》要求的章节生成高质量的问答对.<a
+target="_blank" rel="noopener" href="https://www.sciencedirect.com/book/9780128119860/programming-massively-parallel-processors">PMPP</a>。
+<ul>
+<li>基础题：Chap 2,3,4,5,6</li>
+<li>加分题：Chap 1,2,3,4,5,6,7,13,16,17,20</li>
+</ul></li>
+<li>选择一种开源大模型：DeepSeek,Qwen,Llama等<br />
+</li>
+<li>选择一个大模型微调框架
+<ul>
+<li>摩尔线程：<a
+target="_blank" rel="noopener" href="https://llamafactory.readthedocs.io/en/latest/">Llama-Factory</a></li>
+<li>并行科技&amp;沐曦科技：<a
+target="_blank" rel="noopener" href="https://docs.unsloth.ai/">Unsloth</a></li>
+</ul></li>
+<li>模型微调
+<ul>
+<li>基础题：使用生成的问答对进行低秩矩阵微调（lora）,输出标准的大模型文件（huggingface
+transformers）</li>
+<li>加分题：RAG,PPO,RLHF,SFT etc. 策略进行模型准确率优化</li>
+</ul></li>
+<li>模型推理部署
+<ul>
+<li>基础题：使用大模型进行推理，输出结果，不必要使用推理引擎部署</li>
+<li>加分题：使用vllm,SGlang等进行推理部署，并根据硬件架构，使用CUDA,PTX,Triton等编程模型加速推理框架的算子。做一个UI界面，起一个响亮的名字🥹</li>
+</ul></li>
+</ul>
+<p><strong>考核要求</strong> ：</p>
+<ul>
+<li>速度（Tokens/s）</li>
+<li>给定测试集上的准确率+专家打分</li>
+</ul>
+<h2 id="背景介绍">背景介绍</h2>
+<p>没有AI大模型训练经验基础的同学可能会对上述任务一头雾水，包括什么叫做微调，这堆名词（PPO,Lora,SFT
+etc.）是什么意思，llama-factory，unsloth等是什么，vllm，sglang等又是什么。</p>
+<h3 id="大模型基础知识">大模型基础知识</h3>
+<p>我们先快速过一遍大模型的基本原理，首先现代几乎所有大模型都是基于Transformer架构的，关于Transformer的详细介绍可以参考我之前的博客文章<a
+href="https://geotle77.github.io/2025/10/03/To-know-about-Transformer/">Transformer的原理与应用</a>。</p>
+<p>原版 Transformer 由 Encoder + Decoder
+两部分组成，但现在几乎所有语言大模型都只保留 Decoder-only（仅解码器）
+架构，这是 GPT、Qwen、DeepSeek、Llama
+等模型共同的基础。这里的原因简单来说是因为所有 LLM
+的根本任务都是一样的—— 根据前文预测下一个
+token。对于生成任务而言，语言模型的“输入”和“输出”其实都在同一个序列上，Transformer
+的 Decoder带有 mask
+self-attention（只看前面，不看后面），用户输入一部分内容，模型根据输入继续进行接下来的输出。所以decoder是天然适合这种生成任务的，与之对应如果是翻译或者seq2seq任务，就是encoder更擅长。其实最主要的原因还是因为便宜，Decoder-only
+在规模化训练下效果最好、最稳定，继续保留encoder反而会增加多余的训练成本。
+<img src="/img/pics/GPU-work-base/decoder-only.png" srcset="/img/loading.gif" lazyload
+alt="decoder-only" /></p>
+<p>强调这一点是因为让我们大模型的架构有一个最清晰的认识，专注在decoder结构，帮助理解各家大模型的区别到底在哪。</p>
+<h4 id="大模型常见的一些参数">大模型常见的一些参数</h4>
+<p><strong>Token</strong>：Token在大模型中是最基本的文本单元，意味着任何序列都是由这些token组成的。如果学过NLP就知道，这些token并不一定是一个word或者一个字，而是有可能会被拆分为更小的部分。比如说”preview”就会被拆分为”pre”和”view”。为什么不直接用字母呢？如果只有英文训练预料，词表甚至只有26个，但是这样的话模型就很难学到一些长距离的依赖关系，比如说一个字母p后面可能是任何一个其他字母，模型很难学到p后面跟着什么字母的概率。所以词表不能太大，也不能太小。与token最直接相关的关键词就是上下文长度(context)，128k,1M等，它们的意思就是词表里有多少个token,也就是输出矩阵的维度。</p>
+<p><strong>Embedding</strong>：Embedding是token的向量表示，它将token转换为数值向量，这个向量的维度就是embedding的维度，比如768,1024等。Embedding的维度越高，模型的表达能力就越强，但是训练成本也越高，这也就是输入矩阵大小的另一个决定性因素。比如gpt3时的词表大小是50257，嵌入向量的维度是12288.</p>
+<p><strong>温度</strong>：温度 (Temperature)
+控制模型生成内容的随机性和创造性。数值通常在 0 到 1 之间（有些模型可到
+2）。</p>
+<ul>
+<li>低温度 (0.1 - 0.3)：
+模型变得极度保守、确定。它会每次都选概率最高的那个字。适合：代码生成、数学解题、事实问答。</li>
+<li>高温度 (0.7 - 1.0)：
+模型变得活跃、发散。它会尝试选择概率没那么高的字，带来意想不到的组合。适合：写诗、头脑风暴、创意写作。</li>
+</ul>
+<p>可以直接验证的是，如果将温度调为0，模型的输出会变得非常确定，那么同一个prompt下，模型的输出都是一样的。</p>
+<h3 id="大模型异同">大模型异同</h3>
+<p>各家大模型都是基于transformer架构，并且还是decoder-only,那为什么能力参差不齐呢？</p>
+<p>可以把差异分成三大类：<br />
+（1）架构层面.<br />
+（2）训练层面（最核心）.<br />
+（3）推理/工程层面.</p>
+<h4 id="架构层面">架构层面</h4>
+<p>虽然都是 Decoder-only，但每家在 Transformer Block
+里做了一些小改动，例如：</p>
+<ul>
+<li>Attention 机制的不同
+<ul>
+<li>原始 Attention（GPT-2/GPT-3）</li>
+<li>SwiGLU + Multi-Query Attention（Llama系）</li>
+<li>Grouped-Query Attention (GQA)（大部分新模型）</li>
+<li>推理更快、KV Cache 更小</li>
+<li>Chunked Attention / Multi-head Latent Attention（DeepSeek）</li>
+</ul></li>
+<li>位置编码（Positional Encoding）
+<ul>
+<li>GPT ：Learned PE（可学习位置）</li>
+<li>Llama/Qwen：RoPE（旋转位置编码）</li>
+<li>DeepSeek-V3：Dynamic NTK / YaRN</li>
+</ul></li>
+<li>激活函数（FFN）
+<ul>
+<li>ReLU（旧时代）</li>
+<li>GeLU（GPT-3）</li>
+<li>SwiGLU / ReGLU（Llama/Qwen/DeepSeek）</li>
+</ul></li>
+<li>归一化策略
+<ul>
+<li>RMSNorm（Llama/Qwen/DeepSeek）</li>
+<li>LayerNorm（GPT 系列）</li>
+<li>DeepNorm/PostNorm 变体（Ziya 等）</li>
+</ul></li>
+</ul>
+<p>我们并不需要关心具体是如何实现的，只需要知道各家大模型的架构主要的区别就集中在这几个部件上，还有近来比较热门的Moe模型，也引入了一些新的技术。</p>
+<h4 id="训练层面">训练层面</h4>
+<p>实际上，真正影响大模型能力的，还是训练层面。这主要体现在各家大模型：</p>
+<ul>
+<li>用了多少数据</li>
+<li>用什么 loss，训练目标是什么</li>
+<li>用什么训练技巧</li>
+<li>是否做了对齐 RLHF、SFT</li>
+</ul>
+<p>比如说不同公司会在 pretrain 时加入：</p>
+<ul>
+<li>next-token prediction（主任务）</li>
+<li>fill-in-the-middle（FIM，Llama 用）</li>
+<li>prefix LM（部分模型）</li>
+<li>masked attention patterns</li>
+</ul>
+<h4 id="推理工程层面">推理/工程层面</h4>
+<p>最后就是影响实际体验的部分，同样大小的模型，它们差异可能来自以下优化：</p>
+<ul>
+<li>KV Cache 优化（PagedAttention、FlashAttention-2/3）
+<ul>
+<li>vLLM 推力最大</li>
+<li>DeepSeek-V3 更进一步的 Chunked Attention</li>
+<li>Qwen 2.5 做了 FlashDecoding 优化</li>
+</ul></li>
+<li>权重量化技术，量化能力影响 显存需求 × 推理速度，对实际用户影响巨大。
+<ul>
+<li>Llama/Qwen → 非常适配 AWQ/GPTQ/INT8/FP8</li>
+<li>DeepSeek → 特别适配 INT4/FP8 推理</li>
+</ul></li>
+</ul>
+<h4 id="参数量的区别">参数量的区别</h4>
+<p>对于同款架构（通常指基于 Transformer Decoder-only 的架构，如
+Llama、GPT 系列）的大模型，参数量的区别主要体现在 “深度”（层数） 和
+“宽度”（隐藏层维度）
+这两个核心维度的变化上。具体来说，参数量的差异主要体现在以下几个具体的结构参数和权重矩阵上：</p>
+<p>核心差异来源：两个关键超参数当一个模型从“小杯”（如
+7B）扩展到“超大杯”（如 70B）时，架构逻辑不变，变的是以下两个数值：</p>
+<ul>
+<li>Hidden Size (<span
+class="math inline"><em>d</em><sub><em>m</em><em>o</em><em>d</em><em>e</em><em>l</em></sub></span>)：隐藏层维度（宽度）。这是影响最大的因素，因为参数量与它大致呈平方关系。</li>
+<li>Number of Layers (<span
+class="math inline"><em>N</em></span>)：Transformer Block
+的层数（深度）。参数量与它呈线性关系。</li>
+</ul>
+<p>一篇写得很好的计算参数量的文章<a
+target="_blank" rel="noopener" href="https://michaelwornow.net/2024/01/18/counting-params-in-transformer">GPT2参数量计算</a></p>
+<h3 id="模型训练">模型训练</h3>
+<p>基于上面部分的介绍，大家已经可以大概选择一个适合的大模型来进行微调。这里有一个有意思的网站可以用来计算模型需要的显存：<a
+target="_blank" rel="noopener" href="https://rahulschand.github.io/gpu_poor/">GPU-poor</a>.</p>
+<p>选择了一个模型后，接下来咱们简单介绍一下微调是什么意思。</p>
+<p>要知道的是，现在的所有大模型都已经在大量的世界数据上进行了预训练，但是针对具体的场景可能没法涵盖全部的知识。微调（Fine-tuning）是大模型应用的最常见方式，它通过在特定任务上进行训练，让模型能够更好地理解和生成与任务相关的文本。根据微调方式的不同，又可以分为PEFT,FFT,SFT,PPO,DPO等。</p>
+<ul>
+<li>按照“更新参数的规模”分类可以分为FFT和PEFT等，它们是训练的实现方式</li>
+<li>按照“任务类型”分类可以分为SFT和RLHF等，它们是训练的具体目标</li>
+</ul>
+<h4 id="训练实现方式">训练实现方式</h4>
+<h5 id="全量微调-full-fine-tuning-fft">全量微调 (Full Fine-Tuning /
+FFT)</h5>
+<p>全量微调 (Full Fine-Tuning /
+FFT)的原理是解冻模型的所有参数，对整个模型的权重进行更新。相当于把整个大脑的知识重新梳理一遍。全量微调的优点是效果上限最高，能彻底改变模型的行为模式。但缺点显而易见就是极度烧钱。需要巨大的显存（通常是模型大小的
+3-4 倍以上），还可能出现“灾难性遗忘”（忘了原本通用的知识）。</p>
+<h5
+id="参数高效微调parameter-efficient-fine-tuning">参数高效微调（Parameter-Efficient
+Fine-Tuning）</h5>
+<p>参数高效微调（Parameter-Efficient Fine-Tuning）
+的原理是冻结住大模型原本的参数（不改动），只在旁边“外挂”一些小型的参数模块来训练。</p>
+<p>核心技术包括：</p>
+<ul>
+<li><p>Adapter
+Tuning：较早期的技术，在层与层之间插入小型的神经网络层（Adapter）。</p></li>
+<li><p>P-Tuning / Prefix
+Tuning：不改动模型主体，而是在输入端训练一些“虚拟的提示词向量”（Soft
+Prompts），相当于训练一个万能的 Prompt。</p></li>
+<li><p>LoRA (Low-Rank Adaptation)：【当前统治级的方法】 LoRA
+的出现极大降低了微调门槛。对于一个 7B 的模型，LoRA 可能只需要训练 0.1% -
+1% 的参数，这让消费级显卡（如 RTX
+3090/4090）微调大模型成为可能。</p></li>
+<li><p>QLoRA：LoRA 的量化版。先把主模型压缩成
+4-bit（大幅降低显存占用），在这个量化模型的基础上加
+LoRA。这是目前个人开发者最常用的方案。</p></li>
+</ul>
+<p>LoRA
+的设计非常优雅，它完美诠释了数学在工程优化中的力量。直觉假设（Intrinsic
+Dimension
+Hypothesis）：工程师们发现，大模型虽然参数巨大，但在处理特定任务时，真正起作用的“有效维度”其实很低。也就是说，权重的更新量
+<span class="math inline"><em>Δ</em><em>W</em></span>
+不需要是满秩的，它可以通过两个极小的矩阵相乘来近似。具体来讲 <span
+class="math display"><em>h</em> = <em>W</em><em>x</em></span>
+若进行全参数微调，我们更新的是整个矩阵 <span
+class="math inline"><em>W</em> ∈ ℝ<sup><em>d</em><sub>out</sub> × <em>d</em><sub>in</sub></sup></span>,但是LoRA
+假设：</p>
+<blockquote>
+<p>大模型微调时，权重的更新 <span
+class="math inline"><em>Δ</em><em>W</em></span>
+通常是<strong>低秩</strong>的。</p>
+</blockquote>
+<p>所以 LoRA 用一个低秩分解表示微调的更新量：</p>
+<p><span
+class="math display"><em>Δ</em><em>W</em> = <em>B</em><em>A</em></span></p>
+<p>其中：</p>
+<ul>
+<li><span
+class="math inline"><em>A</em> ∈ ℝ<sup><em>r</em> × <em>d</em><sub>in</sub></sup></span><br />
+</li>
+<li><span
+class="math inline"><em>B</em> ∈ ℝ<sup><em>d</em><sub>out</sub> × <em>r</em></sup></span></li>
+<li><span
+class="math inline"><em>r</em> ≪ min (<em>d</em><sub>in</sub>, <em>d</em><sub>out</sub>)</span>，如
+4、8、16 等</li>
+</ul>
+<p>这样：</p>
+<ul>
+<li>原来一个 <span
+class="math inline"><em>d</em><sub>out</sub> × <em>d</em><sub>in</sub></span>
+的大矩阵不动</li>
+<li>只训练 A, B 这两个“小矩阵”</li>
+</ul>
+<p>最终输出变成：</p>
+<p><span
+class="math display"><em>h</em> = <em>W</em><em>x</em> + <em>B</em><em>A</em><em>x</em></span>
+也可以写为：</p>
+<p><span
+class="math display"><em>h</em> = (<em>W</em> + <em>Δ</em><em>W</em>)<em>x</em></span>
+但是 W 是冻结的，不会更新。完美！</p>
+<h4 id="有监督微调-sft---supervised-fine-tuning">有监督微调 (SFT -
+Supervised Fine-Tuning)</h4>
+<p>有监督微调 (SFT - Supervised
+Fine-Tuning)是最基础的微调目标。通过喂给模型成对的 (Prompt, Response)
+数据教会模型“特定的知识”。它能够让模型学会遵守指令、结构化输出和做有用的任务（总结、回答、解释）</p>
+<h4 id="对齐训练alignment">对齐训练（Alignment）</h4>
+<p>对齐训练就是让“懂很多知识”的
+AI，变成一个“符合人类价值观、听懂人话、且安全”的助手。如果说预训练（Pre-training）是让模型“读万卷书”（获得智力），那么对齐训练就是教模型“做人”（符合价值观）。</p>
+<ul>
+<li><strong>RLHF（Reinforcement Learning from Human
+Feedback）人类反馈强化学习</strong>用人类偏好来优化模型行为。</li>
+</ul>
+<p>流程是：</p>
+<ol type="1">
+<li><p>SFT（先让模型会说话）</p></li>
+<li><p>训练奖励模型（Reward Model）</p></li>
+</ol>
+<p><span
+class="math display"><em>r</em> = <em>R</em><sub><em>ϕ</em></sub>(<em>x</em>, <em>y</em>)</span></p>
+<ol start="3" type="1">
+<li>强化学习优化策略（PPO/PPO-ptx）</li>
+</ol>
+<p><span
+class="math display">max<sub><em>θ</em></sub>𝔼<sub><em>y</em> ∼ <em>π</em><sub><em>θ</em></sub></sub>[<em>R</em><sub><em>ϕ</em></sub>(<em>x</em>, <em>y</em>)]</span></p>
+<ul>
+<li><strong>DPO(Direct Preference Optimization)直接偏好优化</strong>，是
+RLHF 的无强化学习版。</li>
+</ul>
+<p>数学形式： <span
+class="math display">max<sub><em>θ</em></sub>log <em>σ</em>(<em>β</em>[log <em>π</em><sub><em>θ</em></sub>(<em>y</em><sup>+</sup>) − log <em>π</em><sub><em>θ</em></sub>(<em>y</em><sup>−</sup>)])</span>
+它不需要 PPO，训练更稳定，效果更好。</p>
+<ul>
+<li><strong>除此之外</strong>，还有
+<ul>
+<li>ORPO：用 KL 约束约束偏好</li>
+<li>KTO：OpenAI 小模型对齐方案</li>
+<li>GRPO：聚合奖励</li>
+<li>RLAIF：用模型输出作为偏好</li>
+</ul></li>
+</ul>
+<h4 id="知识增强">知识增强</h4>
+<ul>
+<li><strong>RAG（Retrieval-Augmented Generation）</strong></li>
+</ul>
+<p>RAG并不是一种训练方式，也不是训练目标，它只是作为一种“增强方式”，让模型在针对具体领域是避免幻觉和出错。</p>
+<p>数学结构：</p>
+<p><span
+class="math display"><em>y</em> = <em>f</em><sub><em>θ</em></sub>(<em>x</em>, Retrieve(<em>x</em>))</span></p>
+<ul>
+<li><strong>蒸馏（Distillation）</strong></li>
+</ul>
+<p>蒸馏是让大模型 → 变小模型</p>
+<p>数学上：</p>
+<p><span
+class="math display">min<sub><em>θ</em></sub>KL(<em>π</em><sub><em>θ</em></sub> ∥ <em>π</em><sub>teacher</sub>)</span></p>
+<h4 id="总结">总结</h4>
+<p>我们可以把大模型的生命周期看作一个从“通识教育”到“专业就业”的过程，各个技术环节环环相扣：</p>
+<ol type="1">
+<li><p><strong>预训练 (Pre-training)</strong>
+这是<strong>通识教育</strong>阶段。模型阅读海量文本，学会了语言的规律和世界的通用知识（如语法、逻辑、常识）。此时的模型像一个博学的“书呆子”，能续写文本，但不懂得如何对话或遵循指令。这是所有大模型能力的基石。</p></li>
+<li><p><strong>后训练 (Post-training)</strong>
+这是<strong>职业培训</strong>阶段，通常包含两个核心步骤：</p>
+<ul>
+<li><strong>SFT
+(指令微调)</strong>：教模型“听懂人话”，学会问答、翻译、总结等具体任务形式。</li>
+<li><strong>Alignment (对齐)</strong>：通过 RLHF 或 DPO
+教模型“懂规矩”，符合人类价值观，不胡说八道。</li>
+<li>经过这一步，Base Model 变成了 Chat/Instruct Model（如
+Llama-3-Instruct），这也是我们大多数时候直接调用的模型。</li>
+</ul></li>
+<li><p><strong>微调 (Fine-tuning)</strong>
+这是<strong>在职深造</strong>。当我们有特定的垂直领域需求（如医疗、法律、公司内部代码库）时，通用的
+Instruct
+模型可能不够用。我们需要用特定领域的数据对模型进行微调（通常使用 LoRA
+等高效手段），让它成为某个领域的专家。</p></li>
+<li><p><strong>知识增强 (RAG)</strong>
+这是<strong>外挂知识库</strong>。即使是微调过的专家，也不可能背下所有最新的实时数据（如今天的股价、公司最新的文档）。RAG
+就像是给专家配了一个搜索引擎或参考书，让他回答问题时先查阅资料，确保准确无误。</p></li>
+</ol>
+<p><strong>相互依赖关系总结：</strong></p>
+<ul>
+<li><strong>基座模型 (Base Model)</strong> = 预训练</li>
+<li><strong>聊天模型 (Chat Model)</strong> = 基座模型 + SFT + 对齐</li>
+<li><strong>行业模型 (Domain Model)</strong> = 聊天模型 + 领域微调
+(Fine-tuning)</li>
+<li><strong>行业应用 (Application)</strong> = 行业模型 + RAG (知识增强)
++ Agent (工具调用)</li>
+</ul>
+<h2 id="大作业二实操指南">大作业二实操指南</h2>
+<p>现在开始，让我们一步步实操来完成大作业二的基础版，并简单引入一下加分题。</p>
+<h3 id="首先是微调数据集准备">1. 首先是微调数据集准备</h3>
+<p>咱们的数据集很简单，这一步我们的目标是<strong>依赖教材内容来生成问答对</strong>，所以完成这一步其实有很多思路，</p>
+<ul>
+<li>最最最naive的思路：<br />
+就是人工去一问一答，每一个章节生成一二十个问答对。这样做的优点达到了老师说的复习的目的，问答对生成结束后肯定学明白了，缺点是费时费力，并且准确率和效果很难保证。</li>
+<li>稍微进阶一点的思路（适合入门）：
+这种稍微进阶一点，其实就是将章节内容复制给一个大模型，然后让大模型根据章节内容生成一个高质量的问答对。举例来说，你的prompt可以是：</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs text">你是一名 GPU 编程教材内容整理助手，需要从《Programming Massively Parallel Processors》和 GPU 架构资料中生成高质量的问答对。<br><br>请严格遵守以下规则：<br><br>1. 每个问题必须能够在不依赖任何上下文、图片、公式、代码块、图示的前提下独立成立。<br><br>   - 禁止出现“如下图所示”、“根据上面的代码”、“从前面的公式”、“如教材中的图 5.3” 等表述。<br><br>2. 生成的问题必须清晰、明确、具体，不允许含糊或指代模糊的描述。<br><br>3. 回答必须基于教材公认知识，语言清晰、技术准确、解释性适当。<br><br>4. 每条问答必须围绕 GPU 架构、CUDA、并行编程、性能优化、memory hierarchy 等核心主题，不允许偏题。<br><br>5. 不要生成编造的背景、示例、数据、图表，也不要提及任何不存在的上下文。<br><br>6. 回答中不能包含“如前所述”“见下图”“代码略”等弱化信息。<br><br>保持风格：技术准确 + 简明易懂 + 面向学生。<br></code></pre></td></tr></table></figure>
+<p>这里其实用到了一个trick，那就是强调了让模型不要无中生有，假设文本中含有一个图片的解释，那么直接问模型就会莫名生成一个结果，尽管问题中完全没提到图表包含哪些信息。也就是需要考虑问题是否独立成立，是否引用不存在的上下文内容，是否超出教材范围，是否符合微调要求（不冗长、不幻觉）。避免大量“坏样本”的生成</p>
+<ul>
+<li>进阶的做法（pipeline）
+这里其实就是用现成的工具，把文本分块，清洗，模型调用，QA生成和数据集封装整个pipeline全部封装在一起了，只需要简单的配置就可以生成高质量的问答对。目前比较好用的工具有<a
+target="_blank" rel="noopener" href="https://github.com/ConardLi/easy-dataset">easy-dataset</a>,<a
+target="_blank" rel="noopener" href="https://github.com/netease-youdao/QAnything/">Qanything</a>,<a
+target="_blank" rel="noopener" href="https://www.llamaindex.ai/">llamaindex</a> etc.
+这部分工具的好处就是全自动流水，极大节省了时间，但缺点就是需要花费一定的学习的时间成本。</li>
+</ul>
+<p>注意到，无论是哪种方式，最终都应该根据微调工具所提供的数据集模板准备好数据集，例如说大多数通用的数据集模板Alpaca的格式就是</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-string">&quot;alpaca_zh_demo.json&quot;</span><br><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;instruction&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;计算这些物品的总费用。 &quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;input&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;输入：汽车 - $3000，衣服 - $100，书 - $20。&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;output&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;汽车、衣服和书的总费用为 $3000 + $100 + $20 = $3120。&quot;</span><br><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br></code></pre></td></tr></table></figure>
+<p>实际训练时，模型会将instruction和input拼接在一起作为prompt，output作为label，进行微调。</p>
+<blockquote>
+<p>⚠️：这里还需要注意到一点是由于我们的数据集是自行准备的，所以数据集目录下还需要提供一个data_info.json文件（llama-factory工具需要），其中指定了数据集的名称，数据集的地址等信息。例如：
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;train&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;file_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;datasets.jsonl&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;columns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;prompt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;instruction&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;query&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;input&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;response&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;output&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure> 一个数据集的例子：<img
+src="/img/pics/GPU-work-base/data_example.png" srcset="/img/loading.gif" lazyload alt="dataset" /></p>
+</blockquote>
+<h3 id="微调">2. 微调</h3>
+<p>这里我主要介绍llama-Factory的微调方法，其实准备好数据集后，后面的过程就非常简单了。根据llama-Factory的文档，配置好环境。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> --depth 1 https://github.com/hiyouga/LLaMA-Factory.git<br><span class="hljs-built_in">cd</span> LLaMA-Factory<br>pip install -e <span class="hljs-string">&quot;.[torch,metrics]&quot;</span><br></code></pre></td></tr></table></figure>
+<p>不少同学可能会卡在这一步，pytorch等一些库容易出问题（⚠️务必注意cuda版本，不然不能使用本地GPU）.但这个官方写的教程很清晰了<a
+target="_blank" rel="noopener" href="https://llamafactory.readthedocs.io/en/latest/getting_started/installation.html">llama-Factory</a>，真遇到问题只能说活用AI了，假设大家成功配置了环境，并且能够运行
+<code>llamafactory-cli</code> 命令，接下来就可以愉快玩耍了。</p>
+<h3 id="下载大模型">3. 下载大模型</h3>
+<p>选择一个大模型后，就需要将其下载到本地来进行微调，现在下载大模型的渠道主要是<a
+target="_blank" rel="noopener" href="https://huggingface.co/">huggingface</a>和<a
+target="_blank" rel="noopener" href="https://modelscope.cn/">modelscope</a>,前者可以访问全球的绝对多数开源模型，后者是国内的模型仓库，如果遇到网络问题可以用modelscope来下载模型。如果是用huggingface，一些模型可能还需要先获得许可（比如说meta的llama模型系列），而国内的开源模型基本不需要认证。</p>
+<p>以huggingface为例，下载一个llama模型的命令如下：</p>
+<p>首先是登陆huggingface账号,在官网上注册后可以拿到登陆用的token。
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">huggingface-cli login<br></code></pre></td></tr></table></figure> 然后下载 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">huggingface-cli download meta-llama/Meta-Llama-3-8B-Instruct --local-dir ./Llama3-8B-Instruct --include=<span class="hljs-string">&quot;*&quot;</span><br></code></pre></td></tr></table></figure></p>
+<ul>
+<li>meta-llama/Meta-Llama-3-8B-Instruct 是模型仓库名</li>
+<li>–local-dir 设定你要存放模型的目录</li>
+<li>–include=“*” 表示下载全部文件（权重 + 配置 + tokenizer）</li>
+</ul>
+<p>当然也可以直接从huggingface官网下载，然后解压到你设定的目录即可。</p>
+<h3 id="微调-1">4.微调</h3>
+<p>微调这一步就是根据llama-Factory的文档，写好一个训练的yaml文件，其中指定了训练模型的地址，训练用的数据集地址，微调的参数等。</p>
+<p>比如官方提供的一个lora微调的模板如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">### examples/train_lora/llama3_lora_sft.yaml</span><br><span class="hljs-attr">model_name_or_path:</span> <span class="hljs-string">meta-llama/Meta-Llama-3-8B-Instruct</span><br><br><span class="hljs-attr">stage:</span> <span class="hljs-string">sft</span><br><span class="hljs-attr">do_train:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">finetuning_type:</span> <span class="hljs-string">lora</span><br><span class="hljs-attr">lora_target:</span> <span class="hljs-string">all</span><br><br><span class="hljs-attr">dataset:</span> <span class="hljs-string">identity,alpaca_en_demo</span><br><span class="hljs-attr">template:</span> <span class="hljs-string">llama3</span><br><span class="hljs-attr">cutoff_len:</span> <span class="hljs-number">1024</span><br><span class="hljs-attr">max_samples:</span> <span class="hljs-number">1000</span><br><span class="hljs-attr">overwrite_cache:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">preprocessing_num_workers:</span> <span class="hljs-number">16</span><br><br><span class="hljs-attr">output_dir:</span> <span class="hljs-string">saves/llama3-8b/lora/sft</span><br><span class="hljs-attr">logging_steps:</span> <span class="hljs-number">10</span><br><span class="hljs-attr">save_steps:</span> <span class="hljs-number">500</span><br><span class="hljs-attr">plot_loss:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">overwrite_output_dir:</span> <span class="hljs-literal">true</span><br><br><span class="hljs-attr">per_device_train_batch_size:</span> <span class="hljs-number">1</span><br><span class="hljs-attr">gradient_accumulation_steps:</span> <span class="hljs-number">8</span><br><span class="hljs-attr">learning_rate:</span> <span class="hljs-number">1.0e-4</span><br><span class="hljs-attr">num_train_epochs:</span> <span class="hljs-number">3.0</span><br><span class="hljs-attr">lr_scheduler_type:</span> <span class="hljs-string">cosine</span><br><span class="hljs-attr">warmup_ratio:</span> <span class="hljs-number">0.1</span><br><span class="hljs-attr">bf16:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">ddp_timeout:</span> <span class="hljs-number">180000000</span><br><br><span class="hljs-attr">val_size:</span> <span class="hljs-number">0.1</span><br><span class="hljs-attr">per_device_eval_batch_size:</span> <span class="hljs-number">1</span><br><span class="hljs-attr">eval_strategy:</span> <span class="hljs-string">steps</span><br><span class="hljs-attr">eval_steps:</span> <span class="hljs-number">500</span><br></code></pre></td></tr></table></figure>
+<p>调整其中的参数，再执行命令就可以美美开始微调了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">llamafactory-cli train examples/train_lora/llama3_lora_sft.yaml<br></code></pre></td></tr></table></figure>
+<p>至于参数是什么意思就自行查阅了。</p>
+<p>这里补充一小点，就是其实llama-factory提供了webui，可以一键式微调，非常方便，强烈推荐用这个试一下！</p>
+<p>至于Unsloth，它是专门针对 Llama/Mistral
+等模型进行极致优化的微调库，速度比 HF 快 2-5 倍，显存占用更低。
+如果你选择 Unsloth 赛道，推荐直接使用官方的 Colab Notebook
+进行体验，或者本地安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install <span class="hljs-string">&quot;unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git&quot;</span><br></code></pre></td></tr></table></figure>
+<p>Unsloth 的使用逻辑和 HF 很像，但需要加载
+<code>FastLanguageModel</code>。</p>
+<h3 id="推理">5.推理</h3>
+<p>训练好大模型后，接下来就是检验训练的成果了。也就是将大模型部署起来，然后一问一答，这个过程就是加分题核心优化的地方。但对于基础题来说，llama-factory提供了一个chat的接口，可以直接将lora微调的参数和模型的全参数合并在一起进行推理，并展示聊天UI界面。所以基础题其实很简单，真正写代码的地方并不多，准确地说，甚至不需要写代码。</p>
+<p>至于加分题，就需要用到专门的推理引擎来部署，推理引擎的主要任务就是通过优化，让模型的推理速度更快，显存占用更低。可以通过优化其中的部分算子实现特定模型的加速，所以就是狠狠优化就行了😋！</p>
+<h3 id="总结-1">6.总结</h3>
+<p>根据我的实操，一个7B的模型实际训练的时候峰值甚至会达到50G+的显存，比我想象中还要多。但实际推理的时候只需要用到15GB显存。这里需要说明的一点是，显存占有那么高是因为我没有加量化，如果加了量化可能会更低。至于量化是什么，简单来说就是数据精度变少，比如bf16，fp16，fp8等，所需的存储空间也会变少。对于课程任务而言，7B的模型量级是足够了的，甚至还可以更mini，参数更小，模型推理越快，但准确率也会有一定的下降。这个就需要和实际的硬件相互权衡一下了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B/" class="category-chain-item">课程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/GPU-%E8%AF%BE%E7%A8%8B%EF%BC%8C%E5%A4%A7%E4%BD%9C%E4%B8%9A/" class="print-no-link">#GPU,课程，大作业</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/11/25/Apoc/" title="Apoc">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Apoc</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/05/normal-distribution/" title="为什么数据一定是正态分布的？">
+                        <span class="hidden-mobile">为什么数据一定是正态分布的？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

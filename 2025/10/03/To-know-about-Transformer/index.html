@@ -1,0 +1,1239 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Tranformer 原理及应用 Transformer由论文《Attention is All You Need》提出，这之后这句话也是一直贯穿深度学习的研究当中。简单来说，Transformer的作用就是将一个序列转换为另一个序列，例如说中英文翻译。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tranformer 原理及应用">
+<meta property="og:url" content="https://geotle77.github.io/2025/10/03/To-know-about-Transformer/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="Tranformer 原理及应用 Transformer由论文《Attention is All You Need》提出，这之后这句话也是一直贯穿深度学习的研究当中。简单来说，Transformer的作用就是将一个序列转换为另一个序列，例如说中英文翻译。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/transformer.png">
+<meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
+<meta property="article:modified_time" content="2025-10-04T11:09:12.542Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/transformer.png">
+  
+  
+  
+  <title>Tranformer 原理及应用 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Tranformer 原理及应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-03 22:39" pubdate>
+          2025年10月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          83 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Tranformer 原理及应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="tranformer-原理及应用">Tranformer 原理及应用</h1>
+<p>Transformer由论文《Attention is All You
+Need》提出，这之后这句话也是一直贯穿深度学习的研究当中。简单来说，<strong>Transformer的作用就是将一个序列转换为另一个序列，例如说中英文翻译。</strong></p>
+<span id="more"></span>
+<p>下图是 Transformer 用于中英文翻译的整体结构：</p>
+<figure>
+<img src="/img/pics/transformer/transformer_struct.png" srcset="/img/loading.gif" lazyload
+alt="example1" />
+<figcaption aria-hidden="true">example1</figcaption>
+</figure>
+<p>在开始之前，我们需要首先知道的是transformer设计之初的目标就是用来做seq2seq任务，也就是序列转换任务。比如说定一个中文序列，它能够将其转换为一个英文序列。当然，transformer可以不止用来做翻译任务，任何可以用来转换成的seq2seq的任务都可以用transformer来完成，这也是token
+learning的关键。</p>
+<h2 id="从one-hot-编码开始">从one-hot 编码开始</h2>
+<p>假设现在我们已经有了一串待转换的序列，那么我们任务的第一步就是如何将其转换为数学可计算的，也就是将<strong>字符</strong>表示转换为<strong>数字</strong>表示。这样做的理由也很简单，因为计算机只能处理数字而不是我们人类所使用的抽象字符集。</p>
+<p>一种简单的做法是选择一个词汇表<span
+class="math inline"><em>A</em></span>，即我们在每个序列中使用的符号集合。在一般的例子中，这将有两组不同的符号，一组用于输入序列，一组用于输出序列。</p>
+<p>将单词转换为数字的一种方法是从 1
+开始计数，为每个单词分配自己的编号。然后，单词序列可以表示为数字的列表。</p>
+<p>例如，考虑一种词汇量大小为4的小型语言：I、apple 和 like
+、banana。每个单词都可以替换为一个数字，也许 <strong>I = 1、like = 2 和
+apple = 3、banana = 4。</strong> 然后，由单词序列 [ I, apple , like ,
+banana ] 组成的句子“I like apple ”可以表示为数字序列 [1,2,3]。</p>
+<p>尽管这样的表示方式确实可以将序列转换为数字，但是仍然不够直白，更简单的方式是<strong>one-hot编码</strong>。在
+<strong>one-hot编码</strong>中，符号由一组大部分为零的向量表示，向量的长度与词汇表的长度相同，每个这样的向量都中只有一个元素的值为
+1。也就是<strong>one-hot编码</strong>的向量中的每一位都代表着一个具体的单词，也就是看到一个向量，它的哪一位是1代表着它是哪一个单词。</p>
+<p>例如在上述的例子中，<strong>one-hot编码</strong>就可以表示为： <img
+src="/img/pics/transformer/example_tra_1.png" srcset="/img/loading.gif" lazyload alt="example2" /></p>
+<p>然后，“I like apple”就可以表示为一个矩阵：</p>
+<figure>
+<img src="/img/pics/transformer/example_tra_2.png" srcset="/img/loading.gif" lazyload alt="example3" />
+<figcaption aria-hidden="true">example3</figcaption>
+</figure>
+<p>但实际上，one-hot编码真正有用的一点是它的dot
+product（点积，也叫标量积）操作，向量的点积即将其相应元素相乘，然后将结果相加。</p>
+<p>独热码点积的特性：</p>
+<ul>
+<li>独热码与自己的点积结果为1，与其他独热码的点积结果为0</li>
+<li>独热码与任一同维向量相乘，结果为该向量中独热码为1的位置的元素。</li>
+</ul>
+<p>例如：</p>
+<p><span class="math display">$$
+\vec{a} = \begin{bmatrix} 0 \\ 1 \\  0 \\ 0 \end{bmatrix}\vec{w} =
+\begin{bmatrix} 0.3 \\ 0.2 \\  0.4 \\ 0.1 \end{bmatrix}
+$$</span></p>
+<p><span
+class="math display"><em>a⃗</em> ⋅ <em>w⃗</em> = (0 * 0.3) + (1 * 0.2) + (0 * 0.4) + (0 * 0.1) = 0.2</span></p>
+<h3 id="独热码与矩阵">独热码与矩阵</h3>
+<p>点积是矩阵乘法的基础，我们将第一个矩阵称为 A，将第二个矩阵称为
+B。在最简单的情况下，当 A 只有一行且 B
+只有一列时，矩阵乘法的结果是两者的点积。矩阵乘法需要满足基本要求，即维度相匹配。</p>
+<p>当其中一个矩阵是由独热码构成时，其结果就是取出另外一个矩阵对应位置的行向量
+例如：</p>
+<p><span class="math display">$$
+\begin{bmatrix} 0 &amp; 1 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix} \begin{bmatrix} 0.2 \\ 0.8 \\ 0.9 \\ 0.5\end{bmatrix}  =
+\begin{bmatrix} 0.8 \\ 0.5\end{bmatrix}
+$$</span></p>
+<h3 id="查找表">查找表</h3>
+<p>根据上述性质，我们就能利用独热码的矩阵乘来构建查找表。</p>
+<p>A 矩阵由一堆 one-hot
+向量组成。它们分别位于第一列、第四列和第三列。当我们进行矩阵乘法时，这将按顺序取出
+B 矩阵的第一行、第四行和第三行。<strong>这种使用 one-hot
+向量提取矩阵的特定行的技巧是 Transformer 工作原理的核心。</strong></p>
+<h3 id="一阶序列转换模型">一阶序列转换模型</h3>
+<p>现在先把矩阵放在一边，回到我们真正关心的东西，即单词序列。想象一下，假设我们在使用电脑时常用的命令有如下三种单词序列：</p>
+<ul>
+<li>Show me my directories please.</li>
+<li>Show me my files please.</li>
+<li>Show me my photos please.</li>
+</ul>
+<p>词汇表:</p>
+<pre><code class="hljs">&#123;directories, files, me, my, photos, please, show&#125;</code></pre>
+<p><strong>我们的目的是使用转换模型，对于词汇表中的每个单词，它都会显示下一个单词可能是什么</strong>那么如果用户一半时间询问照片，30%
+时间询问文件，其余时间询问目录，则转换模型将如下所示。</p>
+<table>
+
+<thead>
+<tr>
+<th style="text-align: center;"><img
+src="/img/pics/transformer/example_tra_3.png" srcset="/img/loading.gif" lazyload alt="example4" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><em>转换模型示例图，图源
+https://www.zhihu.com/question/471328838/answer/3011638037</em></td>
+</tr>
+</tbody>
+</table>
+<p>这种链式的转换模型称为马尔可夫链，因为它满足<a
+href="">马尔可夫性质</a>，即下一个单词的概率仅取决于最近的单词。更具体地说，上述的例子是一阶马尔可夫模型，它只查看单个最近的单词。如果它考虑两个最近的单词，那就是是二阶马尔可夫模型。</p>
+<p>马尔可夫链可以方便地用矩阵形式表示。使用与创建 one-hot
+向量时相同的索引方案，每一行代表词汇表中的一个单词。每一列也是如此。每列中的值显示下一个单词出现的概率。因为矩阵中每个元素的值代表一个概率，所以它们都会落在
+0 到 1 之间。由于概率总和为 1，因此每行中的值总和为 1。</p>
+<table>
+
+<thead>
+<tr>
+<th style="text-align: center;"><img
+src="/img/pics/transformer/example_tra_4.png" srcset="/img/loading.gif" lazyload alt="example5" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><em>马尔可夫转移矩阵 图源
+https://www.zhihu.com/question/471328838/answer/3011638037</em></td>
+</tr>
+</tbody>
+</table>
+<p>利用该矩阵，我们可以重新审视使用矩阵乘法与 one-hot
+向量来提取与任何给定单词相关的转移概率的技巧。</p>
+<p>例如，如果我们只是想得到每个单词出现在 my
+之后的概率，我们可以创建一个代表单词 my 的 one-hot
+向量，并将其乘以我们的转换矩阵。这会拉出相关行的行，并向我们显示下一个单词的概率分布。</p>
+<table>
+
+<thead>
+<tr>
+<th style="text-align: center;"><img
+src="/img/pics/transformer/example_tra_5.png" srcset="/img/loading.gif" lazyload alt="example6" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><em>独热码的作用 图源
+https://www.zhihu.com/question/471328838/answer/3011638037</em></td>
+</tr>
+</tbody>
+</table>
+<p>仅根据当前单词来预测下一个单词是很困难的。这就像在只给出第一个音符后预测一首曲子的其余部分。如果我们至少能得到两个单词来继续，我们预测的准确率就会好得多，因此我们还可以继续推广为二阶转换模型等等。</p>
+<p><strong>到这里，我们发现我们所做的事情其实给定序列的一部分，然后预测序列的其余部分。待会儿，我们会解释为什么需要做这个。</strong></p>
+<h3 id="second-order-sequence-model-with-skips">Second order sequence
+model with skips</h3>
+<p>二阶矩阵为每个单词组合提供单独的行。这意味着如果我们从词汇大小 N
+开始，那么转换矩阵就有 N^2
+行。也就是如果单词序列连续出现两个单词时，下一个单词的概率会是多少。</p>
+<p>当我们只需回顾两个单词来决定下一个单词时，二阶模型效果很好。当我们必须进一步回顾时该怎么办？我们当然可以考虑三阶和更高阶模型。然而，由于词汇量很大，这需要非常大的计算量和存储空间来实现。八阶模型的简单实现将具有
+N^8
+行，这对于任何合理的词汇来说都是一个非常庞大的数字，对计算机来说也是如此。</p>
+<p>马尔可夫链面对着这种情况就显得无能为力了，但我们仍然可以表示每对前面的单词和后面的单词之间的关系。也就是说，现在我们并不需要得到所有单词的两两配对，只需要其中一个单词是当前预测词的前一个词，另一个词就是在该词之前出现过的任何词。</p>
+<p>举个例子来说，假设我们语料库中有两个句子：</p>
+<ul>
+<li>I like apple because I come from the South.</li>
+<li>I like banana because I come from the North.</li>
+</ul>
+<p>现在有一个单词序列</p>
+<pre><code class="hljs">I like apple because I come from the</code></pre>
+<p>如何预测下一个单词出现的概率，我们就可以构建一个<em>Second order
+sequence model with skips</em> 进行预测，也就是如图所示：</p>
+<figure>
+<img src="/img/pics/transformer/example_tra_6.png" srcset="/img/loading.gif" lazyload alt="example7" />
+<figcaption aria-hidden="true">example7</figcaption>
+</figure>
+<!--  more info -->
+<p>现在，我们不再只查看一行，而是查看所有的行。每行不再代表序列在特定点的状态。相反，每一行代表可以描述特定点处的序列的许多特征之一。矩阵中的每个值不再代表概率，而是代表投票。投票将被汇总并比较以确定下一个单词的预测。也就是，当得到一个序列后，我们会对每个列向下相加求和，对于这个例子，我们计算得到<strong>South</strong>的值是4，而<strong>North</strong>的值是3，那么我们就有理由认为下一个词应该是<strong>South</strong></p>
+<p>另一方面，我们发现4和3的差距并不够明显，倘若数据中出现噪声，很容易就会将这样的差距给掩盖，所以我们会构造掩码来选择我们需要注意的特征，对于这个例子就是只注意<em>apple</em>和<em>banana</em>，忽视其他的值，那么计算得到的结果也就是0和1，差距提升了33%.</p>
+<p>通过计算训练中每个单词对/下一个单词转换发生的频率，可以很容易地构建特征权重，但注意力掩码却不然。实际上,这也是<strong>All
+you need is
+attention</strong>的做法，Transformer的作用之一就是训练得到这些掩码从而只关注真正有用的特征。</p>
+<h2 id="嵌入向量">嵌入向量</h2>
+<p>在我们一般的使用中，对于词汇量过大的词汇表，所产生的中间数据是极其庞大的，对于词汇量
+N 为 50,000 的情况，所有单词对和所有潜在的下一个单词之间的转换矩阵将具有
+50,000 列和 50,000 个平方（25 亿）行，总计超过 100 万亿个元素。</p>
+<p>另一方面，为了得到稳健的语言模型，我们需要多次提供每个潜在序列的训练数据，而任何一个训练数据集都很难做到这点。</p>
+<p>我们可以使用<strong>嵌入</strong>的方式来解决上述问题。</p>
+<p>如上所述，在语言的独热码表示方式中，每个单词都对应一个向量元素。大小为
+N 的词汇表中，该向量是一个 N
+维空间。每个单词代表该空间中的一个点，沿着对应的轴移动至距原点一个单位。
+例如:</p>
+<p><span class="math display">$$
+\vec{a} = \begin{bmatrix} 0 \\ 1 \\  0 \\ 0 \end{bmatrix}
+$$</span></p>
+<p>a表示一个单词，是一个四维向量。</p>
+<p>在嵌入向量中，每个独热码向量都被转换到低维空间中。例如，如果将它们嵌入到二维空间中。那么，我们不再需要
+N 个数字来指定一个单词，而是只需要 2 个数字。这些是新空间中每个点的 (x,
+y) 坐标。</p>
+<p>得到嵌入向量的方式很简单，对于a，只需要和一个2行4列的转换矩阵相乘即可.</p>
+<p><span class="math display">$$
+\mathbf{B} \vec{a} = \begin{bmatrix} b_{11} &amp; b_{12} &amp; b_{13}
+&amp; b_{14} \\ b_{21} &amp; b_{22} &amp; b_{23} &amp; b_{24}
+\end{bmatrix} \begin{bmatrix} 0 \\ 1 \\  0 \\ 0 \end{bmatrix} =
+\begin{bmatrix} b_{12} \\ b_{22} \end{bmatrix}
+$$</span></p>
+<p>使用嵌入的模型可以学习嵌入空间中的模式。每个示例都能提供一点学习效果，并应用到整个单词邻域中。也就是说，一个好的嵌入模型应该将具有相似含义的词语映射到相近的空间。一般来说得到嵌入向量是需要经过训练的，而这样的嵌入模型有很多，主要又是分为两类：<strong>CBOW模型</strong>和<strong>Skipgram模型。</strong></p>
+<p>嵌入可以大大减少所需的参数数量。然而，嵌入空间的维数越少，原始词汇的信息就会被丢弃得越多。语言的丰富性仍然需要相当大的维度来体现所有可能的语义，以免它们相互混淆，也就是需要一个有足够维度将它们分散开来的嵌入模型。我们通过选择嵌入空间的大小，尽量用计算负荷来换取模型的准确性。</p>
+<p>在Transformer中，嵌入的过程是在这里发生的，而一般的做法是直接用训练好了的嵌入向量。：</p>
+<p><img src="/img/pics/transformer/transformer_embedding.png" srcset="/img/loading.gif" lazyload width="500" height="600"></p>
+<h2 id="位置编码">位置编码</h2>
+<p>在处理序列数据时，模型需要能够捕捉到序列中每个元素的位置信息，因为位置信息对于理解序列的含义和结构至关重要。普通的加一个位置信息，词量大时不利于计算，transformer里面用了一种位置编码方式，把位置信息作为词向量的一部分输入信息一起送入网络进行处理，而且获得了不错的效果。</p>
+<p>式子如下：</p>
+<p><img src="/img/pics/transformer/position_encoding.png" srcset="/img/loading.gif" lazyload width="500" height="140"></p>
+<p>其中：</p>
+<p><span class="math display">$$
+w_i = \frac{1}{1000^{2k/d}}
+$$</span></p>
+<p>序列中相互可以从几何上理解这种编码，单词在嵌入空间中的位置就像一个圆心。根据单词在词序中的位置，我们会对其进行扰动。在每个位置上，单词都会以不同的角度移动相同的距离，从而在单词序列中形成一个圆形图案。靠近的单词会受到相似的扰动，而相距较远的单词则会受到不同方向的扰动。</p>
+<p>由于圆形是一个二维图形，要表示圆形摆动就需要修改嵌入空间的两个维度。如果嵌入空间包含两个以上的维度（几乎总是如此），那么圆周摆动会在所有其他维度对中重复，但角度频率不同，也就是说，每次旋转的次数不同。将所有这些不同频率的圆周摆动结合起来，就能很好地表示出单词在序列中的绝对位置。</p>
+<p>2i 表示偶数的维度，2i+1 表示奇数维度 (即 2i≤d,
+2i+1≤d)。使用这种公式计算 PE(position encoding) 有以下的好处：</p>
+<ul>
+<li>使 PE
+能够适应比训练集里面所有句子更长的句子，假设训练集里面最长的句子是有 20
+个单词，突然来了一个长度为 21 的句子，则使用公式计算的方法可以计算出第
+21 位的 Embedding。</li>
+<li>可以让模型容易地计算出相对位置，对于固定长度的间距 k，PE(pos+k)
+可以用 PE(pos) 计算得到。因为 Sin(A+B) = Sin(A)Cos(B) + Cos(A)Sin(B),
+Cos(A+B) = Cos(A)Cos(B) - Sin(A)Sin(B)。</li>
+<li></li>
+</ul>
+<p>将单词的词 Embedding 和位置 Embedding 相加，就可以得到单词的表示向量
+x，x 就是 Transformer 的输入。</p>
+<p>更详细的解释可以看参考文献中《The illustrated
+transformer》中对位置编码的图解。</p>
+<p>在transformer中，位置编码的过程如下：</p>
+<p><img src="/img/pics/transformer/transformer_position.png" srcset="/img/loading.gif" lazyload width="500" height="600"></p>
+<h2 id="transformer的工作流程">Transformer的工作流程</h2>
+<ul>
+<li><strong>第一步</strong>：获取输入句子的每一个单词的表示向量
+X，X由单词的 Embedding（可以理解为从原始数据提取出来的Feature）
+和单词位置的 Embedding 相加得到。</li>
+<li><strong>第二步</strong>：将得到的单词表示向量矩阵传入 Encoder
+中，经过多个 Encoder block 后可以得到句子所有单词的编码信息矩阵
+C。单词向量矩阵用 <span
+class="math inline"><em>X</em><sub><em>n</em> × <em>d</em></sub></span>表示，
+n 是句子中单词个数，d 是表示向量的维度 (论文中 d=512)。每一个 Encoder
+block 输出的矩阵维度与输入完全一致。</li>
+<li><strong>第三步</strong>：将 Encoder 输出的编码信息矩阵 C传递到
+Decoder 中，Decoder 依次会根据当前翻译过的单词 1~i 翻译下一个单词
+i+1。在使用的过程中，翻译到单词 i+1 的时候需要通过 Mask (掩盖)
+操作遮盖住 i+1 之后的单词。</li>
+</ul>
+<h2 id="序列模型">序列模型</h2>
+<p>Seq2Seq（Sequence-to-sequence）正如字面意思：输入一个序列，输出另一个序列，当然，其中输入序列和输出序列的长度是可变的。</p>
+<p>针对Seq2Seq序列问题，比如翻译一句话，可以通过Encoder-Decoder模型来解决。一般这样的任务都是使用编码、解码的框架来完成，也就可以称之为Encoder-Decoder，中间一个向量C传递信息，且C的长度是固定的。
+<img src="/img/pics/transformer/seq2seq.png" srcset="/img/loading.gif" lazyload alt="seq2seq" />
+为了建模序列问题，RNN引入了隐状态h（hidden
+state）的概念，隐状态h可以对序列形的数据提取特征，接着再转换为输出,
+可以被看做是同一神经网络的多次复制，每个神经网络模块会把消息传递给下一个.</p>
+<p>Encoder（编码器）和
+Decoder（解码器）之间只有一个「向量C」来传递信息，且C的长度固定。比如翻译一段语句，翻译的句子短还好，句子一长呢？当输入句子比较长时，所有语义完全转换为一个中间语义向量C来表示，单词原始的信息已经消失，可想而知会丢失很多细节信息。所以Encoder-Decoder是有缺陷的，其缺陷在于：当输入信息太长时，会丢失掉一些信息。</p>
+<p>而为了解决「信息过长，信息丢失」的问题，Attention
+机制就应运而生了。Attention 模型的特点是 Eecoder
+不再将整个输入序列编码为固定长度的「中间向量Ｃ」，而是编码成一个向量的序列。</p>
+<h2 id="自注意力机制">自注意力机制</h2>
+<p>自注意力层的作用是帮助编码器在对每个单词编码的时候时刻关注句子的其它单词。随着模型处理输入序列的每个单词，自注意力会关注整个输入序列的所有单词，帮助模型对本单词更好地进行编码。在处理过程中，自注意力机制会将对所有相关单词的理解融入到我们正在处理的单词中。</p>
+<p>自注意力机制的具体功能是：</p>
+<ul>
+<li><strong>序列建模</strong>：自注意力可以用于序列数据（例如文本、时间序列、音频等）的建模。它可以捕捉序列中不同位置的依赖关系，从而更好地理解上下文。这对于机器翻译、文本生成、情感分析等任务非常有用。</li>
+<li><strong>并行计算</strong>：自注意力可以并行计算，这意味着可以有效地在现代硬件上进行加速。相比于RNN和CNN等序列模型，它更容易在GPU和TPU等硬件上进行高效的训练和推理。（因为在自注意力中可以并行的计算得分）</li>
+<li><strong>长距离依赖捕捉</strong>：传统的循环神经网络（RNN）在处理长序列时可能面临梯度消失或梯度爆炸的问题。自注意力可以更好地处理长距离依赖关系，因为它不需要按顺序处理输入序列。</li>
+</ul>
+<p><strong>Self-Attention 的结构:</strong></p>
+<figure>
+<img src="/img/pics/transformer/self_attention.png" srcset="/img/loading.gif" lazyload alt="example11" />
+<figcaption aria-hidden="true">example11</figcaption>
+</figure>
+<h3 id="qkv的生成">QKV的生成</h3>
+<p>自注意力层会从每个编码器的输入向量（每个单词的词向量，即Embedding后的结果）中生成三个向量，即<strong>查询向量、键向量和一个值向量</strong>。这三个向量是通过词嵌入与三个权重矩阵即
+<span
+class="math inline"><em>W</em><sup><em>Q</em></sup>, <em>W</em><sup><em>K</em></sup>, <em>W</em><sup><em>V</em></sup></span>
+相乘后创建出来的。新向量在维度上往往比词嵌入向量更低。
+将以上所得到的查询向量、键向量、值向量组合起来就可以得到三个向量矩阵，即矩阵Q(查询),K(键值),V(值)。</p>
+<p>在实际中，Self-Attention 接收的是输入(单词的表示向量<span
+class="math inline"><em>x</em></span>组成的矩阵<span
+class="math inline"><em>X</em></span>) 或者上一个 Encoder block
+的输出。而<span
+class="math inline"><em>Q</em>, <em>K</em>, <em>V</em></span>正是通过
+Self-Attention 的输入进行线性变换得到的。</p>
+<p>这里举一个简单的例子： 例如我们得到的一个词向量矩阵<span
+class="math inline"><em>X</em></span>，每一行都是一个单独的单词的词向量表示。那么我们可以得到：
+<img src="/img/pics/transformer/QKV.png" srcset="/img/loading.gif" lazyload alt="example12" />
+Q、K、V中的每一行即为一个词向量对应的查询向量、键向量、值向量。</p>
+<h3 id="计算注意力值">计算注意力值</h3>
+<p>接下来，我们对每个单词需要计算其他单词对其的得分，假设我们在为这个例子中的第一个词“I”计算自注意力向量，我们需要拿输入句子中的每个单词对“I”打分。这些分数是通过所有输入句子的单词的键向量与“I”的查询向量相点积来计算的。</p>
+<p>也就是说，对于单词“I”，我们分别需要计算<span
+class="math inline"><em>q</em><sub>1</sub> ⋅ <em>k</em><sub>1</sub></span>,
+<span
+class="math inline"><em>q</em><sub>1</sub> ⋅ <em>k</em><sub>2</sub></span>，<span
+class="math inline"><em>q</em><sub>1</sub> ⋅ <em>k</em><sub>3</sub></span>,
+<span
+class="math inline"><em>q</em><sub>1</sub> ⋅ <em>k</em><sub>4</sub></span>.
+之后将分数除以<span class="math inline">$\sqrt{d}$</span>
+(d是论文中使用的键向量的维数，这可以让梯度更稳定。) 也就是公式：</p>
+<p><span class="math display">$$
+\frac{Q \cdot K^T}{\sqrt{d}}
+$$</span></p>
+<p>然后通过softmax传递结果。softmax的作用是使所有单词的分数归一化，得到的分数都是正值且和为1。随着模型处理输入序列的每个单词，自注意力会关注整个输入序列的所有单词，帮助模型对本单词更好地进行编码。</p>
+<p>最后得到的结果决定了每个单词对编码当下位置（“I”）的贡献。<strong>我们可以看到，所谓并行就是指每个单词所代表的向量都可以独立地进行注意力计算得到注意力得分，而不是必须由前一个单词计算完成后才能计算下一个单词。</strong></p>
+<h3 id="弱化无关量">弱化无关量</h3>
+<p>直觉上我们是希望关注语义上相关的单词，并弱化不相关的单词。那么我们就需要通过在我们的值向量上乘以上述得到的注意力得分。
+$ softmax() $
+的结果是一个矩阵，对于这个矩阵的第i行，其上的n维对应的值，我们可以理解为其是第i个词向量与n个单词的注意力得分。</p>
+<p>例如第i个行向量<span class="math inline">$\begin{matrix}[ a, &amp; b,
+&amp; c, &amp; d ]\end{matrix}$</span>,其中<span
+class="math inline"><em>a</em></span>则表示第i个单词中与第1个单词的注意力得分，<span
+class="math inline"><em>c</em></span>则表示与第三个单词的注意力得分。
+现在我们用这个结果来与得到的V矩阵相乘，也就相当于是对V矩阵中各个行向量进行了加权求和得到最后的结果。
+<img src="/img/pics/transformer/Z_value.png" srcset="/img/loading.gif" lazyload alt="example13" /></p>
+<h2 id="多头注意力机制">多头注意力机制</h2>
+<p>由上述推论，我们已经知道怎么通过 Self-Attention 计算得到输出矩阵
+Z，而Multi-Head Attention 包含多个 Self-Attention
+层，首先将输入X分别传递到 h 个不同的 Self-Attention 中，计算得到 h
+个输出矩阵Z。如下图所示：</p>
+<p><img src="/img/pics/transformer/multihead.png" srcset="/img/loading.gif" lazyload width="500" height="500"></p>
+<p>对应h=8的情况，我们最后可以得到 8 个输出矩阵，Multi-Head Attention
+将它们拼接在一起 (Concat)，然后传入一个Linear层，得到 Multi-Head
+Attention 最终的输出Z。可以看到 Multi-Head Attention
+输出的矩阵Z与其输入的矩阵X的维度是一样的。</p>
+<p><img src="/img/pics/transformer/concat.png" srcset="/img/loading.gif" lazyload width="800" height="400"></p>
+<p>总结一下多头注意力机制的功能：</p>
+<ul>
+<li>扩展了模型专注于不同位置的能力。</li>
+<li>有多个查询/键/值权重矩阵集合，并且每一个都是随机初始化的。每个注意力头都是用矩阵<span
+class="math inline"><em>X</em></span>乘以<span
+class="math inline"><em>W</em><sup><em>Q</em></sup>、<em>W</em><sup><em>K</em></sup>、<em>W</em><sup><em>V</em></sup></span>来产生查询、键、值矩阵。</li>
+<li>多个注意力头会注意到不同的内容，我们对各种注意到的部分进行组合，就能避免某些可能存在的情况被忽视。</li>
+</ul>
+<p>具体来说，在《the illustrated
+transformer》中已经提到，因为不同的初始化参数，训练后得到的注意力得分是不一样的。也就意味着可能对于同一个词在不同的头上会注意到不同的位置。也就是如下图所示：
+<img src="/img/pics/transformer/multi-head-attention.png" srcset="/img/loading.gif" lazyload
+alt="multi-head attention" />
+当计算“it”的注意力得分时，八列不同颜色的表格指示了八个头不同的注意到的位置，当对“it”一词进行编码时，一个注意力头最关注的是“animals”，而另一个是专注于“tired”——从某种意义上说，模型对“it”一词的表示在“animals”和“tired”的一些表示中提取得到。</p>
+<h2 id="addnormalize">Add&amp;Normalize</h2>
+<p>在经过多头注意力机制得到矩阵Z之后，并没有直接传入全连接神经网络，而是经过了Add&amp;Normalize层，该层由两个部分组成，即Add
+和 Norm 两部分组成，其计算公式如下：</p>
+<p><span
+class="math display"><em>L</em><em>a</em><em>y</em><em>e</em><em>r</em><em>N</em><em>o</em><em>r</em><em>m</em>(<em>X</em> + <em>M</em><em>u</em><em>l</em><em>t</em><em>i</em><em>H</em><em>e</em><em>a</em><em>d</em><em>A</em><em>t</em><em>t</em><em>e</em><em>n</em><em>t</em><em>i</em><em>o</em><em>n</em>(<em>X</em>))</span></p>
+<p>其中 X表示 Multi-Head Attention的输入，MultiHeadAttention(X) 表示输出
+(输出与输入 X 维度是一样的)。</p>
+<ul>
+<li>Add指
+X+MultiHeadAttention(X)，是一种残差连接，通常用于解决多层网络训练的问题，可以让网络只关注当前差异的部分.</li>
+<li>Norm指 Layer Normalization，通常用于 RNN 结构，Layer Normalization
+会将每一层神经元的输入都转成均值方差都一样的，这样可以加快收敛。</li>
+</ul>
+<h3 id="add">Add</h3>
+<p>这里用到了残差连接的思想，即
+<code>&lt;img src="/img/pics/transformer/res_block.png" width="500" height="100"&gt;</code></p>
+<p>加入残差块的目的是为了防止在深度神经网络的训练过程中发生退化的问题，退化的意思就是深度神经网络通过增加网络的层数，Loss逐渐减小，然后趋于稳定达到饱和，然后再继续增加网络层数，Loss反而增大。
+对于多余的层，我们需要保证多出来的网络进行恒等映射。只有进行了恒等映射之后才能保证这多出来的神经网络不会影响到模型的效果。恒等映射，即让F（X）=0
+就可以了。x经过线性变换（随机初始化权重一般偏向于0），输出值明显会偏向于0，而且经过激活函数Relu会将负数变为0，过滤了负数的影响。
+这样当网络自己决定哪些网络层为冗余层时，使用ResNet的网络很大程度上解决了学习恒等映射的问题，<strong>用学习残差F(x)=0更新该冗余层的参数来代替学习h(x)=x更新冗余层的参数。</strong></p>
+<h3 id="normalize">Normalize</h3>
+<p>归一化目的： 1、加快训练速度 2、提高训练的稳定性
+Transformer使用到的归一化方法是<strong>Layer
+Normalization</strong>。</p>
+<p>Layer
+Normalization（层归一化）：是在同一个样本中不同神经元之间进行归一化。</p>
+<p>Batch
+Normalization（批量归一化）：是在同一个batch中不同样本之间的同一位置的神经元之间进行归一化。</p>
+<p>层归一化的计算不依赖于其他样本，而批量归一化的计算则依赖于整个batch的样本。在处理序列数据（如文本）时，每个样本的长度可能会有所不同，这使得批量归一化在实践中难以应用。在处理变长序列时，批量归一化需要对每个序列进行填充或截断以形成一个固定大小的batch，这可能会引入额外的噪声。而层归一化则可以直接处理变长序列，不需要进行填充或截断。</p>
+<h2 id="全连接层feed-forward">全连接层Feed Forward</h2>
+<p>Feed Forward 层比较简单，是一个两层的全连接层，第一层的激活函数为
+Relu，第二层不使用激活函数，对应的公式如下。</p>
+<p><span
+class="math display"><em>m</em><em>a</em><em>x</em>(0, <em>X</em><em>W</em><sub>1</sub> + <em>b</em><sub>1</sub>)<em>W</em><sub>2</sub> + <em>b</em><sub>2</sub></span></p>
+<p>也就是先线性变换，然后ReLU非线性，再线性变换。这两层网络就是为了将输入的Z映射到更加高维的空间中然后通过非线性函数ReLU进行筛选，筛选完后再变回原来的维度。</p>
+<p>至此，一个完整的Encoder就完成了，在Transformer中总共有6个Encoder块，每一个Encoder得到的输出输入到下一个Encoder中，最终的结果在传入到Decoder中。</p>
+<h2 id="decoder结构">Decoder结构</h2>
+<p><img src="/img/pics/transformer/transformer_decoder.png" srcset="/img/loading.gif" lazyload width="500" height="600">
+上图红色部分为 Transformer 的 Decoder block 结构，与 Encoder block
+相似，但是存在一些区别：</p>
+<ul>
+<li>包含两个 Multi-Head Attention 层。</li>
+<li>第一个 Multi-Head Attention 层采用了 Masked 操作。</li>
+<li>第二个 Multi-Head Attention 层的K, V矩阵使用 Encoder
+的编码信息矩阵C进行计算，而Q使用上一个 Decoder block 的输出计算。</li>
+<li>最后有一个 Softmax 层计算下一个翻译单词的概率。</li>
+</ul>
+<h3 id="masked-multi-head-attention">Masked Multi-Head Attention</h3>
+<p>与Encoder的Multi-Head
+Attention计算原理一样，只是多加了一个mask码。mask
+表示掩码，它对某些值进行掩盖，使其在参数更新时不产生效果。Transformer
+模型里面涉及两种 mask，分别是 padding mask 和 sequence mask。</p>
+<h4 id="padding-mask">padding mask</h4>
+<p>因为每个批次输入序列长度是不一样的也就是说，我们要对输入序列进行对齐。具体来说，就是在较短的序列后面进行填充0，如果输入的序列太长，则是截取左边的内容，把多余的直接舍弃。但是这些填充的位置，其实是没什么意义的，经过softmax操作也会有对应的输出，attention机制不应该把注意力放在这些位置上，所以我们需要进行一些处理。具体的做法是，把这些位置的值加上一个非常大的负数(负无穷)，这样的话，经过
+softmax，这些位置的概率就会无限接近0！</p>
+<h4 id="sequence-mask">sequence mask</h4>
+<p>sequence mask 是为了使得 decoder 不能看见未来的信息。对于一个序列，在
+time_step 为 t 的时刻，我们的解码输出应该只能依赖于 t
+时刻之前的输出，而不能依赖 t 之后的输出。因此我们需要想一个办法，把 t
+之后的信息给隐藏起来。这在训练的时候有效，因为训练的时候每次我们是将target数据完整输入进decoder中地，预测时不需要，预测的时候我们只能得到前一时刻预测出的输出。具体的做法就是产生一个上三角矩阵，上三角的值全为0。把这个矩阵作用在每一个序列上，就可以达到我们的目的。</p>
+<p>实际上，在Encoder中的Multi-Head
+Attention也是需要进行mask的，只不过Encoder中只需要padding
+mask即可，而Decoder中需要padding mask和sequence mask。</p>
+<h3 id="multi-head-attention">Multi-Head Attention</h3>
+<p>Decoder block 第二个 Multi-Head Attention 变化不大，
+主要的区别在于其中 Self-Attention 的 K, V矩阵不是使用上一个 Decoder
+block 的输出计算的，而是使用 Encoder 的编码信息矩阵 C 计算的。根据
+Encoder 的输出 C计算得到 K, V，根据上一个 Decoder block 的输出 Z 计算 Q
+(如果是第一个 Decoder block 则使用输入矩阵 X
+进行计算)，后续的计算方法与之前描述的一致。这样做的好处是在 Decoder
+的时候，每一位单词都可以利用到 Encoder 所有单词的信息 (这些信息无需
+Mask)。</p>
+<h3 id="softmax预测输出单词">Softmax预测输出单词</h3>
+<p>Decoder block 最后的部分是利用 Softmax
+预测下一个单词，在之前的网络层我们可以得到一个最终的输出 Z，Softmax
+根据输出矩阵的每一行预测下一个单词：
+<code>&lt;img src="/img/pics/transformer/output.png" width="600" height="200"&gt;</code></p>
+<p>具体来说，这个输出层接收 Decoder
+的最后一个输出，然后通过一个全连接层（也就是一个线性变换）将其转换为一个向量，这个向量的长度等于词汇表的大小。然后，这个向量通过
+Softmax 函数转换为一个概率分布。Softmax 函数可以确保所有的输出值都在 0
+和 1 之间，并且所有值的总和为
+1，因此可以被解释为概率。这个概率分布表示了模型对下一个词是词汇表中每个词的概率的预测。在实际应用中，我们通常选择概率最高的词作为下一个词的预测。</p>
+<h2 id="总结">总结</h2>
+<h3 id="数据的产生">数据的产生</h3>
+<p>现在我们回顾一下上述的流程，首先我们介绍了独热码，这是一种用来表示不同词的手段，实际上我们一般会将其当作一个索引向量然后和嵌入矩阵相乘然后才会得到真正的词向量。注意到这里的嵌入矩阵是可以训练的，也就是说模型会通过训练从而得到更好的词向量表示，<strong>语义接近的词的词向量也会是接近的</strong>。
+接下来，我们介绍了位置编码的嵌入，Transformer
+本身是不能利用单词的顺序信息的，因此需要在输入中添加位置
+Embedding。其完全基于self-attention，对于词语位置之间的信息有一定的丢失，加入了positional
+encoding在一定程度上能够解决这个问题。通过上述这两个过程，我们才真正得到了真正拿来训练用的数据。</p>
+<h3 id="训练过程">训练过程</h3>
+<p>我们以中英文翻译的任务为例子，假设我们有一一对应的中英文序列，那么我们首先会将中文序列输入到Encoder
+Block中，对应的英文序列输入到Decoder Block中，在这个过程中Transformer
+模型可以一次处理整个序列，并且可以并行计算所有位置的输出。这是因为在训练阶段，我们已经知道整个目标序列的信息，所以可以将整个目标序列（经过
+“shift right” 操作）一次性输入到 Decoder 中。</p>
+<pre><code class="hljs">shift right&quot; 的操作是将目标序列（target sequence）向右移动一位，并在序列的开始插入一个新的符号，通常是`&lt;sos&gt;`（start of sequence）符号。这样做的目的是让模型在预测第 t 个词时，只能看到 t-1 个词，而不能看到第 t 个词和之后的词，从而确保模型在预测时不会看到未来的信息。例如，如果我们的目标序列是 [Hello, World, !, `&lt;eos&gt;`]，那么 &quot;shift right&quot; 操作后的序列就会变成 [`&lt;sos&gt;`, Hello, World, !]。这是一种技巧，用于确保当前时间步的预测不会受到未来时间步的影响。</code></pre>
+<p>为了使训练中止，一般回收型对语句进行tokenize化，加上起始和终止的标签。这样当decoder解码到特定标签时，就知道翻译已经结束了。举个例子，比如说我们翻译”I
+have an
+apple”时，训练的过程中会学到单词”apple”之后就是终止标记，所以在推理时得到“apple”后就结束了推理过程。</p>
+<h3 id="测试过程">测试过程</h3>
+<p>在测试阶段，Decoder
+的输入包括两部分：一部分是已经生成的目标语言的序列，另一部分是来自
+Encoder 的输出。</p>
+<p>已经生成的目标语言的序列开始时通常只包含一个开始符号
+<code>&lt;sos&gt;</code>。然后，我们将这个序列和 Encoder
+的输出一起输入到 Decoder
+中，得到第一个词的预测。然后，我们将这个预测的词添加到目标语言的序列中，再将更新后的序列和
+Encoder 的输出一起输入到 Decoder
+中，得到第二个词的预测。这个过程会一直重复，直到生成一个结束符号
+<code>&lt;eos&gt;</code> 或达到某个最大长度。</p>
+<p>所以，测试阶段的 Decoder
+输入是逐步生成的，每一步都依赖于前一步的输出。</p>
+<h2 id="transformer的应用">Transformer的应用</h2>
+<ul>
+<li>自然语言处理（NLP）：Transformer 在 NLP
+领域的应用非常广泛，包括机器翻译、文本摘要、情感分析、命名实体识别、问答系统、对话系统等。其中，BERT、GPT、T5
+等知名模型都是基于 Transformer 构建的。</li>
+<li>语音识别：Transformer
+也被用于语音识别任务，例如，将语音转换为文字。</li>
+<li>图像处理：最近，Transformer
+也开始被应用到图像处理领域，例如，ViT（Vision Transformer）模型就是用
+Transformer 进行图像分类的。</li>
+<li>生物信息学：Transformer
+也被用于处理生物序列数据，例如，预测蛋白质结构。</li>
+<li>推荐系统：Transformer
+可以处理用户的行为序列，从而进行个性化推荐。</li>
+<li>时间序列预测：Transformer
+可以处理时间序列数据，用于股票预测、气候预测等任务。</li>
+</ul>
+<p>Transformer的主要精髓就是其提出了注意力机制，利用该机制我们可以在多种任务上取得不错的效果。</p>
+<h2
+id="以下是机器学习大作业一个使用transformer的例子">以下是机器学习大作业一个使用Transformer的例子</h2>
+<p><strong>题目描述：</strong></p>
+<pre><code class="hljs">通过多模态数据（音频、文本、视频等）对会话情绪进行识别。利用给定的特征数据集，通过对三种模态数据的融合，建立稳定的情感识别模型，预测出会话时的情绪状态，包括happy,sad,angry,excited,neutral and frustrated六种情绪类别。</code></pre>
+<p><a
+target="_blank" rel="noopener" href="https://github.com/Jia040223/UCAS-Machine-Learning">项目参见</a></p>
+<p>我们使用了一种基于Transformer-based编码器的模型，综合考虑数据集中的三种特征，<strong>文本、音频和图像</strong>。具体来说就是在模态编码器中引入模态内和模态间的Transformer编码器来捕获模态内和模态间的相互作用，并将位置和说话人嵌入作为这些Transformer编码器的额外输入来捕获上下文和说话人性别的信息。</p>
+<p>在提取了话语级单模态特征后，Transformer-based模型设计了单个捕获模态内和模态间交互的模态编码器，并借鉴GRU的门控机制对输出进行处理，并拼接后通过一个线性层，得到每个模块的输出信息。然后我们通过一种分层门控融合策略，动态融合来自多种模态的信息。最后，通过一个线性映射，将每个模态的输出和融合后的分别输出映射到类别维度，后者用于得到预测情感的label，前者则与后者一起参与loss的计算.</p>
+<p><img src="/img/pics/transformer/example.png" srcset="/img/loading.gif" lazyload width="600" height="700"></p>
+<p>实际上，在这里对transformer的使用中，并未用到解码器层,我们只使用编码器层来进行预测。</p>
+<p>Transformer的自注意力机制天然适用于多模态信息之间的处理，所以我们是将每两个模态的特征作为输入，处理后分别作为transformer编码层的Q和K，V得到输出（一个模态的数据得到Q,K，另一个模态作为V）。这样一共会得到9个输出（一共三个模态，所以9个），下一步再把与每个模态有关的输出综合得到每个模态的最终输出，最后再综合这三个模态各自的输出，经过分类器降维后得到模型的最终输出。</p>
+<p>最终测试的结果是：
+基于Transformer编码器的模型的泛化能力非常好，能达70%左右的正确率，在情感识别任务中，这已经是一个非常高的正确率。我们觉得一个重要原因是Transformer的具有很强的表达能力，且其自注意力机
+制，使得模型能够在不同位置关注输入序列的不同部分，更好地捕捉长距离依赖关系。</p>
+<h2 id="参考文献">参考文献：</h2>
+<p>读到这里，本文就迎来了终点。本文参考（照抄）了网上一些优秀的Transformer讲解文章，如果感兴趣，请移步进行阅读。如果有任何问题，欢迎联系指正！</p>
+<ol type="1">
+<li>Vaswani, Ashish, et al. “Attention is all you need.” Advances in
+neural information processing systems, 2017.</li>
+<li><a
+target="_blank" rel="noopener" href="https://www.zhihu.com/question/471328838/answer/3011638037">如何从浅入深理解transformer？</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/338817680">Transformer模型详解（图解最完整版）</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42475060/article/details/121101749">【超详细】【原理篇&amp;实战篇】一文读懂Transformer</a></li>
+<li><a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-transformer/">The
+Illustrated Transformer</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://github.com/julycoding/ChatGPT_principle_fine-tuning_code_paper/blob/main/Transformer通俗笔记：从Word2Vec、Seq2Seq逐步理解到GPT、BERT.md">transformer
+通俗理解</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/LLM/" class="category-chain-item">LLM</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/LLM/" class="print-no-link">#LLM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/05/normal-distribution/" title="为什么数据一定是正态分布的？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">为什么数据一定是正态分布的？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/03/Einstein-Summation-Convention/" title="Einstein Summation Convention">
+                        <span class="hidden-mobile">Einstein Summation Convention</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

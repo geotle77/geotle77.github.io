@@ -1,0 +1,1126 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Grafana Loki 介绍和使用 Grafana Grafana 是一个开源的可视化和监控工具，广泛用于分析和展示时间序列数据（如系统性能指标、应用程序日志和业务数据）。它提供了强大的数据可视化功能，支持多种数据源，并能够通过动态仪表板展示各种实时监控信息。Grafana 常用于运维监控、DevOps、IoT、云计算等领域。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Grafana Loki 介绍和使用">
+<meta property="og:url" content="https://geotle77.github.io/2025/10/03/loki/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="Grafana Loki 介绍和使用 Grafana Grafana 是一个开源的可视化和监控工具，广泛用于分析和展示时间序列数据（如系统性能指标、应用程序日志和业务数据）。它提供了强大的数据可视化功能，支持多种数据源，并能够通过动态仪表板展示各种实时监控信息。Grafana 常用于运维监控、DevOps、IoT、云计算等领域。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/grafana.png">
+<meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
+<meta property="article:modified_time" content="2025-10-05T11:03:05.402Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="Grafana,Loki,数据库">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/grafana.png">
+  
+  
+  
+  <title>Grafana Loki 介绍和使用 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Grafana Loki 介绍和使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-03 22:39" pubdate>
+          2025年10月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          59 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Grafana Loki 介绍和使用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="grafana-loki-介绍和使用">Grafana Loki 介绍和使用</h1>
+<h2 id="grafana">Grafana</h2>
+<p>Grafana
+是一个开源的可视化和监控工具，广泛用于分析和展示时间序列数据（如系统性能指标、应用程序日志和业务数据）。它提供了强大的数据可视化功能，支持多种数据源，并能够通过动态仪表板展示各种实时监控信息。Grafana
+常用于运维监控、DevOps、IoT、云计算等领域。 <span id="more"></span></p>
+<h3 id="特性">特性</h3>
+<p>Grafana 能与多种不同类型的数据源集成，包括
+Prometheus、InfluxDB、Elasticsearch、MySQL、PostgreSQL、Graphite
+等。这意味着用户可以采集不同的数据存储在不同的数据库中，并且能够通过grafana将其集成在一起共同展示。<strong>每种数据源都有独特的查询语言，Grafana
+提供灵活的查询编辑器来帮助用户构建查询语句，适配不同的数据源。</strong></p>
+<p>Grafana 提供了可高度定制化的
+仪表板（Dashboard），用户可以通过多种可视化组件（如折线图、柱状图、热力图、表格等）来显示数据。仪表板支持动态交互，如缩放、过滤、实时刷新等，便于监控时间序列数据的变化。仪表板可以共享或通过
+API 自动生成，方便团队协作和自动化管理。</p>
+<p>Grafana 具备
+告警功能，允许用户设定告警规则。当监控的某些指标超过预设阈值时，Grafana
+可以通过电子邮件、Slack、PagerDuty
+等方式发送通知。告警系统与仪表板集成，可以直接在图表上显示告警状态，帮助用户快速发现异常。</p>
+<p>Grafana
+提供细粒度的用户权限管理，支持多租户系统。你可以为不同用户或团队分配不同的访问权限，限制他们对仪表板和数据源的访问。支持与外部身份验证系统集成（如
+OAuth、LDAP），简化用户管理。</p>
+<p>Grafana
+拥有丰富的插件生态，用户可以通过插件扩展其功能，如添加新的数据源、可视化组件或面板。官方插件库和社区插件库中有大量免费的插件可供使用。支持
+JSON 和 CSV 等格式的数据，可以通过插件导入或导出数据。</p>
+<h2 id="kubernetes">kubernetes</h2>
+<p>Kubernetes（简称
+K8s）是一个开源的容器编排平台，用于自动化应用容器的部署、扩展和管理。Kubernetes
+的核心目标是帮助用户管理和调度大量容器化应用，使应用能够在多个机器或云环境中平稳运行。</p>
+<p><strong>Kubernetes 的核心概念：</strong></p>
+<ul>
+<li><strong>节点（Node）</strong>：Kubernetes
+集群中的每台物理或虚拟机，称为节点。每个节点都运行容器化的应用，并由集群中的主节点（Master）进行管理。</li>
+<li><strong>Pod</strong>：Kubernetes 中最小的部署单元，一个 Pod
+是一组紧密耦合的容器，通常运行在同一台主机上，共享网络和存储。</li>
+<li><strong>Service</strong>：Kubernetes 中的 Service
+是一种抽象层，用于将一组 Pod 的网络服务暴露给其他应用或用户，无论这些
+Pod 是否被销毁或重建。</li>
+<li><strong>Deployment</strong>：Deployment
+是定义和管理应用的声明性配置，Kubernetes 会根据 Deployment
+设定的规则自动确保应用的状态与期望一致（如应用的副本数量、版本升级等）。</li>
+<li><strong>Namespace</strong>：Namespace
+用于对集群内的资源进行分组，使不同的团队或项目能够共享同一个 Kubernetes
+集群而不会产生冲突。</li>
+<li><strong>ConfigMap 和 Secret</strong>：ConfigMap
+用于存储应用的非敏感配置信息，Secret 则用于存储敏感数据（如密码、API
+密钥等），并可以安全地提供给 Pod。</li>
+<li><strong>Volumes</strong>：用于持久化存储，Kubernetes
+支持将外部存储（如 NFS、云存储）挂载到 Pod 中的容器。</li>
+</ul>
+<p>另一方面，Pod 是 Kubernetes 中的基本计算单元，而服务器集群（即
+Kubernetes 集群）是一个管理这些 Pod 的基础设施环境。它们的关系如下：</p>
+<ol type="1">
+<li>Kubernetes 集群：</li>
+</ol>
+<ul>
+<li>服务器集群 是 Kubernetes 运行 Pod 的物理或虚拟服务器的集合。在
+Kubernetes 中，这些服务器被称为 节点（Nodes）。</li>
+<li>一个 Kubernetes
+集群包含多个节点，每个节点都是一台物理机或虚拟机，负责运行
+Pod，并执行调度、网络和存储任务。</li>
+</ul>
+<ol start="2" type="1">
+<li>节点 (Node)：</li>
+</ol>
+<ul>
+<li>每个节点都包含一个 Kubelet（负责与 Kubernetes
+控制面板通信的代理），以及一个容器运行时（如 Docker 或
+containerd），用于实际执行 Pod 内的容器。</li>
+<li>节点的主要作用是为 Pod 提供计算资源，包括
+CPU、内存、网络和存储等。</li>
+</ul>
+<ol start="3" type="1">
+<li>Pod 的调度与运行：</li>
+</ol>
+<ul>
+<li>当在 Kubernetes 中创建一个 Pod 时，Kubernetes 控制面板（Control
+Plane） 会将 Pod 调度到集群中的某个节点上运行。</li>
+<li>调度过程会根据集群中节点的资源使用情况和调度策略，自动选择一个最合适的节点来运行
+Pod。</li>
+<li>一旦 Pod 被分配到某个节点，节点中的容器运行时会启动 Pod
+中的容器，并为其分配资源。</li>
+</ul>
+<ol start="4" type="1">
+<li>Pod 与服务器集群的关系：</li>
+</ol>
+<ul>
+<li>Pod 是运行在集群节点上的逻辑单元。一个 Pod
+必须运行在某个具体的节点（即服务器）上。</li>
+<li>集群管理多个 Pod 的分布和状态。Kubernetes 确保 Pod
+在集群中能够均匀分布，充分利用节点资源，并且会根据需要（例如节点故障或负载变化）动态调度和重新启动
+Pod。</li>
+<li>Pod 是集群的工作负载。在集群中，Pod
+代表应用或服务的实例，它们运行在节点上，集群负责管理这些 Pod
+的生命周期、可用性和扩展。</li>
+</ul>
+<h2 id="loki">loki</h2>
+<p>Grafana Loki
+是一组开源组件，可以组合成功能齐全的日志记录堆栈。小索引和高度压缩块的设计简化了操作并显着降低了
+Loki 的成本。与其他日志系统不同，Loki
+的构建理念是仅对有关日志标签的元数据进行索引（就像 Prometheus
+标签一样）。然后，日志数据本身会被压缩并以块的形式存储在 Amazon Simple
+Storage Service (S3) 或 Google Cloud Storage (GCS)
+等对象存储中，甚至存储在本地文件系统上。</p>
+<p>Loki 是由 Grafana Labs 开发的、针对 Kubernetes
+环境优化的日志聚合系统，但它可以运行在多种不同的环境中。</p>
+<p><strong>Kubernetes 是 Loki 最常用的部署环境。Loki 可以与 Prometheus
+和 Grafana 无缝集成，监控 Kubernetes 集群中的容器日志。Loki 在
+Kubernetes 中通过 Helm Chart 进行部署，通常与
+Promtail（日志收集器）一起使用，用于抓取 Pod 的日志。</strong></p>
+<h3 id="使用流程">使用流程</h3>
+<p><img src="/img/pics//Loki/workflow.png" srcset="/img/loading.gif" lazyload alt="workflow" /> -
+一般会使用 Helm Chart，以简单可扩展模式在 Kubernetes 上安装 Loki。</p>
+<ul>
+<li>接下来部署 Grafana 代理以从您的应用程序收集日志。
+<ul>
+<li>在 Kubernetes 上，使用 Helm Chart部署 Grafana 代理。配置 Grafana
+Agent 以从 Kubernetes 集群中抓取日志，并添加 Loki 端点详细信息。</li>
+<li>为日志添加标签。例如添加描述日志来源的标签（区域、集群、环境等）。</li>
+</ul></li>
+<li>然后部署 Grafana 或 Grafana Cloud 并配置 Loki 数据源。</li>
+<li>最后在 Grafana 主菜单中选择“Explore”功能。
+<ul>
+<li>选择一个时间范围。</li>
+<li>选择 Loki 数据源。</li>
+<li>在查询编辑器中使用
+LogQL，使用生成器视图探索标签，或使用“启动查询”按钮从示例预配置查询中进行选择。</li>
+</ul></li>
+</ul>
+<p><strong>tips:</strong> 日志流是一组共享相同标签的日志。标签可帮助
+Loki
+在数据存储中查找日志流，因此拥有一组高质量的标签是高效执行查询的关键。</p>
+<h3 id="实际例子">实际例子</h3>
+<p>如果想试验 Loki，官方提供了一个dockerfile,可以使用 Loki 附带的 Docker
+Compose 文件在本地运行 Loki。它以整体部署模式运行
+Loki，并包含一个用于生成日志的示例应用程序。</p>
+<p><img src="/img/pics//Loki/get-started-flog-v3.png" srcset="/img/loading.gif" lazyload
+alt="get_started" /> Docker Compose
+配置运行以下组件，每个组件都在自己的容器中：</p>
+<ul>
+<li><p>flog：生成日志行。 flog 是常见日志格式的日志生成器。</p></li>
+<li><p>Grafana Alloy：从 flog 上刮削flog，然后通过网关将它们推送给
+Loki。</p></li>
+<li><p>网关 (nginx)，接收请求并根据请求的 URL
+将它们重定向到适当的容器。</p></li>
+<li><p>Loki 读取组件：运行查询前端和query。</p></li>
+<li><p>Loki 写入组件：运行distributor和接收器。</p></li>
+<li><p>Loki 后端组件：运行 Index Gateway、Compactor、Ruler、Bloom
+Compactor（实验性）和 Bloom Gateway（实验性）。</p></li>
+<li><p>Minio：Loki 用它来存储索引和块。</p></li>
+<li><p>Grafana：提供 Loki 中captures的日志行的可视化</p></li>
+</ul>
+<p>具体请参考：<a
+target="_blank" rel="noopener" href="https://grafana.com/docs/loki/latest/get-started/quick-start/">quickstart</a></p>
+<h3 id="details">Details</h3>
+<p>Grafana Loki 有两种主要的文件类型：索引（index）和块（chunks）：</p>
+<ul>
+<li>index是在哪里查找特定标签集的日志的目录。</li>
+<li>chunks是一组特定标签的日志条目的容器。</li>
+</ul>
+<figure>
+<img src="/img/pics//Loki/chunks_diagram.png" srcset="/img/loading.gif" lazyload alt="chunks_diagram" />
+<figcaption aria-hidden="true">chunks_diagram</figcaption>
+</figure>
+<p><strong>Index format</strong><br />
+目前支持两种索引格式作为带有index shipper的单个存储格式：</p>
+<ul>
+<li><p>TSDB（推荐） 时间序列数据库（或简称 TSDB）是最初由 Prometheus
+维护者为时间序列（度量）数据开发的索引格式。它是可扩展的，并且比已弃用的
+BoltDB 索引具有许多优点。 Loki 中的新存储功能仅在使用 TSDB
+时可用。</p></li>
+<li><p>Bolt 是用 Go 编写的低级事务性键值存储。</p></li>
+</ul>
+<p><strong>Chunks format</strong><br />
+块是特定时间范围的流（唯一的标签集）的日志行的容器。</p>
+<p>下面的 ASCII 图详​​细描述了块格式: <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-code">----------------------------------------------------------------------------</span><br><span class="hljs-code">|                        |                       |                         |</span><br><span class="hljs-code">|     MagicNumber(4b)    |     version(1b)       |      encoding (1b)      |</span><br><span class="hljs-code">|                        |                       |                         |</span><br><span class="hljs-code">----------------------------------------------------------------------------</span><br><span class="hljs-section">|                      #structuredMetadata (uvarint)                       |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|      len(label-1) (uvarint)      |          label-1 (bytes)              |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|      len(label-2) (uvarint)      |          label-2 (bytes)              |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|      len(label-n) (uvarint)      |          label-n (bytes)              |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|                      checksum(from #structuredMetadata)                  |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|           block-1 bytes          |           checksum (4b)               |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|           block-2 bytes          |           checksum (4b)               |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|           block-n bytes          |           checksum (4b)               |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|                           #blocks (uvarint)                              |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">| #entries(uvarint) | mint, maxt (varint)  | offset, len (uvarint)         |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">| #entries(uvarint) | mint, maxt (varint)  | offset, len (uvarint)         |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">| #entries(uvarint) | mint, maxt (varint)  | offset, len (uvarint)         |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">| #entries(uvarint) | mint, maxt (varint)  | offset, len (uvarint)         |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|                          checksum(from #blocks)                          |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">| #structuredMetadata len (uvarint) | #structuredMetadata offset (uvarint) |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br><span class="hljs-section">|     #blocks len (uvarint)         |       #blocks offset (uvarint)       |</span><br><span class="hljs-section">----------------------------------------------------------------------------</span><br></code></pre></td></tr></table></figure> 其中，</p>
+<pre><code class="hljs">mint 和 maxt 分别描述最小和最大 Unix 纳秒时间戳。
+StructuredMetadata 部分存储不重复的字符串。它用于存储结构化元数据中的标签名称和标签值。注意，结构化元数据部分中的标签字符串和长度是压缩存储的。</code></pre>
+<p><strong>Block format</strong><br />
+一个block由一系列条目组成，每个条目都是一个单独的日志行。请注意，块的字节是压缩存储的。以下是未压缩时的形式：
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-code">-----------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="hljs-code">|  ts (varint)  |  len (uvarint)  |  log-1 bytes  |  len(from #symbols)  |  #symbols (uvarint)  |  symbol-1 (uvarint)  | symbol-n*2 (uvarint) |</span><br><span class="hljs-code">-----------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="hljs-section">|  ts (varint)  |  len (uvarint)  |  log-2 bytes  |  len(from #symbols)  |  #symbols (uvarint)  |  symbol-1 (uvarint)  | symbol-n*2 (uvarint) |</span><br><span class="hljs-section">-----------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="hljs-section">|  ts (varint)  |  len (uvarint)  |  log-3 bytes  |  len(from #symbols)  |  #symbols (uvarint)  |  symbol-1 (uvarint)  | symbol-n*2 (uvarint) |</span><br><span class="hljs-section">-----------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="hljs-section">|  ts (varint)  |  len (uvarint)  |  log-n bytes  |  len(from #symbols)  |  #symbols (uvarint)  |  symbol-1 (uvarint)  | symbol-n*2 (uvarint) |</span><br><span class="hljs-section">-----------------------------------------------------------------------------------------------------------------------------------------------</span><br></code></pre></td></tr></table></figure></p>
+<p>ts 是日志的 Unix 纳秒时间戳，而 len
+是日志条目的长度（以字节为单位）。符号存储对包含块的structedMetadata中的标签名称和值的实际字符串的引用。</p>
+<h4 id="write-and-read">Write and Read</h4>
+<p><strong>写入路径</strong> 从较高层面来看，Loki
+中的写入路径的工作原理如下：</p>
+<ul>
+<li>distributor接收带有流和日志行的 HTTP POST 请求。</li>
+<li>distributor对请求中包含的每个流进行哈希处理，以便它可以根据一致哈希环中的信息确定需要将其发送到的Ingester实例。</li>
+<li>distributor将每个流发送到适当的Ingester及其副本（基于配置的复制因子）。</li>
+<li>Ingester接收带有日志行的流，并为流的数据创建一个块或附加到现有块。每个租户和每个标签集的块都是唯一的。</li>
+<li>Ingester确认写入。</li>
+<li>Distributor等待大多数（法定人数）Ingester确认他们的写入。</li>
+<li>如果distributor至少收到法定数量的已确认写入，则它会以成功响应（2xx
+状态代码）。或者在写入操作失败时出现错误（4xx 或 5xx 状态代码）。</li>
+</ul>
+<p><strong>读取路径</strong> 概括地说，Loki
+中的读取路径的工作原理如下：</p>
+<ul>
+<li>查询前端接收带有 LogQL 查询的 HTTP GET 请求。</li>
+<li>查询前端将查询拆分为子查询并将它们传递给查询调度程序。</li>
+<li>query从调度器中提取子查询。</li>
+<li>query将查询传递给内存数据的所有Ingester。</li>
+<li>Ingester返回与查询匹配的内存中数据（如果有）。</li>
+<li>如果Ingester未返回数据或返回的数据不足，则query会延迟从后备存储加载数据并对其运行查询。</li>
+<li>query迭代所有接收到的数据并进行重复数据删除，将子查询的结果返回到查询前端。</li>
+<li>查询前端等待查询的所有子查询完成并由query返回。</li>
+<li>查询前端将各个结果合并为最终结果并将其返回给客户端。</li>
+</ul>
+<p><strong>Distributor</strong>:<br />
+Distributor
+Service负责处理来自客户端的传入推送请求。这是日志数据写入路径的第一步。一旦Distributor收到
+HTTP
+请求中的一组流，就会验证每个流的正确性并确保其在配置的租户（或全局）限制内。然后，每个有效流会并行发送到
+n 个Ingester，其中 n 是数据的replication
+factor。Distributor使用一致性哈希来确定将流发送到的接收器。</p>
+<p><strong>Ingester</strong>:<br />
+Ingester Service 负责持久化数据并将其传送到写入路径上的长期存储（Amazon
+Simple Storage Service、Google Cloud Storage、Azure Blob Storage
+等），并返回最近摄取的in-memory日志数据以供查询在读取路径上。</p>
+<p>Ingesters 包含一个生命周期管理器，用于管理哈希环中 Ingesters
+的生命周期。每个摄取器的状态为 PENDING、JOINING、ACTIVE、LEAVING 或
+UNHEALTHY：</p>
+<pre><code class="hljs">- PENDING 是 Ingester 等待另一个正在LEAVING的 Ingester 进行切换时的状态。
+
+- JOINING 是 Ingester 当前将其令牌插入环并初始化自身时的状态。它可能会接收对其拥有的令牌的写入请求。
+
+- ACTIVE 是 Ingester 完全初始化时的状态。它可以接收对其拥有的令牌的写入和读取请求。
+
+- LEAVING 是 Ingester 关闭时的状态。它可能会接收对其内存中仍具有的数据的读取请求。
+
+- UNHEALTHY 是 Ingester 心跳失败时的状态。 UNHEALTHY 由distributor在定期检查环时设置。</code></pre>
+<p>Ingester接收到的每个日志流都会在内存中构建成一组许多“块”，并以可配置的时间间隔刷新到后备存储后端。</p>
+<p>如果Ingester进程崩溃或突然退出，所有尚未刷新的数据都将丢失。 Loki
+通常配置为复制每个日志的多个副本（通常是 3 个）以减轻这种风险。</p>
+<p>当持久存储提供者发生刷新时，块会根据其租户、标签和内容进行哈希处理。这意味着具有相同数据副本的多个摄取器不会将相同的数据写入后备存储两次，但如果其中一个副本的任何写入失败，则将在后备存储中创建多个不同的块对象。请参阅查询器了解如何进行重复数据删除。</p>
+<p><strong>Replication factor</strong>
+为了减少在任何单个Ingester上丢失数据的可能性，distributor会将写入数据转发给其中的复制因子。通常，复制因子为
+3。复制允许Ingester重新启动和退出，而不会导致写入失败，并在某些情况下增加了防止数据丢失的额外保护。</p>
+<p>从广义上讲，对于推送给disttibutor的每个标签集（称为流），Distributor都会对标签进行散列处理，并使用得到的值在环中查找复制因子Ingester（这是一个公开分布式散列表的子组件）。然后，它会尝试把相同的数据写入到所有的接收器中。如果成功写入的数据少于quorum，就会产生错误。quorum的定义是
+floor( replication_factor / 2 ) + 1。因此，对于我们的复制因子
+3，我们要求有两次写入成功。如果成功写入的次数少于两次，分发器就会返回错误，写入操作将被重试。</p>
+<p><strong>Hashing</strong>:<br />
+distributor使用一致的哈希算法和可配置的复制因子来确定哪些Ingester服务实例应接收给定的数据流。</p>
+<p>数据流是一组与租户和唯一标签集相关联的日志。使用租户 ID
+和标签集对数据流进行散列，然后使用散列找到要将数据流发送给的Ingester。</p>
+<p>哈希环通过使用成员列表协议的点对点通信进行维护，或存储在密钥-值存储（如
+Consul）中，用于实现一致的哈希；所有Ingester都用自己拥有的一组令牌将自己注册到哈希环中。每个令牌都是一个随机的无符号
+32 位数。除了一组令牌，Ingester还会将自己的状态注册到哈希环中。状态
+“JOINING ”和 “ACTIVE ”都会收到写入请求，而 “ACTIVE ”和 “LEAVING
+”则会收到读取请求。在进行哈希查找时，Distributor只使用处于相应状态的Ingester的令牌。</p>
+<p>要进行哈希值查询，Distributor要找到其值大于流哈希值的最小适当标记。当复制因子大于
+1 时，属于不同Ingester的下一个令牌（顺时针环形）也将包含在结果中。</p>
+<p>这种哈希值设置的效果是，Ingester拥有的每个标记都负责一定范围的哈希值。如果存在值为
+0、25 和 50 的三个令牌，则将向拥有令牌 25 的Ingester提供哈希值
+3；拥有令牌 25 的摄取者负责 1-25 的哈希范围。</p>
+<h2 id="log-queries">Log queries</h2>
+<p>所有 LogQL 查询都包含日志流选择器。</p>
+<figure>
+<img src="/img/pics//Loki/query_components.png" srcset="/img/loading.gif" lazyload alt="log query" />
+<figcaption aria-hidden="true">log query</figcaption>
+</figure>
+<p>日志流选择器后面可以跟一个日志pipeline。日志pipeline是一组链接在一起并应用于所选日志流的阶段表达式。每个表达式都可以过滤、解析或改变日志行及其各自的标签。
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">&#123;<span class="hljs-built_in">container</span>=<span class="hljs-string">&quot;query-frontend&quot;</span>,<span class="hljs-keyword">namespace</span>=<span class="hljs-string">&quot;loki-dev&quot;</span>&#125; |= <span class="hljs-string">&quot;metrics.go&quot;</span> | logfmt | duration &gt; <span class="hljs-number">10</span>s and throughput_mb &lt; <span class="hljs-number">500</span><br></code></pre></td></tr></table></figure> 例如，该查询由以下部分组成： - 日志流选择器
+<code>&#123;container="query-frontend",namespace="loki-dev"&#125;</code>
+，其目标是 loki-dev 命名空间中的 query-frontend 容器。 - 日志pipeline
+<code>|= "metrics.go" |logfmt |duration &gt; 10s and throughput_mb &lt; 500</code>，这将过滤掉包含单词metrics.go的日志，然后解析每个日志行以提取更多标签并使用它们进行过滤。</p>
+<pre><code class="hljs">为了避免转义特殊字符，在引用字符串时可以使用 `(反引号) 而不是 &quot;。例如，`\w+` 与 &quot;\\w+&quot; 相同。这在编写包含多个反斜杠的正则表达式时特别有用。</code></pre>
+<h3 id="log-selector">log selector</h3>
+<p>日志流选择器确定查询结果中包含哪些日志流。日志流是日志内容的唯一来源，例如文件。然后，更细粒度的日志流选择器将搜索流的数量减少到可管理的数量。这意味着传递给日志流选择器的标签将影响查询执行的相对性能。</p>
+<p>日志流选择器由一个或多个以逗号分隔的键值对指定。每个键都是一个日志标签，每个值都是该标签的值。大括号（{
+和 }）分隔流选择器。 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">&#123;app=&quot;mysql&quot;,<span class="hljs-type">name</span>=&quot;mysql-backup&quot;&#125;<br></code></pre></td></tr></table></figure> 所有标签为 app 且值为 mysql ,标签为
+name 且值为 mysql-backup
+的日志流都将包含在查询结果中。流可能包含其他标签和值对，但只有流选择器中指定的对用于确定查询结果中将包含哪些流。</p>
+<p>适用于 Prometheus 标签选择器的相同规则也适用于 Grafana Loki
+日志流选择器。标签名称后面的 =
+运算符是标签匹配运算符。支持以下标签匹配运算符： <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs excel">=：完全相等<br>!=<span class="hljs-symbol">:</span> 不等于<br>=~<span class="hljs-symbol">:</span> 正则表达式匹配<br>!~<span class="hljs-symbol">:</span> 正则表达式不匹配<br>正则表达式日志流示例：<br></code></pre></td></tr></table></figure>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="hljs-template-variable">&#123;名称=~“mysql.+”&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;名称！~“mysql.+”&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;名称！~ `mysql-\d+`&#125;</span><br></code></pre></td></tr></table></figure> 注意：与行过滤器正则表达式不同，=~ 和 !~
+正则表达式运算符是完全锚定的。这意味着正则表达式必须匹配整个字符串，包括换行符。正则表达式
+.默认情况下，字符不匹配换行符。如果您希望正则表达式点字符匹配换行符，您可以使用单行标志，如下所示：
+<code>(?s)search_term.+</code>匹配
+<code>search_term\n</code>。或者，您可以将<code>\s</code>（匹配空格，包括换行符）与
+<code>\S</code>（匹配非空格字符）结合使用来匹配所有字符，包括换行符。</p>
+<p>正则表达式日志流换行符： <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx">&#123;<span class="hljs-attribute">name</span> =<span class="hljs-regexp">~ &quot;.*mysql.*&quot;&#125;:</span> 与带有换行符的日志标签值不匹配<br>&#123;<span class="hljs-attribute">name</span> =<span class="hljs-regexp">~ &quot;(?s).*mysql.*&#125;：将日志标签值与换行符匹配</span><br>&#123;<span class="hljs-attribute">name</span> =<span class="hljs-regexp">~ &quot;[\S\s]*mysql[\S\s]*&#125;：将日志标签值与换行符匹配</span><br></code></pre></td></tr></table></figure></p>
+<h3 id="log-pipeline">log pipeline</h3>
+<p>日志pipeline可以附加到日志流选择器以进一步处理和过滤日志流。它由一组表达式组成。对于每个日志行，每个表达式都按从左到右的顺序执行。如果表达式过滤掉日志行，pipeline将停止处理当前日志行并开始处理下一个日志行。</p>
+<p>某些表达式可以改变日志内容和相应的标签，然后可用于后续表达式中的进一步过滤和处理。例如：<br />
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml">| line_format &quot;</span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">.status_code</span>&#125;&#125;</span><span class="language-xml">&quot;</span><br></code></pre></td></tr></table></figure> 日志pipeline表达式属于以下四类之一：</p>
+<ul>
+<li>过滤表达式：行过滤表达式和标签过滤表达式</li>
+<li>解析表达式</li>
+<li>格式化表达式：行格式表达式和标签格式表达式</li>
+<li>标签表达式：删除标签表达式并保留标签表达式</li>
+</ul>
+<h4 id="line-filter-expression">line filter expression</h4>
+<p>line filter expression对来自匹配日志流的聚合日志执行分布式
+<code>grep</code>。它搜索日志行的内容，丢弃那些与区分大小写的表达式不匹配的行。</p>
+<p>每个line filter
+expression都有一个过滤运算符，后跟文本或正则表达式。支持这些过滤器运算符：
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-string">|=：日志行包含字符串</span><br>!<span class="hljs-punctuation">=</span><span class="hljs-punctuation">:</span> 日志行不包含字符串<br><span class="hljs-string">|~：日志行包含正则表达式的匹配项</span><br>!<span class="hljs-symbol">~</span>: 日志行不包含正则表达式的匹配项<br></code></pre></td></tr></table></figure> 注意：与标签匹配器正则表达式运算符不同，<code>|~</code>和
+<code>!~</code> 正则表达式运算符不是完全锚定的。这意味着
+<code>.</code>正则表达式字符匹配所有字符，包括换行符。</p>
+<p>例子：<br />
+保留包含子字符串“error”的日志行： <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-string">|=“error”</span><br></code></pre></td></tr></table></figure> 使用此示例的完整查询：
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;<span class="hljs-attribute">job</span>=“mysql”&#125; |=“error”<br></code></pre></td></tr></table></figure></p>
+<p>丢弃具有子字符串“kafka.server:type=ReplicaManager”的日志行：
+<figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs erlang-repl">!= <span class="hljs-string">&quot;kafka.server:type=ReplicaManager&quot;</span><br></code></pre></td></tr></table></figure> 使用此示例的完整查询： <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;<span class="hljs-attribute">instance</span>=~&quot;kafka-[23]<span class="hljs-string">&quot;,name=&quot;</span>kafka<span class="hljs-string">&quot;&#125; != &quot;</span>kafka.server:<span class="hljs-attribute">type</span>=ReplicaManager&quot;<br></code></pre></td></tr></table></figure> 保留包含以 tsdb-ops
+开头并以 io:2003 结尾的子字符串的日志行。使用正则表达式的完整查询：
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">&#123;name<span class="hljs-punctuation">=</span><span class="hljs-string">&quot;kafka&quot;</span>&#125; <span class="hljs-string">|~ &quot;</span>tsdb<span class="hljs-punctuation">-</span>ops.*io<span class="hljs-punctuation">:</span><span class="hljs-number">2003</span><span class="hljs-string">&quot;</span><br></code></pre></td></tr></table></figure> 保留包含以 error= 开头且后跟 1
+个或多个单词字符的子字符串的日志行。使用正则表达式的完整查询：
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;<span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;cassandra&quot;</span>&#125; |~ `<span class="hljs-attribute">error</span>=\w+`<br></code></pre></td></tr></table></figure></p>
+<h4 id="label-filter-expression">label filter expression</h4>
+<p>标签过滤表达式允许使用原始标签和提取的标签来过滤日志行。它可以包含多个谓词。</p>
+<p>谓词包含标签标识符、操作和用于与标签进行比较的值。</p>
+<p>例如，对于
+<code>cluster="namespace"</code>，cluster是标签标识符，操作是=，值为“namespace”。<strong>标签标识符始终位于操作的左侧。</strong></p>
+<p>loki支持从查询输入自动推断出的多种值类型<br />
+- <strong>String</strong>使用双引号或反引号，例如“200”或“us-central1”。
+-
+<strong>Duration</strong>是十进制数字序列，每个数字都有可选的分数和单位后缀，例如“300ms”、“1.5h”或“2h45m”。有效的时间单位为“ns”、“us”（或“μs”）、“ms”、“s”、“m”、“h”。
+- <strong>Number</strong> 为浮点数（64 位），如 250、89.923。 -
+<strong>Byte</strong>是十进制数字序列，每个数字都有可选的分数和单位后缀，例如“42MB”、“1.5Kib”或“20b”。有效字节单位为“b”、“kib”、“kb”、“mib”、“mb”、“gib”、“gb”、“tib”、“tb”、“pib”、“pb”、“eib”
+”，“eb”。</p>
+<p>使用duration、number和byte将在比较之前转换标签值并支持以下比较器：</p>
+<ul>
+<li><code>==</code> 或<code>=</code> 表示相等。</li>
+<li><code>!=</code> 表示不等式。</li>
+<li><code>&gt;</code>和 <code>&gt;=</code> 表示大于和大于或等于。</li>
+<li><code>&lt;</code>和 <code>&lt;=</code>表示小于和小于或等于。
+例如，<code>logfmt |duration &gt; 1m</code> 且
+<code>bytes_consumed &gt; 20MB</code></li>
+</ul>
+<p>如果标签值转换失败，则不会过滤日志行并添加 __error__ 标签。可以使用
+and 和 or 链接多个谓词，它们分别表示 and 和 or
+二元运算。并且可以用逗号、空格或其他pipeline等效地表示。标签过滤器可以放置在log
+pipeline中的任何位置。</p>
+<p>这意味着以下所有表达式都是等效的: <figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ocaml">| duration &gt;= <span class="hljs-number">20</span>ms <span class="hljs-keyword">or</span> size == <span class="hljs-number">20</span>kb <span class="hljs-keyword">and</span> <span class="hljs-keyword">method!</span>~<span class="hljs-string">&quot;2..&quot;</span><br>| duration &gt;= <span class="hljs-number">20</span>ms <span class="hljs-keyword">or</span> size == <span class="hljs-number">20</span>kb | <span class="hljs-keyword">method!</span>~<span class="hljs-string">&quot;2..&quot;</span><br>| duration &gt;= <span class="hljs-number">20</span>ms <span class="hljs-keyword">or</span> size == <span class="hljs-number">20</span>kb , <span class="hljs-keyword">method!</span>~<span class="hljs-string">&quot;2..&quot;</span><br>| duration &gt;= <span class="hljs-number">20</span>ms <span class="hljs-keyword">or</span> size == <span class="hljs-number">20</span>kb  <span class="hljs-keyword">method!</span>~<span class="hljs-string">&quot;2..&quot;</span><br></code></pre></td></tr></table></figure>
+多个谓词求值的优先级是从左到右。可以用括号将谓词括起来以强制使用不同的优先级。</p>
+<p>这些示例是等效的： <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">| duration &gt;= 20ms or method=<span class="hljs-string">&quot;<span class="hljs-keyword">GET</span>&quot;</span> and size &lt;= 20KB<br>| ((duration &gt;= 20ms or method=<span class="hljs-string">&quot;<span class="hljs-keyword">GET</span>&quot;</span>) and size &lt;= 20KB)<br></code></pre></td></tr></table></figure></p>
+<h3 id="parser-expression">Parser expression</h3>
+<p>解析器表达式可以从日志内容中解析并提取标签。然后，这些提取的标签可用于使用标签过滤器表达式进行过滤或用于度量聚合。</p>
+<p>提取的标签键会被所有解析器自动清理，以遵循 Prometheus
+指标名称约定。（它们只能包含 ASCII
+字母和数字，以及下划线和冒号。它们不能以数字开头。）</p>
+<p>例如，pipeline <code>| json</code> 将生成以下映射： <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">&#123; &quot;<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.b</span>&quot;: &#123;c: <span class="hljs-string">&quot;d&quot;</span>&#125;, e: <span class="hljs-string">&quot;f&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
+<span class="math inline">→</span> <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;<span class="hljs-attribute">a_b_c</span>=<span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-attribute">e</span>=<span class="hljs-string">&quot;f&quot;</span>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>如果出现错误，例如，如果该行不是预期的格式，则日志行不会被过滤，而是会添加一个新的
+<strong>error</strong> 标签。</p>
+<p>如果原始日志流中已存在提取的标签键名称，则会在提取的标签键后面加上
+<code>_extracted</code>
+关键字作为后缀，以区分两个标签。可以使用标签格式化程序表达式强制覆盖原始标签。</p>
+<p>如果可以的话，使用预定义的解析器 json 和 logfmt
+会更容易。如果不能，模式和正则表达式解析器可用于具有不寻常结构的日志行。模式解析器编写起来更容易、更快；它的性能也优于正则表达式解析器。单个日志管道可以使用多个解析器。这对于解析复杂的日志很有用。</p>
+<h3 id="pattern">Pattern</h3>
+<p>模式解析器允许通过定义模式表达式<code>（|pattern “&lt;pattern-expression&gt;”）</code>从日志行中显式提取字段。该表达式与日志行的结构匹配。<br />
+例如： <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">0.191.12.2</span> - - <span class="hljs-string">[10/Jun/2021:09:14:29 +0000]</span> <span class="hljs-string">&quot;<span class="hljs-keyword">GET</span> /api/plugins/versioncheck HTTP/1.1&quot;</span> <span class="hljs-number">200</span> <span class="hljs-number">2</span> <span class="hljs-string">&quot;-&quot;</span> <span class="hljs-string">&quot;Go-http-client/2.0&quot;</span> <span class="hljs-string">&quot;13.76.247.102, 34.120.177.193&quot;</span> <span class="hljs-string">&quot;TLSv1.2&quot;</span> <span class="hljs-string">&quot;US&quot;</span> <span class="hljs-string">&quot;&quot;</span><br></code></pre></td></tr></table></figure> 该日志行可以用表达式解析 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">ip</span>&gt;</span> - - <span class="hljs-tag">&lt;<span class="hljs-name">_</span>&gt;</span>“<span class="hljs-tag">&lt;<span class="hljs-name">method</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">uri</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">_</span>&gt;</span>”<span class="hljs-tag">&lt;<span class="hljs-name">status</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">size</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">_</span>&gt;</span>“<span class="hljs-tag">&lt;<span class="hljs-name">agent</span>&gt;</span>”<span class="hljs-tag">&lt;<span class="hljs-name">_</span>&gt;</span><br></code></pre></td></tr></table></figure>
+提取这些字段： <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-string">&quot;ip&quot;</span> <span class="hljs-operator">=</span>&gt; <span class="hljs-string">&quot;0.191.12.2&quot;</span><br><span class="hljs-string">&quot;method&quot;</span> <span class="hljs-operator">=</span>&gt; <span class="hljs-string">&quot;GET&quot;</span><br><span class="hljs-string">&quot;uri&quot;</span> <span class="hljs-operator">=</span>&gt; <span class="hljs-string">&quot;/api/plugins/versioncheck&quot;</span><br><span class="hljs-string">&quot;status&quot;</span> <span class="hljs-operator">=</span>&gt; <span class="hljs-string">&quot;200&quot;</span><br><span class="hljs-string">&quot;size&quot;</span> <span class="hljs-operator">=</span>&gt; <span class="hljs-string">&quot;2&quot;</span><br><span class="hljs-string">&quot;agent&quot;</span> <span class="hljs-operator">=</span>&gt; <span class="hljs-string">&quot;Go-http-client/2.0&quot;</span><br></code></pre></td></tr></table></figure></p>
+<p>pattern expression由captures和literals组成。</p>
+captures是由<code>&lt;</code>和<code>&gt;</code>字符分隔的字段名称。
+<example>
+<p>定义字段名称<code>example</code>。未命名的captures显示为<code>&lt;_&gt;</code>。未命名的captures会跳过匹配的内容。</p>
+<p>captures从行开头或前一组literals匹配到行结尾或下一组literals。如果captures不匹配，模式解析器将停止。</p>
+<p>literals可以是任意 UTF-8 字符序列，包括空白字符。</p>
+<p>默认情况下，模式表达式锚定在日志行的开头。如果表达式以literals开头，则日志行也必须以同一组literals开头。如果您不想将表达式锚定在开头，请在表达式的开头使用
+<code>&lt;_&gt;</code>。</p>
+<p>考虑日志行 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-attribute">level</span>=debug <span class="hljs-attribute">ts</span>=2021-06-10T09:24:13.472094048Z <span class="hljs-attribute">caller</span>=logging.go:66 <span class="hljs-attribute">traceID</span>=0568b66ad2d9294c <span class="hljs-attribute">msg</span>=<span class="hljs-string">&quot;POST /loki/api/v1/push (204) 16.652862ms&quot;</span><br></code></pre></td></tr></table></figure> 要匹配 `<code>msg=</code>，请使用表达式：
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">_</span>&gt;</span> msg=&quot;<span class="hljs-tag">&lt;<span class="hljs-name">method</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">path</span>&gt;</span> (<span class="hljs-tag">&lt;<span class="hljs-name">status</span>&gt;</span>) <span class="hljs-tag">&lt;<span class="hljs-name">latency</span>&gt;</span>&quot;<br></code></pre></td></tr></table></figure> 模式表达式在以下情况下无效：</p>
+<ul>
+<li>它不包含任何命名捕获。</li>
+<li>它包含两个连续的捕获，未用空格字符分隔。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Grafana-Loki-%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#Grafana,Loki,数据库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/03/liner-algebra/" title="线性代数及其应用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">线性代数及其应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/03/markov/" title="随机过程">
+                        <span class="hidden-mobile">随机过程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

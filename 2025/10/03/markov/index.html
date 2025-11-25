@@ -1,0 +1,1060 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="随机过程 定义：随机过程（stochastic process）通常是指随着时间或者空间变化的一组随机变量。随机过程是一组随机变量的集合。集合内的随机变量以时间或空间位置作为索引下标，通常是时间。根据下标是否为连续的又可以分为离散随机过程和连续随机过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="随机过程">
+<meta property="og:url" content="https://geotle77.github.io/2025/10/03/markov/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="随机过程 定义：随机过程（stochastic process）通常是指随着时间或者空间变化的一组随机变量。随机过程是一组随机变量的集合。集合内的随机变量以时间或空间位置作为索引下标，通常是时间。根据下标是否为连续的又可以分为离散随机过程和连续随机过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/markov.png">
+<meta property="article:published_time" content="2025-10-03T14:39:12.000Z">
+<meta property="article:modified_time" content="2025-10-05T11:00:32.778Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="概率论与数理统计，数学">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/markov.png">
+  
+  
+  
+  <title>随机过程 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="随机过程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-03 22:39" pubdate>
+          2025年10月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">随机过程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="随机过程">随机过程</h1>
+<p>定义：随机过程（stochastic
+process）通常是指随着时间或者空间变化的一组随机变量。随机过程是一组随机变量的集合。集合内的随机变量以时间或空间位置作为索引下标，通常是时间。根据下标是否为连续的又可以分为离散随机过程和连续随机过程。<br />
+<span id="more"></span> 例如，离散时间的随机过程可以写作随机变量序列的形式： <span
+class="math display"><em>X</em><sub>0</sub>, <em>X</em><sub>1</sub>, <em>X</em><sub>2</sub>, ⋯, <em>X</em><sub><em>t</em></sub>, ⋯</span>
+其中，<span
+class="math inline"><em>X</em><sub><em>t</em></sub></span>为随机变量，下标<span
+class="math inline"><em>t</em></span>表示时间。各个时刻的随机变量之间存在着概率关系，这是随机过程的核心。</p>
+<h2 id="马尔可夫性">马尔可夫性</h2>
+<p>马尔可夫随机过程（Markov
+process）一种特殊的随机过程。这种随机过程为随着时间进行演化的一组随机变量进行建模，并假设系统在当前时刻的状态值只与上一个状态值有关，且与更早的时刻无关，称为无记忆性(memoryless
+property)。</p>
+<p>我们的目标是求得一个随机变量的联合分布概率，这样就可以依次得到各个随机变量的边际分布。而马尔可夫性质极大地简化了问题求解的计算难度。</p>
+<h3 id="推导">推导</h3>
+<p>对于随机过程中的随机变量序列<span
+class="math inline"><em>X</em><sub>0</sub>, <em>X</em><sub>1</sub>, <em>X</em><sub>2</sub>, ⋯, <em>X</em><sub><em>T</em></sub></span>，通常情况下各个时刻的随机变量之间存在概率关系。如果只考虑过去的信息，则当前时刻的状态<span
+class="math inline"><em>X</em><sub><em>t</em></sub></span>与过去的状态均有关系，也就是存在如下条件概率。</p>
+<p><span
+class="math display"><em>p</em>(<em>X</em><sub><em>t</em></sub>|<em>X</em><sub><em>t</em> − 1</sub>, <em>X</em><sub><em>t</em> − 2</sub>, ⋯, <em>X</em><sub>1</sub>)</span></p>
+<p>随机过程的核心是对该条件概率建模，如果考虑过去所有时刻的状态，计算量太大。<strong>因此需要对此条件概率进行简化来降低问题求解的难度，而马尔可夫假设正是这样一种简化</strong>。</p>
+<p>假设随机过程满足马尔可夫性，即： <span
+class="math display"><em>p</em>(<em>X</em><sub><em>t</em></sub>|<em>X</em><sub><em>t</em> − 1</sub>, <em>X</em><sub><em>t</em> − 2</sub>, ⋯, <em>X</em><sub>1</sub>) = <em>p</em>(<em>X</em><sub><em>t</em></sub>|<em>X</em><sub><em>t</em> − 1</sub>)</span>
+则有： <span
+class="math display"><em>p</em>(<em>X</em><sub><em>t</em></sub>|<em>X</em><sub><em>t</em> − 1</sub>, <em>X</em><sub><em>t</em> − 2</sub>, ⋯, <em>X</em><sub>1</sub>) = <em>p</em>(<em>X</em><sub><em>t</em></sub>|<em>X</em><sub><em>t</em> − 1</sub>)</span>
+即系统在当前时刻的状态只与上一时刻的状态有关，与更早的状态无关，这也叫做一阶马尔可夫性。利用随机向量的链式法则，可以直接求得随机变量序列联合概率的一个简洁计算公式:
+<span
+class="math display"><em>p</em>(<em>X</em><sub>0</sub>, <em>X</em><sub>1</sub>, ⋯, <em>X</em><sub><em>T</em></sub>) = <em>p</em>(<em>X</em><sub>0</sub>)<em>p</em>(<em>X</em><sub>1</sub>|<em>X</em><sub>0</sub>)<em>p</em>(<em>X</em><sub>2</sub>|<em>X</em><sub>1</sub>)⋯<em>p</em>(<em>X</em><sub><em>T</em></sub>|<em>X</em><sub><em>T</em> − 1</sub>)</span>
+其中，<span
+class="math inline"><em>p</em>(<em>X</em><sub>0</sub>)</span>表示初始状态的概率。(1)式表明，如果一个系统有马尔可夫性，则序列的联合概率由各个条件概率值<span
+class="math inline"><em>p</em>(<em>X</em><sub><em>t</em></sub>|<em>X</em><sub><em>t</em> − 1</sub>)</span>以及初始概率<span
+class="math inline"><em>p</em>(<em>X</em><sub>0</sub>)</span>决定。</p>
+<h2 id="马尔可夫链">马尔可夫链</h2>
+<p>根据系统状态(即随机变量)是否连续，时间是否连续，可以将马尔可夫过程分为：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>可数状态空间</th>
+<th>连续状态空间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>离散时间</strong></td>
+<td>有限或可数状态空间的马尔可夫链</td>
+<td>可测状态空间的马尔可夫链</td>
+</tr>
+<tr>
+<td><strong>连续时间</strong></td>
+<td>连续时间的马尔可夫过程</td>
+<td>具有马尔可夫性的连续型随机过程</td>
+</tr>
+</tbody>
+</table>
+<p>一般研究的是离散时间的马尔可夫链，这种随机过程的取值可以由状态转移概率<span
+class="math inline"><em>p</em>(<em>X</em><sub><em>t</em></sub>|<em>X</em><sub><em>t</em> − 1</sub>)</span>来描述条件概率。含义也就是系统上一时刻为<span
+class="math inline"><em>X</em><sub><em>t</em> − 1</sub></span>时，系统下一时刻转移到状态<span
+class="math inline"><em>X</em><sub><em>t</em></sub></span>的概率。</p>
+<p>如果系统有<span
+class="math inline"><em>m</em></span>个状态，则马尔可夫链可以用一个<span
+class="math inline"><em>m</em> × <em>m</em></span>的矩阵<span
+class="math inline"><em>P</em></span>来表示，其中<span
+class="math inline"><em>P</em><sub><em>i</em><em>j</em></sub></span>表示系统从状态<span
+class="math inline"><em>i</em></span>转移到状态<span
+class="math inline"><em>j</em></span>的概率。 <span
+class="math display">$$
+P=\left[
+\begin{matrix}
+p(X_0\rightarrow X_0) &amp; p(X_0\rightarrow X_1) &amp; \cdots &amp;
+p(X_0\rightarrow X_m) \\
+p(X_1\rightarrow X_0) &amp; p(X_1\rightarrow X_1) &amp; \cdots &amp;
+p(X_1\rightarrow X_m) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+p(X_m\rightarrow X_0) &amp; p(X_m\rightarrow X_1) &amp; \cdots &amp;
+p(X_m\rightarrow X_m)
+\end{matrix}
+\right]
+$$</span> <span
+class="math inline"><em>p</em><sub><em>i</em><em>j</em></sub></span>表示由状态<span
+class="math inline"><em>i</em></span>转移到状态<span
+class="math inline"><em>j</em></span>的概率。 <span
+class="math display"><em>p</em><sub><em>i</em><em>j</em></sub> = <em>p</em>(<em>X</em><sub><em>t</em></sub> = <em>j</em>|<em>X</em><sub><em>t</em> − 1</sub> = <em>i</em>)</span>
+当前时刻的状态无论处于哪一个状态，下一刻必然会转移到<span
+class="math inline"><em>m</em></span>中的某一个状态，即有等式约束：
+<span class="math display">$$
+\sum_{j=1}^{m}p_{ij}=1
+$$</span>
+对于状态连续的马尔可夫链，每个时刻各个状态的值由概率密度函数来描述，状态转移概率为条件密度函数。</p>
+<p><strong>时齐马尔可夫性</strong>：如果任何时刻状态转移概率是相同的，则称为时齐马尔可夫链(Time-homogeneous
+Markov chains)。此时只有一个状态转移矩阵，在各个时刻均适用。</p>
+<h3 id="例子">例子</h3>
+<p>给出某一个时刻的状态<span
+class="math inline"><strong>π</strong></span>为一个行向量，假设状态有<span
+class="math inline"><em>m</em></span>个，则向量<span
+class="math inline"><strong>π</strong></span>需要满足： <span
+class="math display">$$
+\sum_{i=1}^{m}\pi_i=1
+$$</span> 现在，如果令时刻<span
+class="math inline"><em>t</em></span>的状态为向量<span
+class="math inline"><strong>π</strong><sub><em>t</em></sub></span>，则可以根据前一个时刻的状态分布<span
+class="math inline"><strong>π</strong><sub><em>t</em> − 1</sub></span>，计算出当前时刻的状态分布<span
+class="math inline"><strong>π</strong><sub><em>t</em></sub></span>。由于状态转移矩阵的第<span
+class="math inline"><em>i</em></span>列表示从上一个时刻的各个状态状态转移到当前时刻的状态<span
+class="math inline"><em>i</em></span>的概率，根据全概率公式，<span
+class="math inline"><em>t</em></span>时刻的状态为<span
+class="math inline"><em>i</em></span>的概率为： <span
+class="math display">$$
+\pi_{t,i}=\sum_{j=1}^{m}p_{ij}\pi_{t-1,j}
+$$</span> 于是，对于所有状态，就可以写作矩阵形式为： <span
+class="math display"><em>π</em><sub><em>t</em></sub> = <strong>P</strong><em>π</em><sub><em>t</em> − 1</sub></span>
+反复利用该公式就可以得到: <span
+class="math display"><em>π</em><sub><em>t</em></sub> = <em>π</em><sub><em>t</em> − 1</sub><strong>P</strong> = <em>π</em><sub><em>t</em> − 1</sub><strong>P</strong><strong>P</strong> = ⋯ = <em>π</em><sub>0</sub><strong>P</strong><sup><em>t</em></sup></span>
+因此给定初始的状态分布<span
+class="math inline"><em>π</em><sub>0</sub></span>和状态转移矩阵<span
+class="math inline"><strong>P</strong></span>，就可以计算出任意时刻的状态概率分布，这里假设是时齐的，不然每一个时刻需要使用不同的状态转移矩阵。</p>
+<p>进一步的，我们可以定义n步转移概率为从状态<span
+class="math inline"><em>i</em></span>经过<span
+class="math inline"><em>n</em></span>转移到状态<span
+class="math inline"><em>j</em></span>的概率。记为： <span
+class="math display"><em>p</em><sub><em>i</em><em>j</em></sub><sup><em>n</em></sup> = <em>p</em>(<em>X</em><sub><em>n</em></sub> = <em>j</em>|<em>X</em><sub>0</sub> = <em>i</em>)</span>
+以及n步时齐的马尔科夫链的转移矩阵为： <span class="math display">$$
+P^n=\left[
+\begin{matrix}
+p_{11}^{(n)} &amp; p_{12}^{(n)} &amp; \cdots &amp; p_{1m}^{(n)} \\
+p_{21}^{(n)} &amp; p_{22}^{(n)} &amp; \cdots &amp; p_{2m}^{(n)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+p_{m1}^{(n)} &amp; p_{m2}^{(n)} &amp; \cdots &amp; p_{mm}^{(n)}
+\end{matrix}
+\right]
+$$</span> 特殊的，如果<span
+class="math inline"><em>n</em> = 1</span>，则就是状态转移矩阵。</p>
+<p>根据定义，<span
+class="math inline"><em>n</em></span>步转移概率满足<span
+class="math inline"><em>C</em><em>h</em><em>a</em><em>p</em><em>m</em><em>a</em><em>n</em> − <em>K</em><em>o</em><em>l</em><em>m</em><em>o</em><em>g</em><em>o</em><em>r</em><em>o</em><em>v</em><em>e</em><em>q</em><em>u</em><em>a</em><em>t</em><em>i</em><em>o</em><em>n</em><em>s</em></span>(简称CK方程)：
+<span class="math display">$$
+p_{ij}^{(n)}=\sum_{k=1}^{m}p_{ik}^{(l)}p_{kj}^{(n-l)}
+$$</span> 即从状态<span class="math inline"><em>i</em></span>经过<span
+class="math inline"><em>n</em></span>次转移进入状态<span
+class="math inline"><em>j</em></span>的概率，等于从状态<span
+class="math inline"><em>i</em></span>先经过<span
+class="math inline"><em>l</em></span>步转移到状态<span
+class="math inline"><em>k</em></span>，再乘以经过<span
+class="math inline">(<em>n</em> − <em>l</em>)</span>步转移到状态<span
+class="math inline"><em>j</em></span>的概率，并对所有的<span
+class="math inline"><em>k</em></span>求和。</p>
+<p>根据<span
+class="math inline"><em>C</em> − <em>K</em></span>方程，对于<span
+class="math inline"><em>n</em></span>步的转移矩阵，有如下的乘积关系：
+<span
+class="math display"><strong>P</strong><sup><em>n</em> + <em>l</em></sup> = <strong>P</strong><sup>(<em>n</em>)</sup><strong>P</strong><sup>(<em>l</em>)</sup></span>
+由此我们得到<span
+class="math inline"><strong>P</strong><sup><em>n</em></sup> = <strong>P</strong><sup>(<em>n</em>)</sup></span></p>
+<h2 id="马尔可夫链状态的性质">马尔可夫链状态的性质</h2>
+<p>实际上，并非每个状态经过转移后都可能会转移到另一个状态，因此我们说如果可以从状态<span
+class="math inline"><em>i</em></span>转移到<span
+class="math inline"><em>j</em></span>,即存在<span
+class="math inline"><em>n</em> ≥ 0</span>使得 <span
+class="math display"><em>p</em><sub><em>i</em><em>j</em></sub><sup>(<em>n</em>)</sup> &gt; 0</span>
+则称状态<span class="math inline"><em>i</em></span>到状态<span
+class="math inline"><em>j</em></span>是可达的，记作<span
+class="math inline"><em>i</em> → <em>j</em></span>. 如果<span
+class="math inline"><em>i</em> → <em>j</em></span>且<span
+class="math inline"><em>j</em> → <em>i</em></span>，则称这两个状态是互通的，记为<span
+class="math inline"><em>i</em> ↔︎ <em>j</em></span>。</p>
+<p><strong>互通具有自反性，对称性，传递性。因此，互通是第一种等价关系。所有互通的状态属于同一个等价类，可以按照互通性将所有状态划分分成若干个不相交的子集。</strong></p>
+<p>根据可约关系，如果一个马尔可夫链任意两个都是互通的，则称它是不可约的（irreducible），否则是可约的。</p>
+<h3 id="周期">周期</h3>
+<p>状态<span class="math inline"><em>i</em></span>的周期<span
+class="math inline"><em>d</em>(<em>i</em>)</span>定义为该状态出发，经过n步之后回到该状态，这些n的最大公约数。
+<span
+class="math display"><em>d</em>(<em>i</em>) = <em>g</em><em>c</em><em>d</em>{<em>n</em> &gt; 0 : <em>p</em><sub><em>i</em><em>i</em></sub><sup>(<em>n</em>)</sup> &gt; 0}</span>
+其中gcd为最大公约数。如果对所有<span
+class="math inline"><em>n</em> &gt; 0</span>都有<span
+class="math inline"><em>p</em><sub><em>i</em><em>i</em></sub><sup>(<em>n</em>)</sup> &gt; 0</span>，则称周期为无穷大<span
+class="math inline">(+∞)</span>。如果状态的周期<span
+class="math inline"><em>d</em>(<em>i</em>) &gt;  &gt; 1</span>,则称该状态是周期的。如果状态的周期为1，则它为非周期的。</p>
+<ul>
+<li>如果两个状态互通，则它们的周期相同。</li>
+</ul>
+<p><strong>推论</strong><br />
+1. 如果不可约的马尔可夫链有周期性状<span
+class="math inline"><em>i</em></span>，则其所有状态为周期性状态 2.
+对于不可约的马尔可夫链，如果一个状态<span
+class="math inline"><em>i</em></span>是非周期的，则所有的状态都是非周期的。</p>
+<p>令<span
+class="math inline"><em>f</em><sub><em>i</em><em>j</em></sub></span>表示从状态<span
+class="math inline"><em>i</em></span>出发迟早将转移状态<span
+class="math inline"><em>j</em></span>的概率。如果<span
+class="math inline"><em>i</em> ≠ <em>j</em></span>，当且仅当从<span
+class="math inline"><em>i</em></span>到<span
+class="math inline"><em>j</em></span>可达时<span
+class="math inline"><em>f</em><sub><em>i</em><em>j</em></sub></span>为正。<span
+class="math inline"><em>f</em><sub><em>i</em><em>i</em></sub></span>表示从状态<span
+class="math inline"><em>i</em></span>出发迟早会返回该状态的概率。<strong>如果<span
+class="math inline"><em>f</em><sub><em>i</em><em>i</em></sub> = 1</span>,则称状态<span
+class="math inline"><em>i</em></span>是常返的，否则是非常返的。</strong></p>
+<p><strong>推论</strong> - 如果<span
+class="math inline"><em>i</em></span>是常返的，且<span
+class="math inline"><em>i</em> ↔︎ <em>j</em></span>，则j是常返的。</p>
+<ul>
+<li>如果<span
+class="math inline"><em>i</em> ↔︎ <em>j</em></span>，且j是常返的，则<span
+class="math inline"><em>f</em><sub><em>i</em><em>j</em></sub> = 1</span>。</li>
+</ul>
+<h3 id="平稳分布与极限分布">平稳分布与极限分布</h3>
+<p>对于式子 <span
+class="math display"><em>π</em><sub><em>t</em></sub> = <em>π</em><sub><em>t</em> − 1</sub><strong>P</strong> = <em>π</em><sub><em>t</em> − 1</sub><strong>P</strong><strong>P</strong> = ⋯ = <em>π</em><sub>0</sub><strong>P</strong><sup><em>t</em></sup></span>
+可以发现一个有趣的性质，对于任意的初始状态分布，随着状态转移的进行，最后系统状态的概率分布趋向于一个稳定的值。<br />
+<strong>平稳分布</strong>：假设状态空间的大小为m，向量<span
+class="math inline"><em>π</em></span>为状态的概率分布。对状态转移矩阵<span
+class="math inline"><strong>P</strong></span>的马尔可夫链，如果存在一个概率分布<span
+class="math inline"><em>π</em></span>满足 <span
+class="math display"><em>π</em><strong>P</strong> = <em>π</em></span>
+则称此分布<span
+class="math inline"><em>π</em></span>为平稳分布。其意义为如果当前时刻的状态如果服从此分布，转移到下一时刻之后还服从此分布，因此称为“平稳”。</p>
+<p>平稳分布即为状态转移矩阵的转置矩阵<span
+class="math inline"><strong>P</strong><sup><em>T</em></sup></span>归一化的特征向量，且特征值为1。
+（其实就是为了符合特征向量左乘的定义） <span
+class="math display">(<em>π</em><strong>P</strong>)<sup><em>T</em></sup> = <strong>P</strong><sup><em>T</em></sup><em>π</em><sup><em>T</em></sup> = <em>π</em><sup><em>T</em></sup></span></p>
+<p><strong>那么，给定一个状态转移矩阵<span
+class="math inline"><strong>P</strong></span>，就可以通过求解特征方程来得到对应的平稳分布</strong></p>
+<p>⚠️注意：并非所有的马尔可夫链都存在平稳分布且唯一。</p>
+<h2 id="马尔可夫性质的应用">马尔可夫性质的应用</h2>
+<h3 id="细致平稳条件">细致平稳条件</h3>
+<p>某些应用需要在给定状态概率分布<span
+class="math inline"><em>π</em></span>的条件下构造出一个马尔可夫链，即构造出一个状态转移矩阵<span
+class="math inline"><strong>P</strong></span>，使其平稳分布是<span
+class="math inline"><em>π</em></span>。<strong>细致平稳条件</strong>就是解决此问题的一种办法。
+<span
+class="math display"><em>π</em><sub><em>i</em></sub><em>p</em><sub><em>i</em><em>j</em></sub> = <em>π</em><sub><em>j</em></sub><em>p</em><sub><em>j</em><em>i</em></sub></span></p>
+<p>即对于<span
+class="math inline">∀<em>i</em>, <em>j</em></span>,处于状态<span
+class="math inline"><em>i</em></span>的概率乘以从状态<span
+class="math inline"><em>i</em></span>转移到状态<span
+class="math inline"><em>j</em></span>的概率等于处于状态<span
+class="math inline"><em>j</em></span>的概率乘以从状态<span
+class="math inline"><em>j</em></span>转移到状态<span
+class="math inline"><em>i</em></span>到概率，则<span
+class="math inline"><em>π</em></span>为马尔可夫链的平稳分布。</p>
+<p>式子(2)称为<strong>细致平稳条件</strong>。</p>
+<p>！注意， <span class="math inline"><strong>P</strong></span>和<span
+class="math inline"><em>π</em></span>满足细致平衡条件是<span
+class="math inline"><em>π</em></span>为<span
+class="math inline"><strong>P</strong></span>的平稳分布的充分条件而非必要条件。</p>
+<pre><code class="hljs">直观上来说，平稳分布意味着对于任意一个状态，从所有状态转入到该状态的概率值与从状态的概率值相等（即从该状态转出去的概率值）。而细致平衡条件显然是一个更严格的要求，要求对任意的两个状态i与j，从i转入到j到概率和从j转入到i的概率相等。</code></pre>
+<h3 id="隐式马尔可夫模型">隐式马尔可夫模型</h3>
+<p>在一些实际应用中并不能直接观察得到系统的状态值，状态的值是隐含的，只能得到一组称为观测的值。隐式马尔可夫模型就是描述了观测变量与状态变量之间的概率关系。</p>
+<p>定义观测序列：<br />
+<span
+class="math display"><strong>x</strong> = <em>x</em><sub>1</sub>, ⋯, <em>x</em><sub><em>T</em></sub></span>
+它是能够直接观察或者计算得到的值，是一个随机变量序列。任何一时刻的观测值都来自有限的观测集
+<span
+class="math display"><em>V</em> = <em>v</em><sub>1</sub>, ⋯, <em>v</em><sub><em>m</em></sub></span>
+定义状态序列 <span
+class="math display"><strong>z</strong> = <em>z</em><sub>1</sub>, ⋯, <em>z</em><sub><em>T</em></sub></span>
+状态序列也是一个随机变量序列。任意时刻的状态值也来自有限的状态集 <span
+class="math display"><em>S</em> = <em>s</em><sub>1</sub>, ⋯, <em>s</em><sub><em>n</em></sub></span></p>
+<p>状态序列是一个马尔可夫链，其状态转移矩阵为<span
+class="math inline"><strong>A</strong></span>。状态随着时间演化，每个时刻的状态值决定了观测值。</p>
+<p>例子：</p>
+<pre><code class="hljs">    假如要识别一个视频里的人的各种动作，那么状态即为要识别的动作，例如站立、坐下和行走等，在进行识别之前无法得知其值。观测是能够直接得到的值，如人体身上各个关键点点坐标，隐式马尔可夫模型通过观测值来推断状态值，从而识别出动作。</code></pre>
+<figure>
+<img src="/img/pics/markov/hmm.png" srcset="/img/loading.gif" lazyload alt="hmm" />
+<figcaption aria-hidden="true">hmm</figcaption>
+</figure>
+<p>除了状态转移矩阵外，隐式马尔可夫模型还有观测矩阵<span
+class="math inline"><strong>B</strong></span>，其元素为： <span
+class="math display"><em>b</em><sub><em>i</em><em>j</em></sub> = <em>p</em>(<em>x</em><sub><em>t</em></sub> = <em>v</em><sub><em>j</em></sub>|<em>z</em><sub><em>t</em></sub> = <em>s</em><sub><em>i</em></sub>)</span>
+该值表示t时刻状态值为<span
+class="math inline"><em>s</em><sub><em>i</em></sub></span>时观测值为<span
+class="math inline"><em>v</em><sub><em>j</em></sub></span>的概率。观测矩阵的第i行是状态为<span
+class="math inline"><em>s</em><sub><em>i</em></sub></span>时观测值为各个值的概率分布。那么，假设初始状态分布的概率分布为<span
+class="math inline"><em>π</em></span>，隐马尔可夫模型可以表示为五元组：
+<span
+class="math display">{<em>S</em>, <em>V</em>, <em>π</em>, <strong>A</strong>, <strong>B</strong>}</span>
+<strong>实际应用中，一般假设状态转移矩阵<span
+class="math inline"><strong>A</strong></span>和观测矩阵<span
+class="math inline"><strong>B</strong></span>在任何时刻都是相同的，即与时间无关，马尔可夫是时齐的，从而简化问题的计算难度</strong></p>
+<p>作为一个例子：</p>
+<pre><code class="hljs">假设我们无法得知天气的情况，但能得知一个人在各种天气下的活动情况，&#123;睡觉、跑步、逛街&#125;，那么天气在这个问题中就是状态值，而活动就是观测值。</code></pre>
+<p>在隐马尔可夫模型中，状态和观测是根据实际问题人工设定的；状态转移矩阵和观测矩阵通过样本学习得到。在给定观测序列<span
+class="math inline"><strong>x</strong></span>的条件下，可以通过计算出状态序列<span
+class="math inline"><strong>z</strong></span>出现的概率即条件概率<span
+class="math inline"><em>p</em>(<strong>z</strong>|<strong>x</strong>)</span>。</p>
+<p>观测序列的产生过程为：系统在1时刻处于状态<span
+class="math inline"><em>z</em><sub>1</sub></span>，在该状态下得到观测值为<span
+class="math inline"><em>x</em><sub>1</sub></span>。接下来从<span
+class="math inline"><em>z</em><sub>1</sub></span>转移到<span
+class="math inline"><em>z</em><sub>2</sub></span>，并在此状态下得到观测值<span
+class="math inline"><em>x</em><sub>2</sub></span>。以此类推，得到整个观测序列。由于每一时刻的观测值只依赖于本时刻的状态值，因此当出现状态序列<span
+class="math inline"><strong>z</strong></span>的时候观测序列为<span
+class="math inline"><strong>x</strong></span>的概率为： <span
+class="math display">$$
+\begin{align}
+p(\mathbf{z},\mathbf{x}) &amp;= p(\mathbf{z})p(\mathbf{z}|\mathbf{x}) \\
+&amp;= p(z_{T}|z_{T-1})p(z_{T-1}|z_{T-2})\cdots p(z_{1}|z_{0}) \\
+&amp;\quad \times p(x_{T}|z_{T})p(x_{T-1}|z_{T-1})\cdots
+p(x_{1}|z_{1})\\
+&amp;= (\prod_{t=1}^{T} a_{z_{t-1}z_t}) \times \prod_{t=1}^{T} b_{z_t
+x_t} \\
+\end{align}
+$$</span> 其中，约定<span
+class="math inline"><em>p</em>(<em>z</em><sub>1</sub>|<em>z</em><sub>0</sub>) = <em>p</em>(<em>z</em><sub>1</sub>)</span>为状态的初始概率。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6/" class="category-chain-item">数学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%EF%BC%8C%E6%95%B0%E5%AD%A6/" class="print-no-link">#概率论与数理统计，数学</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/03/loki/" title="Grafana Loki 介绍和使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Grafana Loki 介绍和使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/03/maximum-entropy/" title="统计学习基础">
+                        <span class="hidden-mobile">统计学习基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
