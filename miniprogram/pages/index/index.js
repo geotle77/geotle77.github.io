@@ -34,15 +34,28 @@ Page({
     onPostTap: function (e) {
         const post = e.currentTarget.dataset.post;
         getApp().globalData.posts = this.data.posts;
-        const index = e.currentTarget.dataset.index;
+        const slug = e.currentTarget.dataset.post.slug;
 
         wx.navigateTo({
-            url: `../post/post?index=${index}`
+            url: `../post/post?slug=${slug}`
         });
     },
 
     onPullDownRefresh: function () {
         this.onLoad();
         wx.stopPullDownRefresh();
+    },
+
+    onShareAppMessage: function () {
+        return {
+            title: "geotle77's Blog",
+            path: '/pages/index/index'
+        }
+    },
+
+    onShareTimeline: function () {
+        return {
+            title: "geotle77's Blog"
+        }
     }
 });
