@@ -1,7 +1,6 @@
 ---
 title: 线性代数及其应用
 tags: 线性代数
-sticky: 99
 date: 2025-10-03 22:39:12
 index_img: /img/index_img/liner_algebra.png
 categories: 数学
