@@ -19,16 +19,16 @@
   <meta name="author" content="geotle77">
   <meta name="keywords" content="">
   
-    <meta name="description" content="马尔可夫决策过程 强化学习的基础算法之一就是马尔可夫决策过程（Markov Decision Process, MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。其核心思想是，智能体的下一步状态仅取决于当前状态和所采取的动作，">
+    <meta name="description" content="马尔可夫决策过程 强化学习的基础算法之一就是马尔可夫决策过程（Markov Decision Process, MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="马尔可夫决策过程">
+<meta property="og:title" content="强化学习——马尔可夫决策过程">
 <meta property="og:url" content="https://geotle77.github.io/2025/12/07/MDP/index.html">
 <meta property="og:site_name" content="geotle77&#39;s Blog">
-<meta property="og:description" content="马尔可夫决策过程 强化学习的基础算法之一就是马尔可夫决策过程（Markov Decision Process, MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。其核心思想是，智能体的下一步状态仅取决于当前状态和所采取的动作，">
+<meta property="og:description" content="马尔可夫决策过程 强化学习的基础算法之一就是马尔可夫决策过程（Markov Decision Process, MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://geotle77.github.io/img/index_img/MDP.png">
 <meta property="article:published_time" content="2025-12-07T06:27:43.000Z">
-<meta property="article:modified_time" content="2025-12-07T14:44:37.124Z">
+<meta property="article:modified_time" content="2025-12-10T12:08:14.972Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="强化学习,MDP">
 <meta name="twitter:card" content="summary_large_image">
@@ -36,7 +36,7 @@
   
   
   
-  <title>马尔可夫决策过程 - geotle77&#39;s Blog</title>
+  <title>强化学习——马尔可夫决策过程 - geotle77&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="马尔可夫决策过程"></span>
+            <span id="subtitle" data-typed-text="强化学习——马尔可夫决策过程"></span>
           
         </div>
 
@@ -300,14 +300,15 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">马尔可夫决策过程</h1>
+            <h1 id="seo-header">强化学习——马尔可夫决策过程</h1>
             
             
               <div class="markdown-body">
                 
                 <h1 id="马尔可夫决策过程">马尔可夫决策过程</h1>
 <p>强化学习的基础算法之一就是马尔可夫决策过程（Markov Decision Process,
-MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。其核心思想是，<strong>智能体的下一步状态仅取决于当前状态和所采取的动作，满足马尔可夫性质，目标是找到一个策略来最大化累积奖励</strong></p>
+MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。
+<span id="more"></span>其核心思想是，<strong>智能体的下一步状态仅取决于当前状态和所采取的动作，满足马尔可夫性质，目标是找到一个策略来最大化累积奖励</strong></p>
 <img src="/img/pics/MDP/Markov_Decision_Process.png" srcset="/img/loading.gif" lazyload class="" title="马尔可夫决策过程">
 <h2 id="背景知识">背景知识</h2>
 <p>概率论的研究对象是静态的随机现象，而随机过程的研究对象是随时间演变的随机现象（例如天气随时间的变化、城市交通随时间的变化）。在随机过程中，随机现象在某时刻的取值是一个向量随机变量，用<span
@@ -875,6 +876,12 @@ class="footnote-text"><span>《动手学强化学习》<a class="btn" href="http
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/12/10/DP/" title="强化学习——动态规划">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强化学习——动态规划</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

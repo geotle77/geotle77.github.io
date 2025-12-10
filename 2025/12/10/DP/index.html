@@ -1,0 +1,966 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="动态规划算法 动态规划（dynamic programming）是程序设计算法中非常重要的内容，它的基本思想是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到目标问题的解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习——动态规划">
+<meta property="og:url" content="https://geotle77.github.io/2025/12/10/DP/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="动态规划算法 动态规划（dynamic programming）是程序设计算法中非常重要的内容，它的基本思想是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到目标问题的解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://geotle77.github.io/img/index_img/DP.png">
+<meta property="article:published_time" content="2025-12-10T07:41:51.000Z">
+<meta property="article:modified_time" content="2025-12-10T12:08:00.088Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="强化学习,动态规划">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://geotle77.github.io/img/index_img/DP.png">
+  
+  
+  
+  <title>强化学习——动态规划 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="强化学习——动态规划"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-10 15:41" pubdate>
+          2025年12月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">强化学习——动态规划</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="动态规划算法">动态规划算法</h1>
+<p>动态规划（dynamic
+programming）是程序设计算法中非常重要的内容，它的基本思想是<strong>将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到目标问题的解</strong>。</p>
+<span id="more"></span>
+<p>通常许多子问题非常相似，为此动态规划法试图仅仅解决每个子问题一次，从而减少计算量：一旦某个给定子问题的解已经算出，则将其记忆化存储，以便下次需要同一个子问题解之时直接查表。这种做法在重复子问题的数目关于输入的规模呈指数增长时特别有用。</p>
+<p>动态规划算法能够工作有一个极其重要的前提：<strong>完全已知的环境（Model-Based）</strong>，这意味着智能体（Agent）必须知道：</p>
+<ul>
+<li>所有的状态（States）。</li>
+<li>所有的动作（Actions）。</li>
+<li>状态转移概率：如果在状态 A 做动作 B，有百分之多少的概率通过跳到状态
+C？</li>
+<li>奖励函数：每一步会得到多少具体的分数？</li>
+</ul>
+<p>因为所有的规则都已知，DP
+不需要去真实环境中冒险，它只需要在脑子里（计算机内存中）进行推演计算。</p>
+<h2 id="策略评估">策略评估</h2>
+<p>策略评估的任务是针对一个给定的策略<span
+class="math inline"><em>π</em></span>，计算出该策略的状态价值函数<span
+class="math inline"><em>V</em><sup><em>π</em></sup>(<em>s</em>)</span>。为了计算这个策略的状态价值函数，我们可以使用动态规划算法。首先我们回忆一下马尔可夫决策过程中提到的贝尔曼期望方程：</p>
+<p><span class="math display">$$
+\begin{align*}
+V^{\pi}(s) = \sum_{a \in \mathcal{A}} \pi(a|s)Q^{\pi}(s,a)
+\end{align*}
+$$</span></p>
+<p>其中，<span
+class="math inline"><em>V</em><sup><em>π</em></sup>(<em>s</em>)</span>是状态<span
+class="math inline"><em>s</em></span>的价值，<span
+class="math inline"><em>π</em></span>是策略，<span
+class="math inline"><em>Q</em><sup><em>π</em></sup>(<em>s</em>, <em>a</em>)</span>是状态<span
+class="math inline"><em>s</em></span>下动作<span
+class="math inline"><em>a</em></span>的价值。使用策略时，状态下采取动作的价值等于即时奖励加上经过衰减后的所有可能的下一个状态的状态转移概率与相应的价值的乘积：</p>
+<p><span class="math display">$$
+\begin{align*}
+Q^{\pi}(s,a) = r(s,a) + \gamma \sum_{s' \in \mathcal{S}} P(s'|s,a)
+V^{\pi}(s')
+\end{align*}
+$$</span> 那么，价值函数就可以写为：</p>
+<p><span class="math display">$$
+\begin{align*}
+V^{\pi}(s) = \sum_{a \in \mathcal{A}} \pi(a|s) \left( r(s,a) + \gamma
+\sum_{s' \in \mathcal{S}} P(s'|s,a) V^{\pi}(s') \right)
+\end{align*}
+$$</span>
+根据这个式子，<strong>当知道奖励函数和状态转移函数时，我们可以根据下一个状态的价值来计算当前状态的价值</strong>。因此，根据动态规划的思想，可以把计算下一个可能状态的价值当成一个子问题，把计算当前状态的价值看作当前问题。在得知子问题的解后，就可以求解当前问题。更一般的，考虑所有的状态，就变成了用上一轮的状态价值函数来计算当前这一轮的状态价值函数，即:</p>
+<p><span class="math display">$$
+\begin{align*}
+V_{k+1}(s) = \sum_{a \in \mathcal{A}} \pi(a|s) \left( r(s,a) + \gamma
+\sum_{s' \in \mathcal{S}} P(s'|s,a) V_{k}(s') \right)
+\end{align*}
+$$</span></p>
+<p>其中，<span
+class="math inline"><em>V</em><sub><em>k</em></sub>(<em>s</em>)</span>是第<span
+class="math inline"><em>k</em></span>轮的状态价值函数，<span
+class="math inline"><em>V</em><sub><em>k</em> + 1</sub>(<em>s</em>)</span>是第<span
+class="math inline"><em>k</em> + 1</span>轮的状态价值函数。这个式子就是策略评估的贝尔曼期望方程。我们可以以任意初始值<span
+class="math inline"><em>V</em><sub>0</sub>(<em>s</em>)</span>开始，反复使用这个贝尔曼期望方程更新价值函数，直到价值函数收敛到<span
+class="math inline"><em>V</em><sup><em>π</em></sup>(<em>s</em>)</span>。这就是<strong>策略评估</strong>的过程。</p>
+<p>简单来说，无论初始值 <span
+class="math inline"><em>V</em><sup>0</sup></span>
+设置得多么离谱（全是0，或者全是随机乱数），策略评估之所以一定能收敛到真实的
+<span
+class="math inline"><em>V</em><sup><em>π</em></sup></span>，是因为背后的数学机制保证了每一次迭代，估计值和真实值之间的“距离”都会被迫缩小。这个数学机制被称为
+<strong>压缩映射（Contraction Mapping）</strong>，它基于
+<strong>巴拿赫不动点定理（Banach Fixed Point Theorem）</strong>。</p>
+
+    <div class="fold">
+      <div class="fold-title fold-info collapsed" data-toggle="collapse" href="#collapse-330eb0ec" role="button" aria-expanded="false" aria-controls="collapse-330eb0ec">
+        <div class="fold-arrow">▶</div>原理解释
+      </div>
+      <div class="fold-collapse collapse" id="collapse-330eb0ec">
+        <div class="fold-content">
+          <p>折扣因子 <span class="math inline"><em>γ</em></span> 通常是一个介于<span class="math inline">0</span> 到 <span class="math inline">1</span>之间的数（例如0.9）。它的存在不仅仅是为了表达“未来的奖励不如现在值钱”，在数学计算上，它起到了<strong>“压缩”</strong>的作用。具体来说，<spanclass="math inline"><em>V</em><sub><em>t</em><em>r</em><em>u</em><em>e</em></sub></span>是我们要找的目标（真实的 <spanclass="math inline"><em>V</em><sup><em>π</em></sup></span>），而 <spanclass="math inline"><em>V</em><sub><em>k</em></sub></span>是我们当前的猜测。它们之间有一个误差（Error），即距离 <spanclass="math inline"><em>D</em> = ||<em>V</em><sub><em>k</em></sub> − <em>V</em><sub><em>t</em><em>r</em><em>u</em><em>e</em></sub>||<sub>∞</sub></span>（最大范数距离）。当我们进行一次迭代更新（即用<span class="math inline"><em>V</em><sup><em>k</em></sup></span> 算出<spanclass="math inline"><em>V</em><sup><em>k</em> + 1</sup></span>）时，数学上可以证明：<spanclass="math inline"><em>e</em><em>r</em><em>r</em><em>o</em><em>r</em><sub><em>n</em><em>e</em><em>w</em></sub> ≤ <em>γ</em> × <em>e</em><em>r</em><em>r</em><em>o</em><em>r</em><sub><em>o</em><em>l</em><em>d</em></sub></span></p><p>只要 <span class="math inline"><em>γ</em> &lt; 1</span>，随着迭代次数<span class="math inline"><em>k</em> → ∞</span>，这个误差项 <spanclass="math inline"><em>γ</em><sup><em>k</em></sup></span> 必定趋向于0。根据巴拿赫不动点定理 (Banach Fixed Point Theorem) ， <spanclass="math inline"><em>V</em><sup><em>π</em></sup></span>是更新公式的一个 “不动点 (fixed point)”。</p><blockquote><p>不动点的定义：<strong>如果一个函数（或算子）<spanclass="math inline"><em>T</em></span>，使得 <spanclass="math inline"><em>x</em> = <em>T</em>(<em>x</em>)</span>，那么<span class="math inline"><em>x</em></span> 就是不动点。当 <spanclass="math inline"><em>V</em></span> 收敛到 <spanclass="math inline"><em>V</em><sup><em>π</em></sup></span>时，再代入公式计算，结果还是 <spanclass="math inline"><em>V</em><sup><em>π</em></sup></span>，所以它是不动点。</strong></p></blockquote><p>定理的保证：在一个完备的空间里，只要一个算子是“压缩映射”（即它能让任意两点间的距离变小），那么这个算子一定存在一个不动点。这个不动点是唯一的（不会收敛到别的地方去）。无论从哪里开始迭代（任意初始值<spanclass="math inline"><em>V</em><sup>0</sup></span>），最终都一定会收敛到这个不动点。</p><p>总之，由于贝尔曼期望方程定义了一个压缩映射算子，折扣因子 <spanclass="math inline"><em>γ</em> &lt; 1</span>强制每次迭代都消除掉一部分误差，不动点定理从数学上锁死了最终的结局——只能是那个唯一的真实价值<spanclass="math inline"><em>V</em><sup><em>π</em></sup></span>。所以，实际上，可以证明当<span class="math inline"><em>k</em> → ∞</span> 时，序列 <spanclass="math inline">{<em>V</em><sup><em>k</em></sup>}</span> 会收敛到<span class="math inline"><em>V</em><sup><em>π</em></sup></span>。</p>
+        </div>
+      </div>
+    </div>
+<p>因此，我们可以选定任意初始值<span
+class="math inline"><em>V</em><sup>0</sup></span>。根据贝尔曼期望方程，可以得知是以上更新公式的一个不动点（fixed
+point）。事实上，可以证明当$k<span
+class="math inline"><em>时</em>，<em>序</em><em>列</em></span>{V<sup>k}<span
+class="math inline"><em>会</em><em>收</em><em>敛</em><em>到</em></span>V</sup><span
+class="math inline">，<em>所</em><em>以</em><em>可</em><em>以</em><em>据</em><em>此</em><em>来</em><em>计</em><em>算</em><em>得</em><em>到</em><em>一</em><em>个</em><em>策</em><em>略</em><em>的</em><em>状</em><em>态</em><em>价</em><em>值</em><em>函</em><em>数</em>。<em>可</em><em>以</em><em>看</em><em>到</em>，<em>由</em><em>于</em><em>需</em><em>要</em><em>不</em><em>断</em><em>做</em><em>贝</em><em>尔</em><em>曼</em><em>期</em><em>望</em><em>方</em><em>程</em><em>迭</em><em>代</em>，<em>策</em><em>略</em><em>评</em><em>估</em><em>其</em><em>实</em><em>会</em><em>耗</em><em>费</em><em>很</em><em>大</em><em>的</em><em>计</em><em>算</em><em>代</em><em>价</em>。<em>在</em><em>实</em><em>际</em><em>的</em><em>实</em><em>现</em><em>过</em><em>程</em><em>中</em>，<em>如</em><em>果</em><em>某</em><em>一</em><em>轮</em></span>max_{s
+} |V^{k+1}(s) -
+V^k(s)|$的值非常小，可以提前结束策略评估。这样做可以提升效率，并且得到的价值也非常接近真实的价值。</p>
+<h2 id="策略提升">策略提升</h2>
+<p>由上述内容可知，使用策略评估计算得到当前策略的状态价值函数之后，我们可以据此来改进该策略。如果我们已经知道在某策略
+<span class="math inline"><em>π</em></span> 下每个状态的“真实价值” <span
+class="math inline"><em>V</em><sup><em>π</em></sup>(<em>s</em>)</span>，那么我们当然可以选择更优的动作去提高长期回报。换句话说：<strong>策略提升就是：在每个状态选择“当前看来最好的动作”。</strong></p>
+<p>策略提升的核心思想是贪心选择 (Greedy
+Action)，本质是单步前瞻（One-step lookahead）。假设你站在状态 <span
+class="math inline"><em>s</em></span>，原来的策略告诉你该往左走。但是你手里有了“地图价值表”（<span
+class="math inline"><em>V</em><sup><em>π</em></sup></span>），通过计算发现：如果往左走（老策略），期望回报是
+10
+分。如果往右走（新尝试），这一步的即时奖励加上跳到的下一个状态的价值，期望回报是
+12 分。策略提升的逻辑就是： 既然往右走期望更高，那我以后在这个状态 <span
+class="math inline"><em>s</em></span> 就永久改成往右走！</p>
+<p>具体数学公式我们要计算在状态 <span
+class="math inline"><em>s</em></span> 下，做动作 <span
+class="math inline"><em>a</em></span> 的动作价值（也就是 <span
+class="math inline"><em>Q</em></span> 值，但这里我们用 <span
+class="math inline"><em>V</em></span> 来推导）：</p>
+<p><span class="math display">$$
+\begin{align*}
+Q^\pi(s, a) = R(s, a) + \gamma \sum_{s'} P(s'|s, a) V^\pi(s')
+\end{align*}
+$$</span></p>
+<p>其中，<span
+class="math inline"><em>R</em>(<em>s</em>, <em>a</em>)</span>：这一步立马拿到的奖励。<span
+class="math inline"><em>γ</em>∑<em>P</em>(...)<em>V</em><sup><em>π</em></sup>(<em>s</em><sup>′</sup>)</span>：跳到下一个状态
+<span class="math inline"><em>s</em><sup>′</sup></span> 后，旧策略 <span
+class="math inline"><em>π</em></span> 在未来的价值期望。新策略 <span
+class="math inline"><em>π</em><sup>′</sup>(<em>s</em>)</span>
+的定义为：<span class="math display">$$\pi'(s) =
+\underset{a}{\text{argmax}} \ Q^\pi(s, a)$$</span>也就是说，新策略在状态
+<span class="math inline"><em>s</em></span> 只有一种选择：选那个能让
+<span
+class="math inline"><em>Q</em><sup><em>π</em></sup>(<em>s</em>, <em>a</em>)</span>
+最大的动作 <span
+class="math inline"><em>a</em></span>。这个根据贪心法选取动作从而得到新的策略的过程称为策略提升。当策略提升之后得到的策略<span
+class="math inline"><em>π</em><sup>′</sup></span>和之前的策略<span
+class="math inline"><em>π</em></span>一样时，说明策略迭代达到了收敛，此时<span
+class="math inline"><em>π</em><sup>′</sup></span>就是最优策略。</p>
+<p>现在假设存在一个确定性策略<span
+class="math inline"><em>π</em><sup>′</sup></span>,策略提升定理的证明通过以下推导过程可以证明，使用上述提升公式得到的新策略在每个状态的价值不低于原策略在该状态的价值。</p>
+<p><span class="math display">$$
+\begin{align*}
+V^\pi(s)&amp;\leq Q^\pi(s,\pi'(s))\\
+&amp;=\mathbb{E}_{\pi'}[R_{t} + \gamma V^\pi(S_{t+1})|S_t=s]\\
+&amp;\leq\mathbb{E}_{\pi'}[R_{t} + \gamma
+Q^\pi(S_{t+1},\pi'({S_{t+1}}))|S_t=s]\\
+&amp;=\mathbb{E}_{\pi'}[R_{t} + \gamma R_{t+1} + \gamma^2
+V^\pi(S_{t+2})|S_t=s]\\
+&amp;\vdots\\
+&amp;\leq \mathbb{E}_{\pi'}[R_{t} + \gamma R_{t+1} + \gamma^2 R_{t+2} +
+\cdots |S_t=s]\\
+&amp;=V^{\pi'}(s)
+\end{align*}
+$$</span></p>
+<p>因此，使用策略提升公式得到的新策略在每个状态的价值不低于原策略在该状态的价值。</p>
+<h3 id="流程">流程</h3>
+<p>策略提升的完整流程结合策略评估，策略提升通常发生在这样一个循环中（这被称为策略迭代
+Policy Iteration）： - 输入： - 当前环境模型（状态转移概率 <span
+class="math inline"><em>P</em></span>，奖励 <span
+class="math inline"><em>R</em></span>）。 - 刚刚评估好的状态价值函数
+<span class="math inline"><em>V</em><sup><em>π</em></sup></span>。 -
+当前策略 <span class="math inline"><em>π</em></span>。 -
+遍历所有状态（对于每一个 <span
+class="math inline"><em>s</em> ∈ <em>S</em></span>）： -
+计算候选值：对于该状态下所有可能的动作 <span
+class="math inline"><em>a</em></span>，计算 <span
+class="math inline"><em>Q</em>(<em>s</em>, <em>a</em>) = <em>R</em> + <em>γ</em>∑<em>P</em><em>V</em></span>。
+- 比较：看看哪个动作 <span class="math inline"><em>a</em></span> 得到的
+<span class="math inline"><em>Q</em></span> 值最大。 - 更新策略：把策略
+<span class="math inline"><em>π</em>(<em>s</em>)</span>
+更新为这个产生最大值的动作。 -
+判定：如果在所有状态下，新选出的动作和老策略的动作一模一样（即策略稳定了，不再变了）。
+- 结束：此时的策略就是最优策略 <span
+class="math inline"><em>π</em><sup>*</sup></span>。 - 否则：把这个新策略
+<span class="math inline"><em>π</em><sup>′</sup></span>
+当作“当前策略”，拿回去重新做“策略评估”，如此往复。</p>
+<p><img src="/img/pics/DP/mc8.png" srcset="/img/loading.gif" lazyload class="" title="策略迭代"></p>
+<h2 id="价值迭代算法">价值迭代算法</h2>
+<p>策略迭代中的策略评估需要进行很多轮才能收敛得到某一策略的状态函数，这需要很大的计算量，尤其是在状态和动作空间比较大的情况下。在策略评估（Policy
+Evaluation）步骤中，需要 对所有状态反复迭代 到收敛，才能得到 <span
+class="math inline"><em>V</em><sup><em>π</em></sup></span>。</p>
+<p>这个步骤非常昂贵，尤其当： - 状态空间大（典型 MDP
+的状态数可能上万、百万） - 策略评估每次都要遍历所有状态</p>
+<p>为了理解这一点，我们回顾一下<strong>策略迭代（PI）</strong>的流程，它像是一个“双层循环”：
+- 外层循环：策略提升（改变动作）。 -
+内层循环：策略评估（为了算准当前策略的分数，需要不断迭代直到收敛）。
+<div class="note note-info">
+            <p>在策略迭代中，每次更新了策略后，我们都要进行无数次迭代，直到把 <spanclass="math inline"><em>V</em><sup><em>π</em></sup></span>算得极其精确（收敛到小数点后很多位），才肯进行下一次策略提升。但在实际操作中，我们发现这是浪费的：假设在某个状态，动作A 的价值是 100，动作 B 的价值是 10。其实你只需要算出 A 大概是 90，B大概是 20，你就已经知道“选 A 更好”了。你根本不需要等到 A 算出100.0001、B 算出 10.0001时才做决定。因此策略评估中的过度精确计算，对于“选择最优动作”这一目的来说，往往是非必须且浪费算力的。</p>
+          </div>
+价值迭代算法提出了一种简化的策略评估方法，它假设在策略评估步骤中，状态价值函数在每次迭代中只更新一次，然后直接根据更新后的价值进行策略提升。具体来说，价值迭代算法在策略评估步骤中，只进行一轮价值更新，然后直接根据更新后的价值进行策略提升。这样就可以大大减少计算量，尤其是在状态和动作空间比较大的情况下。</p>
+<p>在策略评估阶段，只算一步（或者几步），就立刻进行策略提升（取最大值）。这就相当于把策略迭代的两个步骤“揉”成了一步：</p>
+<p>A. 数学上的改变</p>
+<ul>
+<li>策略评估（PI）用的是： 贝尔曼期望方程（Bellman Expectation
+Equation）。它计算的是“在当前策略下”的平均值。 <span
+class="math display">$$
+\begin{align*}
+V(s) \leftarrow \sum_a \pi(a|s) (R + \gamma \sum V(s')
+\end{align*}
+$$</span></li>
+<li>价值迭代（VI）用的是： 贝尔曼最优方程（Bellman Optimality
+Equation）。它直接计算“最优动作”带来的价值。 <span
+class="math display">$$
+\begin{align*}
+V(s) \leftarrow \max_a (R + \gamma \sum V(s')
+\end{align*}
+$$</span></li>
+</ul>
+<p>B. 流程上的改变</p>
+<ul>
+<li>价值迭代不再维护一个显式的“策略 <span
+class="math inline"><em>π</em></span>”，它只维护价值函数 <span
+class="math inline"><em>V</em></span>。扫描每一个状态 <span
+class="math inline"><em>s</em></span>。不看当前策略，直接看所有可能的动作
+<span class="math inline"><em>a</em></span>。直接挑选那个让 <span
+class="math inline"><em>Q</em>(<em>s</em>, <em>a</em>)</span>
+最大的动作，用它的值来更新 <span
+class="math inline"><em>V</em>(<em>s</em>)</span>。这相当于：刚做了一次评估，马上就做了一次贪心提升。</li>
+</ul>
+<p>将其中的贝尔曼最优方程写成迭代更新的形式： <span
+class="math display">$$
+\begin{align*}
+V^{k+1}(s)  = \max_{a \in \mathcal{A}} \{r(s,a) + \gamma \sum P(s'|s,a)
+V^{k}(s')\}
+\end{align*}
+$$</span> 价值迭代便是按照以上更新方式进行的。等到<span
+class="math inline"><em>V</em><sup><em>k</em> + 1</sup></span>和<span
+class="math inline"><em>V</em><sup><em>k</em></sup></span>相同时，它就是贝尔曼最优方程的不动点，此时对应着最优状态价值函数<span
+class="math inline"><em>V</em><sup>*</sup></span>。然后我们利用<span
+class="math inline"><em>π</em>(<em>s</em>) = <em>a</em><em>r</em><em>g</em>max<sub><em>a</em> ∈ 𝒜</sub>{<em>r</em>(<em>s</em>, <em>a</em>) + <em>γ</em>∑<em>P</em>(<em>s</em><sup>′</sup>|<em>s</em>, <em>a</em>)<em>V</em><sup><em>k</em> + 1</sup>(<em>s</em><sup>′</sup>)}</span>，从中恢复出最优策略即可。</p>
+<figure class="highlight python"><figcaption><span>价值迭代算法 [lang:python] [url]</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># --- 1. 价值迭代算法 (复用之前的逻辑) ---</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_value_iteration</span>(<span class="hljs-params">n_states, n_actions, R, P, gamma, threshold=<span class="hljs-number">0.1</span></span>):<br>    V = np.zeros(n_states)<br>    i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        V_new = np.zeros(n_states)<br>        <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n_states):<br>            q_values = []<br>            <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n_actions):<br>                <span class="hljs-comment"># 计算 Q 值</span><br>                val = R[s, a] + gamma * np.<span class="hljs-built_in">sum</span>(P[s, a] * V)<br>                q_values.append(val)<br>            <span class="hljs-comment"># 贪心更新 V</span><br>            V_new[s] = <span class="hljs-built_in">max</span>(q_values)<br>        <br>        <span class="hljs-comment"># 检查收敛</span><br>        <span class="hljs-keyword">if</span> np.<span class="hljs-built_in">max</span>(np.<span class="hljs-built_in">abs</span>(V - V_new)) &lt; threshold:<br>            <span class="hljs-keyword">break</span><br>        V = V_new<br>        i += <span class="hljs-number">1</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ 价值迭代在第 <span class="hljs-subst">&#123;i&#125;</span> 轮收敛。&quot;</span>)<br>    <span class="hljs-keyword">return</span> V<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">extract_policy</span>(<span class="hljs-params">n_states, n_actions, R, P, gamma, V</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    根据最优价值函数 V，恢复最优策略 pi</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    optimal_policy = np.zeros(n_states, dtype=<span class="hljs-built_in">int</span>) <span class="hljs-comment"># 用于存每个状态的最佳动作索引</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 正在提取最优策略 (Policy Extraction) ===&quot;</span>)<br><br>    <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n_states):<br>        q_values = []<br>        <br>        <span class="hljs-comment"># 对于状态 s，重新计算所有动作的 Q 值</span><br>        <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n_actions):<br>            <span class="hljs-comment"># Q(s,a) = R + gamma * sum(P * V)</span><br>            expected_future_val = np.<span class="hljs-built_in">sum</span>(P[s, a] * V)<br>            q_val = R[s, a] + gamma * expected_future_val<br>            q_values.append(q_val)<br>        <br>        <span class="hljs-comment"># 【关键步骤】Argmax</span><br>        <span class="hljs-comment"># 既然我们已经有了准确的 V，我们只需要选 Q 值最大的那个动作即可</span><br>        best_action = np.argmax(q_values)<br>        optimal_policy[s] = best_action<br>        <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;状态 <span class="hljs-subst">&#123;s&#125;</span> 的 Q值分布: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(q_values, <span class="hljs-number">2</span>)&#125;</span> -&gt; 最优动作: <span class="hljs-subst">&#123;best_action&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> optimal_policy<br><br><span class="hljs-comment"># --- 2. 主程序 ---</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># --- 环境设置 ---</span><br>    n_states = <span class="hljs-number">3</span><br>    n_actions = <span class="hljs-number">2</span><br>    gamma = <span class="hljs-number">0.9</span><br>    np.random.seed(<span class="hljs-number">42</span>) <span class="hljs-comment"># 固定随机数</span><br><br>    <span class="hljs-comment"># 随机生成 R 和 P</span><br>    R = np.random.uniform(-<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, (n_states, n_actions))<br>    P = np.random.rand(n_states, n_actions, n_states)<br><br>    <span class="hljs-comment"># 打印出 R 和 P</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=== 环境设置 ===&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;状态数:&quot;</span>, n_states)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;动作数:&quot;</span>, n_actions)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;折扣因子 γ:&quot;</span>, gamma)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;奖励矩阵 R:\n&quot;</span>, np.<span class="hljs-built_in">round</span>(R, <span class="hljs-number">2</span>))<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;转移概率矩阵 P:\n&quot;</span>, np.<span class="hljs-built_in">round</span>(P, <span class="hljs-number">2</span>))<br><br>    <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n_states):<br>        <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n_actions):<br>            P[s, a] /= np.<span class="hljs-built_in">sum</span>(P[s, a])<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=== 步骤1: 计算最优价值函数 V* ===&quot;</span>)<br>    <span class="hljs-comment"># 得到收敛后的 V</span><br>    optimal_V = run_value_iteration(n_states, n_actions, R, P, gamma)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;最终价值 V*: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(optimal_V, <span class="hljs-number">2</span>)&#125;</span>&quot;</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n=== 步骤2: 恢复最优策略 pi* ===&quot;</span>)<br>    <span class="hljs-comment"># 调用提取函数</span><br>    final_policy = extract_policy(n_states, n_actions, R, P, gamma, optimal_V)<br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-&quot;</span> * <span class="hljs-number">30</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;🏆 最终最优策略表:&quot;</span>)<br>    action_names = [<span class="hljs-string">&quot;动作A&quot;</span>, <span class="hljs-string">&quot;动作B&quot;</span>]<br>    <span class="hljs-keyword">for</span> s, a <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(final_policy):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  在 [状态 <span class="hljs-subst">&#123;s&#125;</span>] -&gt; 请执行 [<span class="hljs-subst">&#123;action_names[a]&#125;</span>]&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>输出结果 <figure class="highlight asciidoc"><figcaption><span>输出结果 [lang:text]</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-section">=== 环境设置 ===</span><br>状态数: 3<br>动作数: 2<br>折扣因子 γ: 0.9<br>奖励矩阵 R:<br><span class="hljs-code"> [[3.12 9.46]</span><br><span class="hljs-code"> [7.05 5.59]</span><br><span class="hljs-code"> [0.72 0.72]]</span><br>转移概率矩阵 P:<br><span class="hljs-code"> [[[0.06 0.87 0.6 ]</span><br><span class="hljs-code">  [0.71 0.02 0.97]]</span><br><br><span class="hljs-code"> [[0.83 0.21 0.18]</span><br><span class="hljs-code">  [0.18 0.3  0.52]]</span><br><br><span class="hljs-code"> [[0.43 0.29 0.61]</span><br><span class="hljs-code">  [0.14 0.29 0.37]]]</span><br><span class="hljs-section">=== 步骤1: 计算最优价值函数 V* ===</span><br>✅ 价值迭代在第 38 轮收敛。<br>最终价值 V*: [53.85 54.48 46.09]<br><br><span class="hljs-section">=== 步骤2: 恢复最优策略 pi* ===</span><br><br><span class="hljs-section">=== 正在提取最优策略 (Policy Extraction) ===</span><br>状态 0 的 Q值分布: [49.16 53.94] -&gt; 最优动作: 1<br>状态 1 的 Q值分布: [54.58 50.6 ] -&gt; 最优动作: 0<br>状态 2 的 Q值分布: [46.1  46.18] -&gt; 最优动作: 1<br><span class="hljs-code">------------------------------</span><br><span class="hljs-code">🏆 最终最优策略表:</span><br><span class="hljs-code">  在 [状态 0] -&gt; 请执行 [动作B]</span><br><span class="hljs-code">  在 [状态 1] -&gt; 请执行 [动作A]</span><br><span class="hljs-code">  在 [状态 2] -&gt; 请执行 [动作B]</span><br></code></pre></td></tr></table></figure></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="print-no-link">#强化学习,动态规划</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/07/MDP/" title="强化学习——马尔可夫决策过程">
+                        <span class="hidden-mobile">强化学习——马尔可夫决策过程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
