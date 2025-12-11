@@ -1,0 +1,1026 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon/%E6%A9%98%E7%8C%AB.png">
+  <link rel="icon" href="/img/icon/cat.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="geotle77">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="时序差分算法 之前介绍的马尔可夫决策过程和动态规划算法是已知的，即要求与智能体交互的环境是完全已知的（例如迷宫或者给定规则的网格世界）。DP要求我们知道环境的所有细节（即状态转移概率 P 和奖励函数 R），这被称为有模型（Model-Based）。然而在现实世界（如机器人控制、玩游戏、自动驾驶）中，我们通常不知道这些规则。我们需要通过与环境交互来学习，这就是无模型（Model-based）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习——时序差分算法">
+<meta property="og:url" content="https://geotle77.github.io/2025/12/11/TD/index.html">
+<meta property="og:site_name" content="geotle77&#39;s Blog">
+<meta property="og:description" content="时序差分算法 之前介绍的马尔可夫决策过程和动态规划算法是已知的，即要求与智能体交互的环境是完全已知的（例如迷宫或者给定规则的网格世界）。DP要求我们知道环境的所有细节（即状态转移概率 P 和奖励函数 R），这被称为有模型（Model-Based）。然而在现实世界（如机器人控制、玩游戏、自动驾驶）中，我们通常不知道这些规则。我们需要通过与环境交互来学习，这就是无模型（Model-based）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blogs-mdf.oss-cn-beijing.aliyuncs.com/blogs/img/index_img/DP.png?Expires=1765454624&OSSAccessKeyId=TMP.3KsdLdARqb6fiLekSjqBZP3s5T2kkD86qgLEzdrrNvdGV5Che9C8fvepvuVxtzPanHn8tvGaPQFY3pyB971TDnFcKkUeAe&Signature=WY5WcukP5jj4DbZ8uvRBnX8rZIM%3D">
+<meta property="article:published_time" content="2025-12-11T10:15:45.000Z">
+<meta property="article:modified_time" content="2025-12-11T11:59:17.678Z">
+<meta property="article:author" content="geotle77">
+<meta property="article:tag" content="强化学习,Sarsa,Q-learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blogs-mdf.oss-cn-beijing.aliyuncs.com/blogs/img/index_img/DP.png?Expires=1765454624&OSSAccessKeyId=TMP.3KsdLdARqb6fiLekSjqBZP3s5T2kkD86qgLEzdrrNvdGV5Che9C8fvepvuVxtzPanHn8tvGaPQFY3pyB971TDnFcKkUeAe&Signature=WY5WcukP5jj4DbZ8uvRBnX8rZIM%3D">
+  
+  
+  
+  <title>强化学习——时序差分算法 - geotle77&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"geotle77.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"cS16up94ZTk5IyVTynDpyQyA-MdYXbMMI","app_key":"tGI9ixwYdsYh43ghrgRvhLDW","server_url":"https://cs16up94.api.lncldglobal.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Soulmate</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/backup/wallhaven-ly36ll.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="强化学习——时序差分算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        geotle77
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-11 18:15" pubdate>
+          2025年12月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">强化学习——时序差分算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="时序差分算法">时序差分算法</h1>
+<p>之前介绍的马尔可夫决策过程和动态规划算法是已知的，即要求与智能体交互的环境是完全已知的（例如迷宫或者给定规则的网格世界）。DP要求我们知道环境的所有细节（即状态转移概率
+<span class="math inline"><em>P</em></span> 和奖励函数 <span
+class="math inline"><em>R</em></span>），这被称为有模型（Model-Based）。然而在现实世界（如机器人控制、玩游戏、自动驾驶）中，我们通常不知道这些规则。我们需要通过与环境交互来学习，这就是无模型（Model-based）。
+<span id="more"></span></p>
+<p>但这在大部分场景下并不现实，机器学习的主要方法都是在数据分布未知的情况下针对具体的数据点来对模型做出更新的。对于大部分强化学习现实场景（例如电子游戏或者一些复杂物理环境），其马尔可夫决策过程的状态转移概率是无法写出来的，也就无法直接进行动态规划。在这种情况下，智能体只能和环境进行交互，通过采样到的数据来学习，这类学习方法统称为无模型的强化学习（model-free
+reinforcement learning）。</p>
+<p>时序差分算法（Temporal Difference,
+TD）是一种结合了蒙特卡洛和动态规划的强化学习算法。它通过估计当前状态的值函数来更新值函数，而不是等待到整个轨迹结束。TD算法的核心思想是，当前状态的值函数可以通过当前状态的奖励和下一个状态的值函数来估计。</p>
+<h2 id="算法介绍">算法介绍</h2>
+<p>时序差分是一种用来估计一个策略的价值函数的方法，它结合了蒙特卡洛和动态规划算法的思想。时序差分方法和蒙特卡洛的相似之处在于可以从样本数据中学习，不需要事先知道环境；和动态规划的相似之处在于根据贝尔曼方程的思想，利用后续状态的价值估计来更新当前状态的价值估计。回顾一下蒙特卡洛方法对价值函数的增量更新方式：
+<span class="math display">$$
+\begin{align*}
+V(S_t) \leftarrow V(S_t) + \alpha [G_t - V(S_t)]
+\end{align*}
+$$</span></p>
+<p>这里我们将<span
+class="math inline">$\frac{1}{N(s)}$</span>的替换成了<span
+class="math inline"><em>α</em></span>，表示对价值估计更新的步长。可以将取<span
+class="math inline"><em>α</em></span>为一个常数，此时更新方式不再像蒙特卡洛方法那样严格地取期望。蒙特卡洛方法必须要等整个序列结束之后才能计算得到这一次的回报<span
+class="math inline"><em>G</em><sub><em>t</em></sub></span>，而时序差分方法只需要当前步结束即可进行计算。具体来说，时序差分算法用当前获得的奖励加上下一个状态的价值估计来作为在当前状态会获得的回报，即：
+<span class="math display">$$
+\begin{align*}
+V(s_t) \leftarrow V(s_t) + \alpha [r_{t} + \gamma V(s_{t+1}) - V(s_t)]
+\end{align*}
+$$</span></p>
+<p>其中，<span
+class="math inline"><em>r</em><sub><em>t</em></sub></span>是当前状态的奖励，<span
+class="math inline"><em>γ</em></span>是折扣因子，可以用<span
+class="math inline"><em>r</em><sub><em>t</em></sub> + <em>γ</em><em>V</em>(<em>s</em><sub><em>t</em> + 1</sub>)</span>来代替<span
+class="math inline"><em>G</em><sub><em>t</em></sub></span>的原因是:</p>
+<p><span class="math display">$$
+\begin{align*}
+V_\pi(s) &amp;= \mathbb{E}_\pi[G_t|S_t=s]\\
+&amp;= \mathbb{E}_\pi[\sum_{k=0}^{\infty} \gamma^k r_{t+k+1}|S_t=s]\\
+&amp;= \mathbb{E}_\pi[R_{t} + \gamma V_\pi(S_{t+1})|S_t=s]
+\end{align*}
+$$</span></p>
+<p>在这个公式中： - <span
+class="math inline"><em>R</em><sub><em>t</em></sub> + <em>γ</em><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>：称为
+TD Target。这是我们根据刚才这一步的真实奖励 <span
+class="math inline"><em>R</em><sub><em>t</em></sub></span>
+和对下一状态的预估 <span
+class="math inline"><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>
+组成的“新的一手消息”。 - <span
+class="math inline"><em>V</em>(<em>s</em><sub><em>t</em></sub>)</span>：是我们原来的估计。
+- 方括号内的部分：称为 TD Error (误差)，即“新消息”和“旧估计”之间的差值。
+- <span class="math inline"><em>α</em></span>：学习率（Learning
+Rate）。决定了我们多大程度上相信这一次的“新消息”。</p>
+<p>因此蒙特卡洛方法将上式第一行作为更新的目标，而时序差分算法将上式最后一行作为更新的目标。于是，在用策略和环境交互时，每采样一步，我们就可以用时序差分算法来更新状态价值估计。时序差分算法用到了<span
+class="math inline"><em>V</em>(<em>s</em><sub><em>t</em> + 1</sub>)</span>的估计值，可以证明它最终收敛到策略<span
+class="math inline"><em>π</em></span>的价值函数.</p>
+
+    <div class="fold">
+      <div class="fold-title fold-default collapsed" data-toggle="collapse" href="#collapse-1b7bf473" role="button" aria-expanded="false" aria-controls="collapse-1b7bf473">
+        <div class="fold-arrow">▶</div>例子
+      </div>
+      <div class="fold-collapse collapse" id="collapse-1b7bf473">
+        <div class="fold-content">
+          <p>假设在玩一个走格子的游戏。</p><ol type="1"><li>现状 (<spanclass="math inline"><em>S</em><sub><em>t</em></sub></span>)： 机器人站在A 格子。价值表上写着：<spanclass="math inline"><em>V</em>(<em>A</em>) = 10</span>。</li><li>行动： 机器人向右走了一步。</li><li>反馈 (<spanclass="math inline"><em>r</em><sub><em>t</em></sub></span>)：这一步没掉陷阱也没吃到金币，环境给了个奖励 <spanclass="math inline"><em>r</em><sub><em>t</em></sub> = −1</span>（每走一步消耗一点电量）。</li><li>新状态 (<spanclass="math inline"><em>S</em><sub><em>t</em> + 1</sub></span>)：机器人到达了B 格子。价值表上面写着 <spanclass="math inline"><em>V</em>(<em>B</em>) = 12</span>。</li><li>计算 TD Target：<spanclass="math display">Target = <em>r</em><sub><em>t</em></sub> + <em>γ</em><em>V</em>(<em>B</em>) = −1 + 1.0 × 12 = 11</span>(假设<span class="math inline"><em>γ</em> = 1</span>)</li><li>发现误差 (TD Error)：之前觉得 A 值 10，但根据刚刚这一步的体验，A好像应该值 11。<spanclass="math display">Error = 11 − 10 = 1</span>这说明之前低估了 A的价值。</li><li>更新 (<spanclass="math inline"><em>V</em>(<em>S</em><sub><em>t</em></sub>)</span>)：不会直接把10 改成 11（因为只有一次样本，可能不准），而是稍微往 11挪一点点。假设学习率 <spanclass="math inline"><em>α</em> = 0.1</span>：<spanclass="math display"><em>V</em>(<em>A</em>)<sub><em>n</em><em>e</em><em>w</em></sub> = 10 + 0.1 × (11 − 10) = 10.1</span>现在，把价值表上的<span class="math inline"><em>V</em>(<em>A</em>)</span> 更新为10.1。</li></ol>
+        </div>
+      </div>
+    </div>
+<h3 id="收敛性的证明">收敛性的证明</h3>
+<p>由于<span
+class="math inline"><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>
+本身可能就是个错误的瞎猜（初始化甚至是随机的），用一个错误的数字去更新
+<span
+class="math inline"><em>V</em>(<em>S</em><sub><em>t</em></sub>)</span>，难道不会导致误差越来越大吗？</p>
+<p>TD 能够收敛，主要基于以下三个核心原因：</p>
+<p>A. 真实奖励 (<span
+class="math inline"><em>r</em><sub><em>t</em></sub></span>)
+的“锚定”作用这是最关键的一点。在 <span
+class="math inline"><em>r</em><sub><em>t</em></sub> + <em>γ</em><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>
+中，<span class="math inline"><em>r</em><sub><em>t</em></sub></span>
+是真实的、来自环境的客观反馈。哪怕 <span
+class="math inline"><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>
+全是错的，只要 <span
+class="math inline"><em>r</em><sub><em>t</em></sub></span>
+是真的，更新公式里就包含了一部分“真理”。在终点状态（Terminal
+State），<span class="math inline"><em>V</em></span>
+是确定的（通常是0）。当智能体到达终点前一步时，它收到了真实的终局奖励，这一步的
+<span class="math inline"><em>V</em></span>
+就被修正准确了。这种“准确性”会随着时间，像波浪一样反向传播（Back-propagate）回起始点。</p>
+<p>B. 贝尔曼算子的“压缩”性质 (Contraction Mapping)，从数学原理上讲，TD
+的更新是在尝试逼近贝尔曼方程的解。贝尔曼算子有一个特性：压缩性。只要折扣因子
+<span
+class="math inline"><em>γ</em> &lt; 1</span>，或者在有限步数的任务中，每一次利用贝尔曼方程进行更新，不管你的初始值离真值有多远，新的估计值在数学期望上都会比旧的更接近真值一点点。就像把一张纸揉成团，纸上两点的距离总是在变小，最终会收敛到一个不动点。</p>
+<p>C. 误差的互相抵消，虽然单次更新有偏差，但在大量采样的情况下：如果
+<span
+class="math inline"><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>
+估计偏高了，下次可能估计偏低了。只要步长 <span
+class="math inline"><em>α</em></span> 足够小（并且随时间逐渐减小，满足
+Robbins-Monro
+条件），随机噪声就会被平均掉，留下的就是趋向于真实价值的趋势。一句话总结收敛性：就像一群人排队传话猜谜，虽然中间的人都在瞎猜，但排尾的人（终点）手里拿着谜底（真实奖励）。每一轮传话，排尾的人都会把真相告诉前一个人一点点。随着传话次数无限增多，整条队伍最终都能知道准确的谜底。</p>
+
+    <div class="fold">
+      <div class="fold-title fold-default collapsed" data-toggle="collapse" href="#collapse-a5d2160a" role="button" aria-expanded="false" aria-controls="collapse-a5d2160a">
+        <div class="fold-arrow">▶</div> Robbins-Monro 条件
+      </div>
+      <div class="fold-collapse collapse" id="collapse-a5d2160a">
+        <div class="fold-content">
+          <p>Robbins-Monro 条件（Robbins-MonroConditions）是随机逼近理论中的一个数学准则。在强化学习中，它主要用来回答一个关于<strong>“学习率”（步长<spanclass="math inline"><em>α</em></span>）</strong>的关键问题：“为了保证算法最终能收敛到正确答案，步长<span class="math inline"><em>α</em></span>应该如何设置？”.简单来说，这两个条件规定了：随着训练的进行，步长 <spanclass="math inline"><em>α</em></span>必须逐渐变小，但又不能变得太快。</p><p>数学定义假设 <spanclass="math inline"><em>α</em><sub><em>t</em></sub></span> 是第 <spanclass="math inline"><em>t</em></span>步时的学习率（步长）。Robbins-Monro 条件包含以下两个式子： -条件一：总步长必须是无限的,保证了无论初始猜测离真实值多远，我们都有能力走到那里。<span class="math display">$$\sum_{t=1}^{\infty} \alpha_t =\infty$$</span> -条件二：步长的平方和必须是有限的,保证了步长减小的速度足够快，以便消除随机噪声的影响，最终停下来<span class="math display">$$\sum_{t=1}^{\infty} \alpha_t^2 &lt;\infty$$</span></p>
+        </div>
+      </div>
+    </div>
+<h2 id="sarsa-算法">Sarsa 算法</h2>
+<p>既然我们可以用时序差分方法来估计价值函数，那一个很自然的问题是，我们能否用类似策略迭代的方法来进行强化学习。策略评估已经可以通过时序差分算法实现，那么在不知道奖励函数和状态转移函数的情况下该怎么进行策略提升呢？答案是时可以直接用时序差分算法来估计动作价值函数<span
+class="math inline"><em>Q</em></span>： <span class="math display">$$
+\begin{align*}
+Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha [r_{t} + \gamma Q(s_{t+1},
+a_{t+1}) - Q(s_t, a_t)]
+\end{align*}
+$$</span> 然后我们用贪婪算法来选取在某个状态下动作价值最大的那个动作，即
+<span
+class="math inline"><em>m</em><em>a</em><em>x</em><sub><em>a</em> ∈ 𝒜</sub><em>Q</em>(<em>s</em>, <em>a</em>)</span>
+。用贪婪算法根据动作价值选取动作来和环境交互，再根据得到的数据用时序差分算法更新动作价值估计。</p>
+<p>然而这个简单的算法存在两个需要进一步考虑的问题。</p>
+<ul>
+<li><p><strong>第一</strong>，如果要用时序差分算法来准确地估计策略的状态价值函数，我们需要用极大量的样本来进行更新。但实际上我们可以忽略这一点，直接用一些样本来评估策略，然后就可以更新策略了。我们可以这么做的原因是策略提升可以在策略评估未完全进行的情况进行，这其实是广义策略迭代（generalized
+policy iteration）的思想。</p></li>
+<li><p><strong>第二</strong>，如果在策略提升中一直根据贪婪算法得到一个确定性策略，可能会导致某些状态动作对永远没有在序列中出现，以至于无法对其动作价值进行估计，进而无法保证策略提升后的策略比之前的好。简单常用的解决方案是不再一味使用贪婪算法，而是采用一个<span
+class="math inline"><em>ϵ</em></span>-贪婪策略：有的概率采用动作价值最大的那个动作，另外有的概率从动作空间中随机采取一个动作，其公式表示为：</p></li>
+</ul>
+<p><span class="math display">$$
+\begin{align*}
+\pi(a|s) = \begin{cases}
+1 - \epsilon + \epsilon / |\mathcal{A}| &amp; \text{if } a =
+\arg\max_{a' \in \mathcal{A}} Q(s, a') \\
+\epsilon / |\mathcal{A}| &amp; \text{otherwise}
+\end{cases}
+\end{align*}
+$$</span>
+现在，我们就可以得到一个实际的基于时序差分方法的强化学习算法。这个算法被称为
+Sarsa，因为它的动作价值更新用到了当前状态<span
+class="math inline"><em>s</em><sub><em>t</em></sub></span>、当前动作<span
+class="math inline"><em>a</em><sub><em>t</em></sub></span>、获得的奖励<span
+class="math inline"><em>r</em><sub><em>t</em></sub></span>、下一个状态<span
+class="math inline"><em>s</em><sub><em>t</em> + 1</sub></span>和下一个动作<span
+class="math inline"><em>a</em><sub><em>t</em> + 1</sub></span>，将这些符号拼接后就得到了算法名称。Sarsa
+的具体算法如下： 
+    <div class="fold">
+      <div class="fold-title fold-default collapsed" data-toggle="collapse" href="#collapse-0fa8475f" role="button" aria-expanded="false" aria-controls="collapse-0fa8475f">
+        <div class="fold-arrow">▶</div>Sarsa 算法
+      </div>
+      <div class="fold-collapse collapse" id="collapse-0fa8475f">
+        <div class="fold-content">
+          <p>初始化：建立一张 <span class="math inline"><em>Q</em></span>表（Q-Table），所有值设为 0。</p><p>开始回合：初始化状态 <spanclass="math inline"><em>S</em></span>。</p><p>选择动作：根据当前 <span class="math inline"><em>Q</em></span> 表，用<span class="math inline"><em>ϵ</em></span>-greedy 策略选出一个动作<span class="math inline"><em>A</em></span>。 循环直到回合结束：</p><ul><li>执行：执行动作 <spanclass="math inline"><em>A</em></span>，观测到奖励 <spanclass="math inline"><em>R</em></span> 和新状态 <spanclass="math inline"><em>S</em><sup>′</sup></span>。</li><li>再次选择（关键）：在新的状态 <spanclass="math inline"><em>S</em><sup>′</sup></span>，立刻再次使用策略（如<span class="math inline"><em>ϵ</em></span>-greedy）选出下一步动作 <spanclass="math inline"><em>A</em><sup>′</sup></span>。</li><li>更新 Q 值： <span class="math display">$$\begin{align*}Q(S, A) \leftarrow Q(S, A) + \alpha [R + \gamma Q(S', A') - Q(S, A)]\end{align*}$$</span></li><li>推进：把 <span class="math inline"><em>S</em><sup>′</sup></span>当作现在的 <span class="math inline"><em>S</em></span>，把 <spanclass="math inline"><em>A</em><sup>′</sup></span> 当作现在的 <spanclass="math inline"><em>A</em></span>。(<spanclass="math inline"><em>S</em> ← <em>S</em><sup>′</sup></span>, <spanclass="math inline"><em>A</em> ← <em>A</em><sup>′</sup></span>)(注意：下一轮循环时，不需要再选动作了，因为<span class="math inline"><em>A</em></span> 已经是刚才选好的那个 <spanclass="math inline"><em>A</em><sup>′</sup></span> 了)</li></ul>
+        </div>
+      </div>
+    </div></p>
+<h2 id="多步sarsa算法">多步Sarsa算法</h2>
+<p>蒙特卡洛方法利用当前状态之后每一步的奖励而不使用任何价值估计，时序差分算法只利用一步奖励和下一个状态的价值估计。那它们之间的区别是什么呢？总的来说，蒙特卡洛方法是无偏（unbiased）的，但是具有比较大的方差，因为每一步的状态转移都有不确定性，而每一步状态采取的动作所得到的不一样的奖励最终都会加起来，这会极大影响最终的价值估计；时序差分算法具有非常小的方差，因为只关注了一步状态转移，用到了一步的奖励，但是它是有偏的，因为用到了下一个状态的价值估计而不是其真实的价值。那有没有什么方法可以结合二者的优势呢？答案是多步时序差分！多步时序差分的意思是使用<span
+class="math inline"><em>n</em></span>步的奖励，然后使用之后状态的价值估计。用公式表示，将
+<span class="math display">$$
+\begin{align*}
+G_t = r_t + \gamma Q(s_{t+1}, a_{t+1})
+\end{align*}
+$$</span> 替换为 <span
+class="math display"><em>G</em><sub><em>t</em></sub> = <em>r</em><sub><em>t</em></sub> + <em>γ</em><em>r</em><sub><em>t</em> + 1</sub> + <em>γ</em><sup>2</sup><em>r</em><sub><em>t</em> + 2</sub> + ⋯ + <em>γ</em><sup><em>n</em></sup><em>Q</em>(<em>s</em><sub><em>t</em> + <em>n</em></sub>, <em>a</em><sub><em>t</em> + <em>n</em></sub>)</span>
+其中，<span
+class="math inline"><em>r</em><sub><em>t</em></sub></span>是当前状态的奖励，<span
+class="math inline"><em>γ</em></span>是折扣因子，<span
+class="math inline"><em>Q</em>(<em>s</em><sub><em>t</em> + <em>n</em></sub>, <em>a</em><sub><em>t</em> + <em>n</em></sub>)</span>是第<span
+class="math inline"><em>n</em></span>步后的状态动作对的价值估计。多步时序差分算法可以结合二者的优势，既具有无偏性，又具有较小的方差。于是，相应存在一种多步
+Sarsa 算法，它把 Sarsa 算法中的动作价值函数的更新公式 <span
+class="math display">$$
+\begin{align*}
+Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha [r_t + \gamma Q(s_{t+1},
+a_{t+1}) - Q(s_t, a_t)]
+\end{align*}
+$$</span> 替换为 <span class="math display">$$
+\begin{align*}
+Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha [r_t + \gamma r_{t+1} +
+\gamma^2 r_{t+2} + \cdots + \gamma^n Q(s_{t+n}, a_{t+n}) - Q(s_t, a_t)]
+\end{align*}
+$$</span></p>
+<h2 id="q-learning">Q-learning</h2>
+<p>Q-Learning 最大的特点是实现了 行为策略 (Behavior Policy) 和 目标策略
+(Target Policy) 的分离。</p>
+<ul>
+<li>你在做什么 (Behavior)：你可能正在用 <span
+class="math inline"><em>ϵ</em></span>-greedy
+策略到处乱撞，试图探索世界。</li>
+<li>你在学什么 (Target)：但在更新 Q
+表时，你假设自己下一步绝对会选最好的那个动作，完全不管你下一秒实际上会不会乱撞。</li>
+</ul>
+<p>这就是
+Off-Policy：我实际走的路（有探索）和我学习的路（全最优）是不一样的。核心公式对比Sarsa
+(看现实): <span class="math display">$$
+\begin{align*}
+Q(s, a) \leftarrow Q(s, a) + \alpha [R + \gamma Q(s', a') - Q(s, a)]
+\end{align*}
+$$</span> 注意：这里的 <span
+class="math inline"><em>a</em><sup>′</sup></span>
+是你下一步真正要执行的那个动作。Q-Learning (看理想): <span
+class="math display">$$
+\begin{align*}
+Q(s, a) \leftarrow Q(s, a) + \alpha [R + \gamma \max_{a'} Q(s', a') -
+Q(s, a)]
+\end{align*}
+$$</span> 注意：这里没有 <span
+class="math inline"><em>a</em><sup>′</sup></span>。不管下一步要干嘛，我只看
+<span class="math inline"><em>s</em><sup>′</sup></span>
+那个状态下，所有可能的动作里得分最高的那一个。这就像在说：“我虽然不知道下一步会怎么走，但我知道如果我走到了
+<span
+class="math inline"><em>s</em><sup>′</sup></span>，我应该选哪个动作最好。”</p>
+
+    <div class="fold">
+      <div class="fold-title fold-default collapsed" data-toggle="collapse" href="#collapse-9e7c5c4e" role="button" aria-expanded="false" aria-controls="collapse-9e7c5c4e">
+        <div class="fold-arrow">▶</div>Q-Learning 算法
+      </div>
+      <div class="fold-collapse collapse" id="collapse-9e7c5c4e">
+        <div class="fold-content">
+          <p>算法步骤：</p><p>初始化：建立 Q 表，全为 0。</p><p>开始回合：初始化状态 <spanclass="math inline"><em>S</em></span>。</p><p>循环直到回合结束：</p><ul><li>第一步：选动作基于当前状态 <spanclass="math inline"><em>S</em></span>，用 <spanclass="math inline"><em>ϵ</em></span>-greedy 策略选出一个动作 <spanclass="math inline"><em>A</em></span>。</li><li>第二步：执行执行动作 <spanclass="math inline"><em>A</em></span>，观测到奖励 <spanclass="math inline"><em>R</em></span> 和新状态 <spanclass="math inline"><em>S</em><sup>′</sup></span>。</li><li>第三步：偷看一眼“完美未来”（关键差异）不管下一轮要怎么走，先看一眼<span class="math inline"><em>Q</em></span> 表中 <spanclass="math inline"><em>S</em><sup>′</sup></span>这一行。找到最大值：<spanclass="math inline">max<sub><em>a</em><sup>′</sup></sub><em>Q</em>(<em>s</em><sup>′</sup>, <em>a</em><sup>′</sup>)</span>。用这个最大值作为<span class="math inline"><em>S</em><sup>′</sup></span>的价值估计。</li><li>第四步：更新 <span class="math display">$$\begin{align*}Q(s, a) \leftarrow Q(s, a) + \alpha [R + \gamma \max_{a'} Q(s', a') -Q(s, a)]\end{align*}$$</span></li><li>第五步：状态跳转<spanclass="math inline"><em>S</em> ← <em>S</em><sup>′</sup></span>。(注意：这里不用像Sarsa 那样把 A’ 也传下去。下一轮开始时，会重新在第一步里选动作。)</li></ul>
+        </div>
+      </div>
+    </div>
+<p>一个具体的例子是悬崖漫步。机器人现在在悬崖边 (<span
+class="math inline"><em>S</em></span>)，动作 <span
+class="math inline"><em>A</em></span> 是“向右走”，结果到了 <span
+class="math inline"><em>S</em><sup>′</sup></span>（还是悬崖边，非常危险）。在
+<span
+class="math inline"><em>S</em><sup>′</sup></span>，最优动作是“向上远离悬崖”（价值
+10 分）。但是，因为有 <span class="math inline"><em>ϵ</em></span>
+的概率探索，机器人实际上下一秒可能会“向左跳进悬崖”（价值 -100 分）。</p>
+<ul>
+<li><p><strong>Sarsa</strong>
+的思考方式：“我下一秒真的可能会跳崖（选到了 <span
+class="math inline"><em>A</em><sup>′</sup>=</span>
+跳崖）。既然下一步这么惨，那现在的 <span
+class="math inline"><em>S</em></span> 也不咋地。我要调低 <span
+class="math inline"><em>Q</em>(<em>S</em>, <em>A</em>)</span>。” 结果：
+Sarsa 变得很保守，哪怕 <span class="math inline"><em>S</em></span>
+本身是安全的，只要离危险近，它就害怕。</p></li>
+<li><p><strong>Q-Learning</strong> 的思考方式：“我到了 <span
+class="math inline"><em>S</em><sup>′</sup></span>。虽然我下一秒可能会犯傻跳崖，但在理论上，我可以选择‘向上走’拿到
+10 分啊！我就按这 10 分来更新现在的 <span
+class="math inline"><em>Q</em>(<em>S</em>, <em>A</em>)</span>。至于我下一秒是不是真的跳崖？那是下一轮的事，不管！”结果：
+Q-Learning
+非常大胆。它会学出一条紧贴着悬崖边缘的最优路径。虽然在训练过程中它会因为经常掉下去而显得很蠢，但
+Q 表里记录的却是完美的走法。</p></li>
+</ul>
+<p>Sarsa 估计当前<span
+class="math inline"><em>ϵ</em></span>-贪婪策略的动作价值函数。需要强调的是，Q-learning
+的更新并非必须使用当前贪心策略<span
+class="math inline"><em>m</em><em>a</em><em>x</em><sub><em>a</em></sub><em>Q</em>(<em>s</em>, <em>a</em>)</span>采样得到的数据，因为给定任意<span
+class="math inline">(<em>r</em>, <em>s</em>, <em>a</em>, <em>s</em><sup>′</sup>)</span>都可以直接根据更新公式来更新<span
+class="math inline"><em>Q</em></span>，为了探索，我们通常使用一个<span
+class="math inline"><em>ϵ</em></span>-贪婪策略来与环境交互。Sarsa
+必须使用当前<span
+class="math inline"><em>ϵ</em></span>-贪婪策略采样得到的数据，因为它的更新中用到的<span
+class="math inline"><em>Q</em>(<em>s</em><sup>′</sup>, <em>a</em><sup>′</sup>)</span>的<span
+class="math inline"><em>a</em><sup>′</sup></span>是当前策略在状态<span
+class="math inline"><em>s</em><sup>′</sup></span>下的动作。我们称 Sarsa
+是<strong>在线策略</strong>（on-policy）算法，称 Q-learning
+是<strong>离线策略</strong>（off-policy）算法。</p>
+<h2 id="在线策略算法与离线策略算法">在线策略算法与离线策略算法</h2>
+<p>我们称采样数据的策略为行为策略（behavior
+policy），称用这些数据来更新的策略为目标策略（target
+policy）。在线策略（on-policy）算法表示行为策略和目标策略是同一个策略；而离线策略（off-policy）算法表示行为策略和目标策略不是同一个策略。Sarsa
+是典型的在线策略算法，而 Q-learning
+是典型的离线策略算法。判断二者类别的一个重要手段是看计算时序差分的价值目标的数据是否来自当前的策略。具体而言：</p>
+<ul>
+<li>对于 Sarsa，它的更新公式必须使用来自当前策略采样得到的五元组<span
+class="math inline">(<em>r</em>, <em>s</em>, <em>a</em>, <em>s</em><sup>′</sup>, <em>a</em><sup>′</sup>)</span>，因此它是在线策略学习方法；</li>
+<li>对于 Q-learning，它的更新公式使用的是四元组 <span
+class="math inline">(<em>r</em>, <em>s</em>, <em>a</em>, <em>s</em><sup>′</sup>)</span>
+来更新当前状态动作对的价值 <span
+class="math inline"><em>Q</em>(<em>s</em>, <em>a</em>)</span>
+，数据中的<span class="math inline"><em>a</em></span>和<span
+class="math inline"><em>s</em></span>是给定的条件，<span
+class="math inline"><em>s</em><sup>′</sup></span>和<span
+class="math inline"><em>r</em></span>皆由环境采样得到，该四元组并不需要一定是当前策略采样得到的数据，也可以来自行为策略，因此它是离线策略算法。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-Sarsa-Q-learning/" class="print-no-link">#强化学习,Sarsa,Q-learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/10/DP/" title="强化学习——动态规划">
+                        <span class="hidden-mobile">强化学习——动态规划</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.css')
+      Fluid.utils.createScript('https://registry.npmmirror.com/@waline/client/2.15.8/files/dist/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-ashen-gamma-45.vercel.app","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
