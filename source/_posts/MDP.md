@@ -1,5 +1,5 @@
 ---
-title: 马尔可夫决策过程
+title: 强化学习——马尔可夫决策过程
 date: 2025-12-07 14:27:43
 tags: 强化学习,MDP
 index_img: /img/index_img/MDP.png
@@ -8,9 +8,10 @@ sticky: 96
 ---
 # 马尔可夫决策过程
 
-强化学习的基础算法之一就是马尔可夫决策过程（Markov Decision Process, MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。其核心思想是，**智能体的下一步状态仅取决于当前状态和所采取的动作，满足马尔可夫性质，目标是找到一个策略来最大化累积奖励**
+强化学习的基础算法之一就是马尔可夫决策过程（Markov Decision Process, MDP），是一个用于在结果部分随机、部分由决策者控制的场景下建模决策的数学框架。它由状态集、动作集、状态转移概率、奖励函数和折扣因子组成，是强化学习（RL）中的基础概念，用于在机器人学、自动化、经济学等领域解决序贯决策问题。
+<!-- more -->其核心思想是，**智能体的下一步状态仅取决于当前状态和所采取的动作，满足马尔可夫性质，目标是找到一个策略来最大化累积奖励**
 
-{% img /img/pics/MDP/Markov_Decision_Process.png  "马尔可夫决策过程" %}
+{% img https://blogs-mdf.oss-cn-beijing.aliyuncs.com/blogs/img/pics/MDP/Markov_Decision_Process.png?Expires=1765370420&OSSAccessKeyId=TMP.3KsNZwSEtHpsDhP7nqqNJXJereaxXJAvGCtgnA9upDqaP2gPXVpghWxWx2QdEcr7LPvdJhzTAYDAmgd5PsWC5G8YTRZyAh&Signature=NLsUtjP78TGtRwFsY6zILZrFbaY%3D  "马尔可夫决策过程" %}
 
 ## 背景知识
 
