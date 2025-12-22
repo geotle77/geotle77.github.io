@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://geotle77.github.io/img/index_img/DP.png">
 <meta property="article:published_time" content="2025-12-10T07:41:51.000Z">
-<meta property="article:modified_time" content="2025-12-10T12:08:00.088Z">
+<meta property="article:modified_time" content="2025-12-22T06:43:38.688Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="强化学习,动态规划">
 <meta name="twitter:card" content="summary_large_image">
@@ -380,14 +380,18 @@ class="math inline"><em>V</em><sup><em>π</em></sup></span>，是因为背后的
         </div>
       </div>
     </div>
-<p>因此，我们可以选定任意初始值<span
-class="math inline"><em>V</em><sup>0</sup></span>。根据贝尔曼期望方程，可以得知是以上更新公式的一个不动点（fixed
-point）。事实上，可以证明当$k<span
-class="math inline"><em>时</em>，<em>序</em><em>列</em></span>{V<sup>k}<span
-class="math inline"><em>会</em><em>收</em><em>敛</em><em>到</em></span>V</sup><span
-class="math inline">，<em>所</em><em>以</em><em>可</em><em>以</em><em>据</em><em>此</em><em>来</em><em>计</em><em>算</em><em>得</em><em>到</em><em>一</em><em>个</em><em>策</em><em>略</em><em>的</em><em>状</em><em>态</em><em>价</em><em>值</em><em>函</em><em>数</em>。<em>可</em><em>以</em><em>看</em><em>到</em>，<em>由</em><em>于</em><em>需</em><em>要</em><em>不</em><em>断</em><em>做</em><em>贝</em><em>尔</em><em>曼</em><em>期</em><em>望</em><em>方</em><em>程</em><em>迭</em><em>代</em>，<em>策</em><em>略</em><em>评</em><em>估</em><em>其</em><em>实</em><em>会</em><em>耗</em><em>费</em><em>很</em><em>大</em><em>的</em><em>计</em><em>算</em><em>代</em><em>价</em>。<em>在</em><em>实</em><em>际</em><em>的</em><em>实</em><em>现</em><em>过</em><em>程</em><em>中</em>，<em>如</em><em>果</em><em>某</em><em>一</em><em>轮</em></span>max_{s
-} |V^{k+1}(s) -
-V^k(s)|$的值非常小，可以提前结束策略评估。这样做可以提升效率，并且得到的价值也非常接近真实的价值。</p>
+<p>因此，我们可以选定任意初始值 <span
+class="math inline"><em>V</em><sup>0</sup></span>
+。根据贝尔曼期望方程，可以得知 <span
+class="math inline"><em>V</em><sup><em>π</em></sup></span>
+是以上更新公式的一个不动点（fixed point）。事实上，可以证明当
+$k$时，序列 <span
+class="math inline">{<em>V</em><sup><em>k</em></sup>}</span> 会收敛到
+<span class="math inline"><em>V</em><sup><em>π</em></sup></span>
+，所以可以据此来计算得到一个策略的状态价值函数。可以看到，由于需要不断做贝尔曼期望方程迭代，策略评估其实会耗费很大的计算代价。在实际的实现过程中，如果某一轮
+<span
+class="math inline"><em>m</em><em>a</em><em>x</em><sub><em>s</em> ∈ 𝒮</sub>|<em>V</em><sup><em>k</em> + 1</sup>(<em>s</em>) − <em>V</em><sup><em>k</em></sup>(<em>s</em>)|</span>
+的值非常小，可以提前结束策略评估。这样做可以提升效率，并且得到的价值也非常接近真实的价值。</p>
 <h2 id="策略提升">策略提升</h2>
 <p>由上述内容可知，使用策略评估计算得到当前策略的状态价值函数之后，我们可以据此来改进该策略。如果我们已经知道在某策略
 <span class="math inline"><em>π</em></span> 下每个状态的“真实价值” <span
