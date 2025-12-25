@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://geotle77.github.io/img/index_img/GPU_work_base.png">
 <meta property="article:published_time" content="2025-11-20T11:29:03.000Z">
-<meta property="article:modified_time" content="2025-12-25T12:03:22.500Z">
+<meta property="article:modified_time" content="2025-12-25T12:04:30.664Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="GPU,课程，大作业">
 <meta name="twitter:card" content="summary_large_image">
@@ -694,8 +694,12 @@ target="_blank" rel="noopener" href="https://modelscope.cn/">modelscope</a>,前�
 <h3 id="总结-1">6.总结</h3>
 <p>根据我的实操，一个7B的模型实际训练的时候峰值甚至会达到50G+的显存，比我想象中还要多。但实际推理的时候只需要用到15GB显存。这里需要说明的一点是，显存占有那么高是因为我没有加量化，如果加了量化可能会更低。至于量化是什么，简单来说就是数据精度变少，比如bf16，fp16，fp8等，所需的存储空间也会变少。对于课程任务而言，7B的模型量级是足够了的，甚至还可以更mini，参数更小，模型推理越快，但准确率也会有一定的下降。这个就需要和实际的硬件相互权衡一下了。</p>
 <hr />
-<p>2025-12-25 更新： - 增加了微调后模型的上传方法 - 解释各模版文件的含义
-- 如何提交</p>
+<p>2025-12-25 更新：</p>
+<ul>
+<li>增加了微调后模型的上传方法</li>
+<li>解释各模版文件的含义</li>
+<li>如何提交</li>
+</ul>
 <h2 id="gpu大作业二补充">GPU大作业二（补充）</h2>
 <p>第一版发布后，不少同学都在问后面怎么搞。由于助教已经公布了评测系统和数据集示例，现在补充更新一下后续的流程。我主要说一下提交作业的流程，以及一些可能需要补充的内容。</p>
 <h3 id="上传模型">1. 上传模型</h3>
