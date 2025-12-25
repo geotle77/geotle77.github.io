@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://geotle77.github.io/img/index_img/DP.png">
 <meta property="article:published_time" content="2025-12-10T07:41:51.000Z">
-<meta property="article:modified_time" content="2025-12-22T06:43:38.688Z">
+<meta property="article:modified_time" content="2025-12-22T06:45:52.575Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="强化学习,动态规划">
 <meta name="twitter:card" content="summary_large_image">
@@ -449,39 +449,57 @@ $$</span></p>
 <p>因此，使用策略提升公式得到的新策略在每个状态的价值不低于原策略在该状态的价值。</p>
 <h3 id="流程">流程</h3>
 <p>策略提升的完整流程结合策略评估，策略提升通常发生在这样一个循环中（这被称为策略迭代
-Policy Iteration）： - 输入： - 当前环境模型（状态转移概率 <span
+Policy Iteration）：</p>
+<ul>
+<li>输入：
+<ul>
+<li>当前环境模型（状态转移概率 <span
 class="math inline"><em>P</em></span>，奖励 <span
-class="math inline"><em>R</em></span>）。 - 刚刚评估好的状态价值函数
-<span class="math inline"><em>V</em><sup><em>π</em></sup></span>。 -
-当前策略 <span class="math inline"><em>π</em></span>。 -
-遍历所有状态（对于每一个 <span
-class="math inline"><em>s</em> ∈ <em>S</em></span>）： -
-计算候选值：对于该状态下所有可能的动作 <span
+class="math inline"><em>R</em></span>）。</li>
+<li>刚刚评估好的状态价值函数 <span
+class="math inline"><em>V</em><sup><em>π</em></sup></span>。</li>
+<li>当前策略 <span class="math inline"><em>π</em></span>。</li>
+</ul></li>
+<li>遍历所有状态（对于每一个 <span
+class="math inline"><em>s</em> ∈ <em>S</em></span>）：
+<ul>
+<li>计算候选值：对于该状态下所有可能的动作 <span
 class="math inline"><em>a</em></span>，计算 <span
-class="math inline"><em>Q</em>(<em>s</em>, <em>a</em>) = <em>R</em> + <em>γ</em>∑<em>P</em><em>V</em></span>。
-- 比较：看看哪个动作 <span class="math inline"><em>a</em></span> 得到的
-<span class="math inline"><em>Q</em></span> 值最大。 - 更新策略：把策略
-<span class="math inline"><em>π</em>(<em>s</em>)</span>
-更新为这个产生最大值的动作。 -
-判定：如果在所有状态下，新选出的动作和老策略的动作一模一样（即策略稳定了，不再变了）。
-- 结束：此时的策略就是最优策略 <span
-class="math inline"><em>π</em><sup>*</sup></span>。 - 否则：把这个新策略
-<span class="math inline"><em>π</em><sup>′</sup></span>
-当作“当前策略”，拿回去重新做“策略评估”，如此往复。</p>
-<p><img src="/img/pics/DP/mc8.png" srcset="/img/loading.gif" lazyload class="" title="策略迭代"></p>
+class="math inline"><em>Q</em>(<em>s</em>, <em>a</em>) = <em>R</em> + <em>γ</em>∑<em>P</em><em>V</em></span>。</li>
+<li>比较：看看哪个动作 <span class="math inline"><em>a</em></span>
+得到的 <span class="math inline"><em>Q</em></span> 值最大。</li>
+<li>更新策略：把策略 <span
+class="math inline"><em>π</em>(<em>s</em>)</span>
+更新为这个产生最大值的动作。</li>
+</ul></li>
+<li>判定：如果在所有状态下，新选出的动作和老策略的动作一模一样（即策略稳定了，不再变了）。
+<ul>
+<li>结束：此时的策略就是最优策略 <span
+class="math inline"><em>π</em><sup>*</sup></span>。</li>
+<li>否则：把这个新策略 <span
+class="math inline"><em>π</em><sup>′</sup></span>
+当作“当前策略”，拿回去重新做“策略评估”，如此往复。</li>
+</ul>
+<img src="/img/pics/DP/mc8.png" srcset="/img/loading.gif" lazyload class="" title="策略迭代"></li>
+</ul>
 <h2 id="价值迭代算法">价值迭代算法</h2>
 <p>策略迭代中的策略评估需要进行很多轮才能收敛得到某一策略的状态函数，这需要很大的计算量，尤其是在状态和动作空间比较大的情况下。在策略评估（Policy
 Evaluation）步骤中，需要 对所有状态反复迭代 到收敛，才能得到 <span
 class="math inline"><em>V</em><sup><em>π</em></sup></span>。</p>
-<p>这个步骤非常昂贵，尤其当： - 状态空间大（典型 MDP
-的状态数可能上万、百万） - 策略评估每次都要遍历所有状态</p>
-<p>为了理解这一点，我们回顾一下<strong>策略迭代（PI）</strong>的流程，它像是一个“双层循环”：
-- 外层循环：策略提升（改变动作）。 -
-内层循环：策略评估（为了算准当前策略的分数，需要不断迭代直到收敛）。
+<p>这个步骤非常昂贵，尤其当：</p>
+<ul>
+<li>状态空间大（典型 MDP 的状态数可能上万、百万）</li>
+<li>策略评估每次都要遍历所有状态</li>
+</ul>
+<p>为了理解这一点，我们回顾一下<strong>策略迭代（PI）</strong>的流程，它像是一个“双层循环”：</p>
+<ul>
+<li>外层循环：策略提升（改变动作）。</li>
+<li>内层循环：策略评估（为了算准当前策略的分数，需要不断迭代直到收敛）。
 <div class="note note-info">
             <p>在策略迭代中，每次更新了策略后，我们都要进行无数次迭代，直到把 <spanclass="math inline"><em>V</em><sup><em>π</em></sup></span>算得极其精确（收敛到小数点后很多位），才肯进行下一次策略提升。但在实际操作中，我们发现这是浪费的：假设在某个状态，动作A 的价值是 100，动作 B 的价值是 10。其实你只需要算出 A 大概是 90，B大概是 20，你就已经知道“选 A 更好”了。你根本不需要等到 A 算出100.0001、B 算出 10.0001时才做决定。因此策略评估中的过度精确计算，对于“选择最优动作”这一目的来说，往往是非必须且浪费算力的。</p>
           </div>
-价值迭代算法提出了一种简化的策略评估方法，它假设在策略评估步骤中，状态价值函数在每次迭代中只更新一次，然后直接根据更新后的价值进行策略提升。具体来说，价值迭代算法在策略评估步骤中，只进行一轮价值更新，然后直接根据更新后的价值进行策略提升。这样就可以大大减少计算量，尤其是在状态和动作空间比较大的情况下。</p>
+价值迭代算法提出了一种简化的策略评估方法，它假设在策略评估步骤中，状态价值函数在每次迭代中只更新一次，然后直接根据更新后的价值进行策略提升。具体来说，价值迭代算法在策略评估步骤中，只进行一轮价值更新，然后直接根据更新后的价值进行策略提升。这样就可以大大减少计算量，尤其是在状态和动作空间比较大的情况下。</li>
+</ul>
 <p>在策略评估阶段，只算一步（或者几步），就立刻进行策略提升（取最大值）。这就相当于把策略迭代的两个步骤“揉”成了一步：</p>
 <p>A. 数学上的改变</p>
 <ul>

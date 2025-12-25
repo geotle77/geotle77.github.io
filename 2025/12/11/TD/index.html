@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://geotle77.github.io/img/index_img/TD.png">
 <meta property="article:published_time" content="2025-12-11T10:15:45.000Z">
-<meta property="article:modified_time" content="2025-12-22T06:19:50.746Z">
+<meta property="article:modified_time" content="2025-12-22T06:53:42.806Z">
 <meta property="article:author" content="geotle77">
 <meta property="article:tag" content="强化学习,Sarsa,Q-learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -343,17 +343,22 @@ V_\pi(s) &amp;= \mathbb{E}_\pi[G_t|S_t=s]\\
 &amp;= \mathbb{E}_\pi[R_{t} + \gamma V_\pi(S_{t+1})|S_t=s]
 \end{align*}
 $$</span></p>
-<p>在这个公式中： - <span
+<p>在这个公式中：</p>
+<ul>
+<li><span
 class="math inline"><em>R</em><sub><em>t</em></sub> + <em>γ</em><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>：称为
 TD Target。这是我们根据刚才这一步的真实奖励 <span
 class="math inline"><em>R</em><sub><em>t</em></sub></span>
 和对下一状态的预估 <span
 class="math inline"><em>V</em>(<em>S</em><sub><em>t</em> + 1</sub>)</span>
-组成的“新的一手消息”。 - <span
-class="math inline"><em>V</em>(<em>s</em><sub><em>t</em></sub>)</span>：是我们原来的估计。
-- 方括号内的部分：称为 TD Error (误差)，即“新消息”和“旧估计”之间的差值。
-- <span class="math inline"><em>α</em></span>：学习率（Learning
-Rate）。决定了我们多大程度上相信这一次的“新消息”。</p>
+组成的“新的一手消息”。</li>
+<li><span
+class="math inline"><em>V</em>(<em>s</em><sub><em>t</em></sub>)</span>：是我们原来的估计。</li>
+<li>方括号内的部分：称为 TD Error
+(误差)，即“新消息”和“旧估计”之间的差值。</li>
+<li><span class="math inline"><em>α</em></span>：学习率（Learning
+Rate）。决定了我们多大程度上相信这一次的“新消息”。</li>
+</ul>
 <p>因此蒙特卡洛方法将上式第一行作为更新的目标，而时序差分算法将上式最后一行作为更新的目标。于是，在用策略和环境交互时，每采样一步，我们就可以用时序差分算法来更新状态价值估计。时序差分算法用到了<span
 class="math inline"><em>V</em>(<em>s</em><sub><em>t</em> + 1</sub>)</span>的估计值，可以证明它最终收敛到策略<span
 class="math inline"><em>π</em></span>的价值函数.</p>
@@ -402,12 +407,12 @@ Robbins-Monro
 条件），随机噪声就会被平均掉，留下的就是趋向于真实价值的趋势。一句话总结收敛性：就像一群人排队传话猜谜，虽然中间的人都在瞎猜，但排尾的人（终点）手里拿着谜底（真实奖励）。每一轮传话，排尾的人都会把真相告诉前一个人一点点。随着传话次数无限增多，整条队伍最终都能知道准确的谜底。</p>
 
     <div class="fold">
-      <div class="fold-title fold-default collapsed" data-toggle="collapse" href="#collapse-a5d2160a" role="button" aria-expanded="false" aria-controls="collapse-a5d2160a">
+      <div class="fold-title fold-default collapsed" data-toggle="collapse" href="#collapse-11f81919" role="button" aria-expanded="false" aria-controls="collapse-11f81919">
         <div class="fold-arrow">▶</div> Robbins-Monro 条件
       </div>
-      <div class="fold-collapse collapse" id="collapse-a5d2160a">
+      <div class="fold-collapse collapse" id="collapse-11f81919">
         <div class="fold-content">
-          <p>Robbins-Monro 条件（Robbins-MonroConditions）是随机逼近理论中的一个数学准则。在强化学习中，它主要用来回答一个关于<strong>“学习率”（步长<spanclass="math inline"><em>α</em></span>）</strong>的关键问题：“为了保证算法最终能收敛到正确答案，步长<span class="math inline"><em>α</em></span>应该如何设置？”.简单来说，这两个条件规定了：随着训练的进行，步长 <spanclass="math inline"><em>α</em></span>必须逐渐变小，但又不能变得太快。</p><p>数学定义假设 <spanclass="math inline"><em>α</em><sub><em>t</em></sub></span> 是第 <spanclass="math inline"><em>t</em></span>步时的学习率（步长）。Robbins-Monro 条件包含以下两个式子： -条件一：总步长必须是无限的,保证了无论初始猜测离真实值多远，我们都有能力走到那里。<span class="math display">$$\sum_{t=1}^{\infty} \alpha_t =\infty$$</span> -条件二：步长的平方和必须是有限的,保证了步长减小的速度足够快，以便消除随机噪声的影响，最终停下来<span class="math display">$$\sum_{t=1}^{\infty} \alpha_t^2 &lt;\infty$$</span></p>
+          <p>Robbins-Monro 条件（Robbins-MonroConditions）是随机逼近理论中的一个数学准则。在强化学习中，它主要用来回答一个关于<strong>“学习率”（步长<spanclass="math inline"><em>α</em></span>）</strong>的关键问题：“为了保证算法最终能收敛到正确答案，步长<span class="math inline"><em>α</em></span>应该如何设置？”.简单来说，这两个条件规定了：随着训练的进行，步长 <spanclass="math inline"><em>α</em></span>必须逐渐变小，但又不能变得太快。</p><p>数学定义假设 <spanclass="math inline"><em>α</em><sub><em>t</em></sub></span> 是第 <spanclass="math inline"><em>t</em></span>步时的学习率（步长）。Robbins-Monro 条件包含以下两个式子：</p><ul><li>条件一：总步长必须是无限的,保证了无论初始猜测离真实值多远，我们都有能力走到那里。<span class="math display">$$\sum_{t=1}^{\infty} \alpha_t =\infty$$</span></li><li>条件二：步长的平方和必须是有限的,保证了步长减小的速度足够快，以便消除随机噪声的影响，最终停下来<span class="math display">$$\sum_{t=1}^{\infty} \alpha_t^2 &lt;\infty$$</span></li></ul>
         </div>
       </div>
     </div>
@@ -486,21 +491,21 @@ $$</span></p>
 <p>Q-Learning 最大的特点是实现了 行为策略 (Behavior Policy) 和 目标策略
 (Target Policy) 的分离。</p>
 <ul>
-<li>你在做什么 (Behavior)：你可能正在用 <span
+<li>在做什么 (Behavior)：可能正在用 <span
 class="math inline"><em>ϵ</em></span>-greedy
 策略到处乱撞，试图探索世界。</li>
-<li>你在学什么 (Target)：但在更新 Q
-表时，你假设自己下一步绝对会选最好的那个动作，完全不管你下一秒实际上会不会乱撞。</li>
+<li>在学什么 (Target)：但在更新 Q
+表时，假设自己下一步绝对会选最好的那个动作，完全不管下一秒实际上会不会乱撞。</li>
 </ul>
 <p>这就是
-Off-Policy：我实际走的路（有探索）和我学习的路（全最优）是不一样的。核心公式对比Sarsa
+Off-Policy：实际走的路（有探索）和学习的路（全最优）是不一样的。核心公式对比Sarsa
 (看现实): <span class="math display">$$
 \begin{align*}
 Q(s, a) \leftarrow Q(s, a) + \alpha [R + \gamma Q(s', a') - Q(s, a)]
 \end{align*}
 $$</span> 注意：这里的 <span
 class="math inline"><em>a</em><sup>′</sup></span>
-是你下一步真正要执行的那个动作。Q-Learning (看理想): <span
+是下一步真正要执行的那个动作。Q-Learning (看理想): <span
 class="math display">$$
 \begin{align*}
 Q(s, a) \leftarrow Q(s, a) + \alpha [R + \gamma \max_{a'} Q(s', a') -
@@ -626,6 +631,12 @@ class="math inline"><em>r</em></span>皆由环境采样得到，该四元组并�
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/12/22/DQN/" title="Deep Q-Network">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Deep Q-Network</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
